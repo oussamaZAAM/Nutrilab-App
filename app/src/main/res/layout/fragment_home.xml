@@ -88,43 +88,59 @@
         </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/heightTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Height:"
+            android:text="Height"
             android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
             android:textSize="18sp"
-            android:visibility="gone" />
+            android:gravity="center"
+            android:textStyle="bold"
+            android:visibility="gone"
+            />
 
         <EditText
             android:id="@+id/heightEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            android:textSize="24sp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:fontFamily="@font/poppins"
+            android:background="@drawable/edittext_focused"
+            android:visibility="gone"
+            />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/weightTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Weight:"
+            android:text="Weight"
             android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
             android:textSize="18sp"
+            android:gravity="center"
+            android:textStyle="bold"
             android:visibility="gone" />
 
         <EditText
             android:id="@+id/weightEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="24sp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:fontFamily="@font/poppins"
+            android:background="@drawable/edittext_focused"
             android:visibility="gone" />
 
         <RelativeLayout

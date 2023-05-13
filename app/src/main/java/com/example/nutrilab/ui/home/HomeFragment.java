@@ -3,24 +3,24 @@ package com.example.nutrilab.ui.home;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.nutrilab.R;
 
+import java.math.BigDecimal;
+
 public class HomeFragment extends Fragment {
 
     private EditText ageEditText;
-    private TextView infosTitle;
+    private TextView infoTitle;
 
     private LinearLayout genderChoice;
     private ImageView maleIcon;
@@ -28,6 +28,9 @@ public class HomeFragment extends Fragment {
 
     private EditText heightEditText;
     private EditText weightEditText;
+    private TextView heightTitle;
+    private TextView weightTitle;
+
     private Button nextButton;
     private Button backButton;
 
@@ -42,7 +45,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         ageEditText = view.findViewById(R.id.ageEditText);
-        infosTitle = view.findViewById(R.id.infosTitle);
+        infoTitle = view.findViewById(R.id.infosTitle);
 
         genderChoice = view.findViewById(R.id.genderChoice);
         maleIcon = view.findViewById(R.id.maleIcon);
@@ -50,26 +53,11 @@ public class HomeFragment extends Fragment {
 
         heightEditText = view.findViewById(R.id.heightEditText);
         weightEditText = view.findViewById(R.id.weightEditText);
+        heightTitle = view.findViewById(R.id.heightTitle);
+        weightTitle = view.findViewById(R.id.weightTitle);
 
         nextButton = view.findViewById(R.id.nextButton);
         backButton = view.findViewById(R.id.backButton);
-
-//        maleIcon.setOnHoverListener(new View.OnHoverListener() {
-//            @Override
-//            public boolean onHover(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Do something when the image is touched
-//                        maleIcon.setBackgroundResource(R.drawable.male_background);
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        // Do something when the touch is released
-//                        maleIcon.setBackgroundResource(0);
-//                        break;
-//                }
-//                return true;
-//            }
-//        });
 
         maleIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,8 +99,8 @@ public class HomeFragment extends Fragment {
                     // Get the value of the age field and store it in a variable
                     age = Integer.parseInt(ageEditText.getText().toString());
 
-                    if (age >= 12){
-                        infosTitle.setText("What's your gender?");
+                    if (age >= 12 && age <= 120){
+                        infoTitle.setText("What's your gender?");
 
                         // Hide the age field and show the gender field
                         ageEditText.setVisibility(View.GONE);
@@ -123,11 +111,35 @@ public class HomeFragment extends Fragment {
 
                 if (genderChoice.getVisibility() == View.VISIBLE) {
                     if (gender == "male" || gender == "female"){
-                        infosTitle.setText("What's your Height and Weight?");
+                        infoTitle.setText("What's your Height & Weight?");
 
                         genderChoice.setVisibility(View.GONE);
                         heightEditText.setVisibility(View.VISIBLE);
                         weightEditText.setVisibility(View.VISIBLE);
+                        heightTitle.setVisibility(View.VISIBLE);
+                        weightTitle.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                if (heightEditText.getVisibility() == View.VISIBLE && weightEditText.getVisibility() == View.VISIBLE) {
+                    try {
+                        height = Float.parseFloat(heightEditText.getText().toString());
+                    } catch (NumberFormatException e) {
+                        height = 0;
+                    }
+                    try {
+                        weight = Float.parseFloat(weightEditText.getText().toString());
+                    } catch (NumberFormatException e) {
+                        weight = 0;
+                    }
+
+                    if (height >= 80 && weight >= 20){
+                        heightEditText.setVisibility(View.GONE);
+                        weightEditText.setVisibility(View.GONE);
+                        heightTitle.setVisibility(View.GONE);
+                        weightTitle.setVisibility(View.GONE);
+
+                        infoTitle.setText("How is your Activity?");
                     }
                 }
             }
@@ -141,7 +153,7 @@ public class HomeFragment extends Fragment {
                     ageEditText.setVisibility(View.VISIBLE);
                     genderChoice.setVisibility(View.GONE);
                     backButton.setVisibility(View.INVISIBLE);
-                    infosTitle.setText("How old are you?");
+                    infoTitle.setText("How old are you?");
                 }
 
                 if (heightEditText.getVisibility() == View.VISIBLE) {
@@ -150,8 +162,21 @@ public class HomeFragment extends Fragment {
                     weightEditText.setVisibility(View.GONE);
 
                     genderChoice.setVisibility(View.VISIBLE);
-                    infosTitle.setText("What's your gender?");
+                    infoTitle.setText("What's your gender?");
                 }
+
+                if (heightEditText.getVisibility() == View.VISIBLE && weightEditText.getVisibility() == View.VISIBLE) {
+                    // Show the age field and hide the gender field
+                    heightEditText.setVisibility(View.GONE);
+                    weightEditText.setVisibility(View.GONE);
+                    heightTitle.setVisibility(View.GONE);
+                    weightTitle.setVisibility(View.GONE);
+
+                    genderChoice.setVisibility(View.VISIBLE);
+                    infoTitle.setText("What's your gender?");
+                }
+
+
             }
         });
 
