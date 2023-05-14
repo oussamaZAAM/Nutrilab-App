@@ -143,11 +143,53 @@
             android:background="@drawable/edittext_focused"
             android:visibility="gone" />
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/activity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:background="@drawable/edittext_focused"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Select an Activity:" />
+            <Spinner
+                android:id="@+id/activitySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:background="@drawable/edittext_focused"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Select an Plan:" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:layout_marginBottom="40dp"
+            android:gravity="bottom">
 
             <Button
                 android:id="@+id/backButton"
