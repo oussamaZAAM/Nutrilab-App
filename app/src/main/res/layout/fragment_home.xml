@@ -210,7 +210,7 @@
                 <TextView
                     android:id="@+id/ageRecap"
                     android:layout_marginHorizontal="20dp"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/poppinsbold"
                     android:text="No Entry"
                     android:textStyle="bold"
                     android:layout_column="2" />
@@ -243,11 +243,12 @@
                 <TextView
                     android:id="@+id/genderRecap"
                     android:layout_marginHorizontal="20dp"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/poppinsbold"
                     android:text="No Entry"
                     android:textStyle="bold"
                     android:layout_column="2" />
                 <Button
+                    android:id="@+id/genderEditButton"
                     android:background="#00FFFFFF"
                     android:text="Edit"
                     android:textColor="@color/main_color"
@@ -274,11 +275,12 @@
                 <TextView
                     android:id="@+id/heightRecap"
                     android:layout_marginHorizontal="20dp"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/poppinsbold"
                     android:text="No Entry"
                     android:textStyle="bold"
                     android:layout_column="2" />
                 <Button
+                    android:id="@+id/heightEditButton"
                     android:background="#00FFFFFF"
                     android:text="Edit"
                     android:textColor="@color/main_color"
@@ -305,11 +307,12 @@
                 <TextView
                     android:id="@+id/weightRecap"
                     android:layout_marginHorizontal="20dp"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/poppinsbold"
                     android:text="No Entry"
                     android:textStyle="bold"
                     android:layout_column="2" />
                 <Button
+                    android:id="@+id/weightEditButton"
                     android:background="#00FFFFFF"
                     android:text="Edit"
                     android:textColor="@color/main_color"
@@ -336,11 +339,12 @@
                 <TextView
                     android:id="@+id/activityRecap"
                     android:layout_marginHorizontal="20dp"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/poppinsbold"
                     android:text="No Entry"
                     android:textStyle="bold"
                     android:layout_column="2" />
                 <Button
+                    android:id="@+id/activityEditButton"
                     android:background="#00FFFFFF"
                     android:text="Edit"
                     android:textColor="@color/main_color"
@@ -367,11 +371,12 @@
                 <TextView
                     android:id="@+id/planRecap"
                     android:layout_marginHorizontal="20dp"
-                    android:fontFamily="@font/poppins"
+                    android:fontFamily="@font/poppinsbold"
                     android:text="No Entry"
                     android:textStyle="bold"
                     android:layout_column="2" />
                 <Button
+                    android:id="@+id/planEditButton"
                     android:background="#00FFFFFF"
                     android:text="Edit"
                     android:textColor="@color/main_color"
@@ -384,6 +389,18 @@
             </TableRow>
         </TableLayout>
 
+        <Button
+            android:id="@+id/recapShortcut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/main_color"
+            android:paddingVertical="10dp"
+            android:fontFamily="@font/poppinsbold"
+            android:text="Recap"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -394,26 +411,32 @@
             <Button
                 android:id="@+id/backButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="54dp"
+                android:layout_alignParentLeft="true"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="#FF9351"
+                android:background="#00FFFFFF"
+                android:fontFamily="@font/poppinsbold"
+                android:gravity="center_horizontal"
+                android:paddingVertical="8dp"
                 android:text="Back"
-                android:textColor="@color/white"
+                android:textColor="@color/main_color"
                 android:textSize="18sp"
-                android:visibility="invisible"
-                android:layout_alignParentLeft="true"/>
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="54dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/main_color"
+                android:paddingVertical="8dp"
+                android:backgroundTint="@color/main_color"
+                android:fontFamily="@font/poppinsbold"
                 android:text="Next"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:gravity="center_horizontal"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
 

@@ -1,5 +1,7 @@
 package com.example.nutrilab.ui.home;
 
+import static com.example.nutrilab.ui.home.NutritionCalculator.calculateNutrients;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.example.nutrilab.R;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
@@ -52,7 +55,13 @@ public class HomeFragment extends Fragment {
     private TextView activityRecap;
     private TextView planRecap;
     private Button ageEditButton;
+    private Button genderEditButton;
+    private Button heightEditButton;
+    private Button weightEditButton;
+    private Button activityEditButton;
+    private Button planEditButton;
 
+    private Button recapShortcut;
 
     private int age;
     private String gender;
@@ -67,6 +76,7 @@ public class HomeFragment extends Fragment {
     public boolean isActivityActivated;
     public boolean isPlanActivated;
     public boolean isRecapActivated;
+    public boolean isRecapShortcutActivated;
 
     @SuppressLint({"CutPasteId", "ClickableViewAccessibility"})
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,12 +119,19 @@ public class HomeFragment extends Fragment {
         activityRecap = view.findViewById(R.id.activityRecap);
         planRecap = view.findViewById(R.id.planRecap);
         ageEditButton = view.findViewById(R.id.ageEditButton);
+        genderEditButton = view.findViewById(R.id.genderEditButton);
+        heightEditButton = view.findViewById(R.id.heightEditButton);
+        weightEditButton = view.findViewById(R.id.weightEditButton);
+        activityEditButton = view.findViewById(R.id.activityEditButton);
+        planEditButton = view.findViewById(R.id.planEditButton);
+
+        recapShortcut = view.findViewById(R.id.recapShortcut);
 
         nextButton = view.findViewById(R.id.nextButton);
         backButton = view.findViewById(R.id.backButton);
 
         isAgeActivated = true;
-        isGenderActivated = isHeightActivated = isActivityActivated = isPlanActivated = isRecapActivated = false;
+        isGenderActivated = isHeightActivated = isActivityActivated = isPlanActivated = isRecapActivated = isRecapShortcutActivated = false;
 
         // Event Listeners
 
@@ -211,6 +228,58 @@ public class HomeFragment extends Fragment {
                 performScreensLogic(view);
             }
         });
+        genderEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isGenderActivated = true;
+                isRecapActivated = false;
+                performScreensLogic(view);
+            }
+        });
+        heightEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isHeightActivated = true;
+                isRecapActivated = false;
+                performScreensLogic(view);
+            }
+        });
+        weightEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isHeightActivated = true;
+                isRecapActivated = false;
+                performScreensLogic(view);
+            }
+        });
+        activityEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isActivityActivated = true;
+                isRecapActivated = false;
+                performScreensLogic(view);
+            }
+        });
+        planEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isPlanActivated = true;
+                isRecapActivated = false;
+                performScreensLogic(view);
+            }
+        });
+        recapShortcut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isAgeActivated = false;
+                isGenderActivated = false;
+                isHeightActivated = false;
+                isActivityActivated = false;
+                isPlanActivated = false;
+                isRecapActivated = true;
+                performScreensLogic(view);
+            }
+        });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,20 +319,20 @@ public class HomeFragment extends Fragment {
                 }
                 if (activityMenu.getVisibility() == View.VISIBLE) {
                     if (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) {
-                        Log.i(TAG, "Value: "+activity);
                         isActivityActivated = false;
                         isPlanActivated = true;
                     }
                 }
                 if (planMenu.getVisibility() == View.VISIBLE) {
                     if (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle")) {
-                        Log.i(TAG, "Value: "+plan);
                         isPlanActivated = false;
                         isRecapActivated = true;
+                        isRecapShortcutActivated = true;
                     }
                 }
                 if (recapTable.getVisibility() == View.VISIBLE) {
-                    Log.i(TAG, "Value: "+plan);
+                    Map<String, Integer> nutrients = calculateNutrients(age, gender, height, weight, activity, plan);
+                    Log.i(TAG, "Nutrients: "+nutrients);
                 }
 
                 // Apply changes to View
@@ -351,6 +420,7 @@ public class HomeFragment extends Fragment {
         }
         if (isRecapActivated) {
             recapTable.setVisibility(View.VISIBLE);
+            recapShortcut.setVisibility(View.GONE);
 
             ageRecap.setText(String.valueOf(age));
             genderRecap.setText(gender);
@@ -360,9 +430,8 @@ public class HomeFragment extends Fragment {
                 case "sedentary":
                     activityRecap.setText("Sedentary");
                     break;
-                case "Lightly Active":
-                    activity = "lightly_active";
-                    activityRecap.setText("Sedentary");
+                case "lightly_active":
+                    activityRecap.setText("Lightly Active");
                     break;
                 case "moderately_active":
                     activityRecap.setText("Moderately Active");
@@ -393,8 +462,13 @@ public class HomeFragment extends Fragment {
             }
 
             infoTitle.setText("Recap");
+            nextButton.setText("Apply");
         } else {
             recapTable.setVisibility(View.GONE);
+            nextButton.setText("Next");
+        }
+        if (isRecapShortcutActivated && !isRecapActivated) {
+            recapShortcut.setVisibility(View.VISIBLE);
         }
     }
 }
