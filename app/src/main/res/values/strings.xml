@@ -10,4 +10,9 @@
         <item>Very Active</item>
         <item>Super Active</item>
     </string-array>
+    <string-array name="plans">
+        <item>Maintain</item>
+        <item>Lose Weight</item>
+        <item>Build Muscle</item>
+    </string-array>
 </resources>

@@ -6,12 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -38,18 +40,27 @@ public class HomeFragment extends Fragment {
     private Button nextButton;
     private Button backButton;
 
-    private LinearLayout activity;
-    private Spinner activitySpinner;
+    private LinearLayout activityMenu;
+
+    private LinearLayout planMenu;
+
+    private TableLayout recapTable;
+
+
 
     private int age;
     private String gender;
     private float height;
     private float weight;
+    private String activity;
+    private String plan;
 
     public boolean isAgeActivated;
     public boolean isGenderActivated;
     public boolean isHeightActivated;
     public boolean isActivityActivated;
+    public boolean isPlanActivated;
+    public boolean isRecapActivated;
 
     @SuppressLint({"CutPasteId", "ClickableViewAccessibility"})
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,8 +68,12 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Populate data inside Activity dropdown menu
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.activities, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> activityAdapter = ArrayAdapter.createFromResource(getContext(), R.array.activities, android.R.layout.simple_spinner_item);
+        activityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Populate data inside Activity dropdown menu
+        ArrayAdapter<CharSequence> planAdapter = ArrayAdapter.createFromResource(getContext(), R.array.plans, android.R.layout.simple_spinner_item);
+        planAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         ageEditText = view.findViewById(R.id.ageEditText);
         infoTitle = view.findViewById(R.id.infosTitle);
@@ -72,15 +87,21 @@ public class HomeFragment extends Fragment {
         heightTitle = view.findViewById(R.id.heightTitle);
         weightTitle = view.findViewById(R.id.weightTitle);
 
-        activitySpinner = view.findViewById(R.id.activitySpinner);
-        activitySpinner.setAdapter(adapter);
-        activity = view.findViewById(R.id.activity);
+        Spinner activitySpinner = view.findViewById(R.id.activitySpinner);
+        activitySpinner.setAdapter(activityAdapter);
+        activityMenu = view.findViewById(R.id.activityMenu);
+
+        Spinner planSpinner = view.findViewById(R.id.planSpinner);
+        planSpinner.setAdapter(planAdapter);
+        planMenu = view.findViewById(R.id.planMenu);
+
+        recapTable = view.findViewById(R.id.recapTable);
 
         nextButton = view.findViewById(R.id.nextButton);
         backButton = view.findViewById(R.id.backButton);
 
         isAgeActivated = true;
-        isGenderActivated = isHeightActivated = isActivityActivated = false;
+        isGenderActivated = isHeightActivated = isActivityActivated = isPlanActivated = isRecapActivated = false;
 
         // Event Listeners
 
@@ -98,24 +119,77 @@ public class HomeFragment extends Fragment {
         maleIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gender = "male";
-                if (gender == "male"){
-                    maleIcon.setBackgroundResource(R.drawable.male_background);
-                    femaleIcon.setBackgroundResource(0);
-                }
+                maleIcon.setBackgroundResource(R.drawable.male_background);
+                femaleIcon.setBackgroundResource(0);
             }
         });
 
         femaleIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gender = "female";
-                if (gender == "female"){
-                    maleIcon.setBackgroundResource(0);
-                    femaleIcon.setBackgroundResource(R.drawable.female_background);
-                }
+                maleIcon.setBackgroundResource(0);
+                femaleIcon.setBackgroundResource(R.drawable.female_background);
             }
         });
+
+        activitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedValue = parent.getItemAtPosition(position).toString();
+                switch (selectedValue) {
+                    case "Sedentary":
+                        activity = "sedentary";
+                        break;
+                    case "Lightly Active":
+                        activity = "lightly_active";
+                        break;
+                    case "Moderately Active":
+                        activity = "moderately_active";
+                        break;
+                    case "Very Active":
+                        activity = "very_active";
+                        break;
+                    case "Super Active":
+                        activity = "super_active";
+                        break;
+                    default:
+                        activity = "sedentary";
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //
+            }
+        });
+
+        planSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedValue = parent.getItemAtPosition(position).toString();
+                switch (selectedValue) {
+                    case "Maintain":
+                        plan = "maintain";
+                        break;
+                    case "Lose Weight":
+                        plan = "lose_weight";
+                        break;
+                    case "Build Muscle":
+                        plan = "build_muscle";
+                        break;
+                    default:
+                        plan = "maintain";
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //
+            }
+        });
+
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +205,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 if (genderChoice.getVisibility() == View.VISIBLE) {
-                    if (gender == "male" || gender == "female"){
+                    if (gender.equals("male") || gender.equals("female")){
                         isGenderActivated = false;
                         isHeightActivated = true;
                     }
@@ -153,16 +227,26 @@ public class HomeFragment extends Fragment {
                         isActivityActivated = true;
                     }
                 }
-
-
-                if (isAgeActivated) {
-                        ageEditText.setVisibility(View.VISIBLE);
-                        infoTitle.setText("How old are you?");
-                        backButton.setVisibility(View.INVISIBLE);
-                    } else {
-                        ageEditText.setVisibility(View.GONE);
-                        backButton.setVisibility(View.VISIBLE);
+                if (activityMenu.getVisibility() == View.VISIBLE) {
+                    if (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) {
+                        Log.i(TAG, "Value: "+activity);
+                        isActivityActivated = false;
+                        isPlanActivated = true;
                     }
+                }
+                if (planMenu.getVisibility() == View.VISIBLE) {
+                    if (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle")) {
+                        Log.i(TAG, "Value: "+plan);
+                        isPlanActivated = false;
+                        isRecapActivated = true;
+                    }
+                }
+                if (recapTable.getVisibility() == View.VISIBLE) {
+                    Log.i(TAG, "Value: "+plan);
+                }
+
+                // Apply changes to View
+                performCustomLogic(rootView);
                 if (isGenderActivated) {
                         genderChoice.setVisibility(View.VISIBLE);
                         infoTitle.setText("What's your gender?");
@@ -182,10 +266,22 @@ public class HomeFragment extends Fragment {
                         weightTitle.setVisibility(View.GONE);
                     }
                 if (isActivityActivated) {
-                        activity.setVisibility(View.VISIBLE);
+                        activityMenu.setVisibility(View.VISIBLE);
                         infoTitle.setText("How is your Activity?");
                     } else {
-                        activity.setVisibility(View.GONE);
+                        activityMenu.setVisibility(View.GONE);
+                    }
+                if (isPlanActivated) {
+                        planMenu.setVisibility(View.VISIBLE);
+                        infoTitle.setText("What is your Plan?");
+                    } else {
+                        planMenu.setVisibility(View.GONE);
+                    }
+                if (isRecapActivated) {
+                        recapTable.setVisibility(View.VISIBLE);
+                        infoTitle.setText("Recap");
+                    } else {
+                        recapTable.setVisibility(View.GONE);
                     }
             }
         });
@@ -202,23 +298,22 @@ public class HomeFragment extends Fragment {
                     // Show the gender field and hide the h/weight field
                     isHeightActivated = false;
                     isGenderActivated = true;
-                    infoTitle.setText("What's your gender?");
                 }
-                if (activity.getVisibility() == View.VISIBLE) {
+                if (activityMenu.getVisibility() == View.VISIBLE) {
                     isActivityActivated = false;
                     isHeightActivated = true;
-                    infoTitle.setText("What's your Height & Weight?");
+                }
+                if (planMenu.getVisibility() == View.VISIBLE) {
+                    isPlanActivated = false;
+                    isActivityActivated = true;
+                }
+                if (recapTable.getVisibility() == View.VISIBLE) {
+                    isRecapActivated = false;
+                    isPlanActivated = true;
                 }
 
-
-                if (isAgeActivated) {
-                        ageEditText.setVisibility(View.VISIBLE);
-                        infoTitle.setText("How old are you?");
-                        backButton.setVisibility(View.INVISIBLE);
-                    } else {
-                        ageEditText.setVisibility(View.GONE);
-                        backButton.setVisibility(View.VISIBLE);
-                    }
+                // Apply changes to View
+                performCustomLogic(rootView);
                 if (isGenderActivated) {
                         genderChoice.setVisibility(View.VISIBLE);
                         infoTitle.setText("What's your gender?");
@@ -238,10 +333,22 @@ public class HomeFragment extends Fragment {
                         weightTitle.setVisibility(View.GONE);
                     }
                 if (isActivityActivated) {
-                        activity.setVisibility(View.VISIBLE);
+                        activityMenu.setVisibility(View.VISIBLE);
                         infoTitle.setText("How is your Activity?");
                     } else {
-                        activity.setVisibility(View.GONE);
+                        activityMenu.setVisibility(View.GONE);
+                    }
+                if (isPlanActivated) {
+                        planMenu.setVisibility(View.VISIBLE);
+                        infoTitle.setText("What is your Plan?");
+                    } else {
+                        planMenu.setVisibility(View.GONE);
+                    }
+                if (isRecapActivated) {
+                        recapTable.setVisibility(View.VISIBLE);
+                        infoTitle.setText("Recap");
+                    } else {
+                        recapTable.setVisibility(View.GONE);
                     }
             }
         });
@@ -252,5 +359,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    private void performCustomLogic(View rootView) {
+        if (isAgeActivated) {
+            ageEditText.setVisibility(View.VISIBLE);
+            infoTitle.setText("How old are you?");
+            backButton.setVisibility(View.INVISIBLE);
+        } else {
+            ageEditText.setVisibility(View.GONE);
+            backButton.setVisibility(View.VISIBLE);
+        }
     }
 }
