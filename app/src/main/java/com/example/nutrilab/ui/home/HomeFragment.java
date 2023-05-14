@@ -45,7 +45,13 @@ public class HomeFragment extends Fragment {
     private LinearLayout planMenu;
 
     private TableLayout recapTable;
-
+    private TextView ageRecap;
+    private TextView genderRecap;
+    private TextView heightRecap;
+    private TextView weightRecap;
+    private TextView activityRecap;
+    private TextView planRecap;
+    private Button ageEditButton;
 
 
     private int age;
@@ -76,7 +82,7 @@ public class HomeFragment extends Fragment {
         planAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         ageEditText = view.findViewById(R.id.ageEditText);
-        infoTitle = view.findViewById(R.id.infosTitle);
+        infoTitle = view.findViewById(R.id.infoTitle);
 
         genderChoice = view.findViewById(R.id.genderChoice);
         maleIcon = view.findViewById(R.id.maleIcon);
@@ -96,6 +102,13 @@ public class HomeFragment extends Fragment {
         planMenu = view.findViewById(R.id.planMenu);
 
         recapTable = view.findViewById(R.id.recapTable);
+        ageRecap = view.findViewById(R.id.ageRecap);
+        genderRecap = view.findViewById(R.id.genderRecap);
+        heightRecap = view.findViewById(R.id.heightRecap);
+        weightRecap = view.findViewById(R.id.weightRecap);
+        activityRecap = view.findViewById(R.id.activityRecap);
+        planRecap = view.findViewById(R.id.planRecap);
+        ageEditButton = view.findViewById(R.id.ageEditButton);
 
         nextButton = view.findViewById(R.id.nextButton);
         backButton = view.findViewById(R.id.backButton);
@@ -119,6 +132,7 @@ public class HomeFragment extends Fragment {
         maleIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gender = "male";
                 maleIcon.setBackgroundResource(R.drawable.male_background);
                 femaleIcon.setBackgroundResource(0);
             }
@@ -127,6 +141,7 @@ public class HomeFragment extends Fragment {
         femaleIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gender = "female";
                 maleIcon.setBackgroundResource(0);
                 femaleIcon.setBackgroundResource(R.drawable.female_background);
             }
@@ -188,8 +203,14 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        ageEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isAgeActivated = true;
+                isRecapActivated = false;
+                performScreensLogic(view);
+            }
+        });
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,43 +267,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 // Apply changes to View
-                performCustomLogic(rootView);
-                if (isGenderActivated) {
-                        genderChoice.setVisibility(View.VISIBLE);
-                        infoTitle.setText("What's your gender?");
-                    } else {
-                        genderChoice.setVisibility(View.GONE);
-                    }
-                if (isHeightActivated) {
-                        heightEditText.setVisibility(View.VISIBLE);
-                        weightEditText.setVisibility(View.VISIBLE);
-                        heightTitle.setVisibility(View.VISIBLE);
-                        weightTitle.setVisibility(View.VISIBLE);
-                        infoTitle.setText("What's your Height & Weight?");
-                    } else {
-                        heightEditText.setVisibility(View.GONE);
-                        weightEditText.setVisibility(View.GONE);
-                        heightTitle.setVisibility(View.GONE);
-                        weightTitle.setVisibility(View.GONE);
-                    }
-                if (isActivityActivated) {
-                        activityMenu.setVisibility(View.VISIBLE);
-                        infoTitle.setText("How is your Activity?");
-                    } else {
-                        activityMenu.setVisibility(View.GONE);
-                    }
-                if (isPlanActivated) {
-                        planMenu.setVisibility(View.VISIBLE);
-                        infoTitle.setText("What is your Plan?");
-                    } else {
-                        planMenu.setVisibility(View.GONE);
-                    }
-                if (isRecapActivated) {
-                        recapTable.setVisibility(View.VISIBLE);
-                        infoTitle.setText("Recap");
-                    } else {
-                        recapTable.setVisibility(View.GONE);
-                    }
+                performScreensLogic(view);
             }
         });
 
@@ -313,43 +298,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 // Apply changes to View
-                performCustomLogic(rootView);
-                if (isGenderActivated) {
-                        genderChoice.setVisibility(View.VISIBLE);
-                        infoTitle.setText("What's your gender?");
-                    } else {
-                        genderChoice.setVisibility(View.GONE);
-                    }
-                if (isHeightActivated) {
-                        heightEditText.setVisibility(View.VISIBLE);
-                        weightEditText.setVisibility(View.VISIBLE);
-                        heightTitle.setVisibility(View.VISIBLE);
-                        weightTitle.setVisibility(View.VISIBLE);
-                        infoTitle.setText("What's your Height & Weight?");
-                    } else {
-                        heightEditText.setVisibility(View.GONE);
-                        weightEditText.setVisibility(View.GONE);
-                        heightTitle.setVisibility(View.GONE);
-                        weightTitle.setVisibility(View.GONE);
-                    }
-                if (isActivityActivated) {
-                        activityMenu.setVisibility(View.VISIBLE);
-                        infoTitle.setText("How is your Activity?");
-                    } else {
-                        activityMenu.setVisibility(View.GONE);
-                    }
-                if (isPlanActivated) {
-                        planMenu.setVisibility(View.VISIBLE);
-                        infoTitle.setText("What is your Plan?");
-                    } else {
-                        planMenu.setVisibility(View.GONE);
-                    }
-                if (isRecapActivated) {
-                        recapTable.setVisibility(View.VISIBLE);
-                        infoTitle.setText("Recap");
-                    } else {
-                        recapTable.setVisibility(View.GONE);
-                    }
+                performScreensLogic(view);
             }
         });
 
@@ -361,7 +310,7 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
     }
 
-    private void performCustomLogic(View rootView) {
+    private void performScreensLogic(View rootView) {
         if (isAgeActivated) {
             ageEditText.setVisibility(View.VISIBLE);
             infoTitle.setText("How old are you?");
@@ -369,6 +318,83 @@ public class HomeFragment extends Fragment {
         } else {
             ageEditText.setVisibility(View.GONE);
             backButton.setVisibility(View.VISIBLE);
+        }
+        if (isGenderActivated) {
+            genderChoice.setVisibility(View.VISIBLE);
+            infoTitle.setText("What's your gender?");
+        } else {
+            genderChoice.setVisibility(View.GONE);
+        }
+        if (isHeightActivated) {
+            heightEditText.setVisibility(View.VISIBLE);
+            weightEditText.setVisibility(View.VISIBLE);
+            heightTitle.setVisibility(View.VISIBLE);
+            weightTitle.setVisibility(View.VISIBLE);
+            infoTitle.setText("What's your Height & Weight?");
+        } else {
+            heightEditText.setVisibility(View.GONE);
+            weightEditText.setVisibility(View.GONE);
+            heightTitle.setVisibility(View.GONE);
+            weightTitle.setVisibility(View.GONE);
+        }
+        if (isActivityActivated) {
+            activityMenu.setVisibility(View.VISIBLE);
+            infoTitle.setText("How is your Activity?");
+        } else {
+            activityMenu.setVisibility(View.GONE);
+        }
+        if (isPlanActivated) {
+            planMenu.setVisibility(View.VISIBLE);
+            infoTitle.setText("What is your Plan?");
+        } else {
+            planMenu.setVisibility(View.GONE);
+        }
+        if (isRecapActivated) {
+            recapTable.setVisibility(View.VISIBLE);
+
+            ageRecap.setText(String.valueOf(age));
+            genderRecap.setText(gender);
+            heightRecap.setText(String.valueOf(height));
+            weightRecap.setText(String.valueOf(weight));
+            switch(activity){
+                case "sedentary":
+                    activityRecap.setText("Sedentary");
+                    break;
+                case "Lightly Active":
+                    activity = "lightly_active";
+                    activityRecap.setText("Sedentary");
+                    break;
+                case "moderately_active":
+                    activityRecap.setText("Moderately Active");
+                    break;
+                case "very_active":
+                    activityRecap.setText("Very Active");
+                    break;
+                case "super_active":
+                    activityRecap.setText("Super Active");
+                    break;
+                default:
+                    activityRecap.setText("Sedentary");
+                    break;
+            }
+            switch(plan){
+                case "maintain":
+                    planRecap.setText("Maintain");
+                    break;
+                case "lose_weight":
+                    planRecap.setText("Lose Weight");
+                    break;
+                case "build_muscle":
+                    planRecap.setText("Build Muscle");
+                    break;
+                default:
+                    planRecap.setText("Maintain");
+                    break;
+            }
+
+            infoTitle.setText("Recap");
+        } else {
+            recapTable.setVisibility(View.GONE);
         }
     }
 }
