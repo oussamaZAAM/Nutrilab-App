@@ -4,6 +4,8 @@ import static com.example.nutrilab.ui.home.NutritionCalculator.calculateNutrient
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -146,6 +148,69 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        ageEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // This method is called before the text is changed.
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    age = Integer.parseInt(s.toString());
+                } catch (NumberFormatException e) {
+                    age = 0;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        heightEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // This method is called before the text is changed.
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    height = Float.parseFloat(s.toString());
+                } catch (NumberFormatException e) {
+                    height = 0;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        weightEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // This method is called before the text is changed.
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    weight = Float.parseFloat(s.toString());
+                } catch (NumberFormatException e) {
+                    weight = 0;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         maleIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,9 +350,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (ageEditText.getVisibility() == View.VISIBLE) {
-                    // Get the value of the age field and store it in a variable
-                    age = Integer.parseInt(ageEditText.getText().toString());
-
                     if (age >= 12 && age <= 120){
                         // Hide the age field and show the gender field
                         isAgeActivated = false;
@@ -301,17 +363,6 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 if (heightEditText.getVisibility() == View.VISIBLE && weightEditText.getVisibility() == View.VISIBLE) {
-                    try {
-                        height = Float.parseFloat(heightEditText.getText().toString());
-                    } catch (NumberFormatException e) {
-                        height = 0;
-                    }
-                    try {
-                        weight = Float.parseFloat(weightEditText.getText().toString());
-                    } catch (NumberFormatException e) {
-                        weight = 0;
-                    }
-
                     if ((height >= 80 && height <= 300) && (weight >= 20 && weight <= 200)){
                         isHeightActivated = false;
                         isActivityActivated = true;
