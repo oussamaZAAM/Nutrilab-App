@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +15,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <TextView
-            android:id="@+id/ageTitle"
+            android:id="@+id/infoTitle"
             android:layout_width="379dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -50,93 +49,396 @@
             android:textSize="18sp"
             android:visibility="gone" />
 
-        <RadioGroup
-            android:id="@+id/genderRadioGroup"
+        <LinearLayout
+            android:id="@+id/genderChoice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
             android:visibility="gone">
 
-            <RadioButton
-                android:id="@+id/maleRadioButton"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Male"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/femaleRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Female"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                <ImageView
+                    android:id="@+id/maleIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentLeft="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onMaleIconClick"
+                    android:src="@drawable/male_icon" />
 
-        </RadioGroup>
+                <ImageView
+                    android:id="@+id/femaleIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onFemaleIconClick"
+                    android:src="@drawable/female_icon" />
+
+            </RelativeLayout>
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/heightTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Height:"
+            android:text="Height"
             android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
             android:textSize="18sp"
-            android:visibility="gone" />
+            android:gravity="center"
+            android:textStyle="bold"
+            android:visibility="gone"
+            />
 
         <EditText
             android:id="@+id/heightEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:visibility="gone" />
+            android:textSize="24sp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:fontFamily="@font/poppins"
+            android:background="@drawable/edittext_focused"
+            android:paddingVertical="10dp"
+            android:visibility="gone"
+            />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/weightTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Weight:"
+            android:text="Weight"
             android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
             android:textSize="18sp"
+            android:gravity="center"
+            android:textStyle="bold"
             android:visibility="gone" />
 
         <EditText
             android:id="@+id/weightEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:inputType="numberDecimal"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="24sp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:fontFamily="@font/poppins"
+            android:background="@drawable/edittext_focused"
+            android:paddingVertical="10dp"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/nextButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/activityMenu"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/main_color"
-            android:text="Next"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:layout_gravity="end"/>
+            android:paddingVertical="10dp"
+            android:background="@drawable/edittext_focused"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Select your Activity:" />
+            <Spinner
+                android:id="@+id/activitySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/planMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="10dp"
+            android:background="@drawable/edittext_focused"
+            android:visibility="gone"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Select a Plan:" />
+            <Spinner
+                android:id="@+id/planSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="10dp"/>
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/recapTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:gravity="center"
+            android:visibility="gone">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:background="#FFF"
+                android:gravity="center">
+                <TextView
+                    android:text="Age"
+                    android:textAlignment="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:textSize="18dp"
+                    android:layout_column="1" />
+
+                <TextView
+                    android:id="@+id/ageRecap"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/poppinsbold"
+                    android:text="No Entry"
+                    android:textStyle="bold"
+                    android:layout_column="2" />
+
+                <Button
+                    android:id="@+id/ageEditButton"
+                    android:background="#00FFFFFF"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="monospace"
+                    android:onClick="onAgeEdit"
+                    android:text="Edit"
+                    android:textColor="@color/main_color"
+                    android:textStyle="bold"
+                    android:layout_column="3"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:background="#EEE"
+                android:gravity="center">
+                <TextView
+                    android:text="Gender"
+                    android:textAlignment="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:textSize="18dp"
+                    android:layout_column="1" />
+
+                <TextView
+                    android:id="@+id/genderRecap"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/poppinsbold"
+                    android:text="No Entry"
+                    android:textStyle="bold"
+                    android:layout_column="2" />
+                <Button
+                    android:id="@+id/genderEditButton"
+                    android:background="#00FFFFFF"
+                    android:text="Edit"
+                    android:textColor="@color/main_color"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onGenderEdit"
+                    android:layout_column="3"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:background="#FFF"
+                android:gravity="center">
+                <TextView
+                    android:text="Height"
+                    android:textAlignment="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:textSize="18dp"
+                    android:layout_column="1" />
+
+                <TextView
+                    android:id="@+id/heightRecap"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/poppinsbold"
+                    android:text="No Entry"
+                    android:textStyle="bold"
+                    android:layout_column="2" />
+                <Button
+                    android:id="@+id/heightEditButton"
+                    android:background="#00FFFFFF"
+                    android:text="Edit"
+                    android:textColor="@color/main_color"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onHeightEdit"
+                    android:layout_column="3"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:background="#EEE"
+                android:gravity="center">
+                <TextView
+                    android:text="Weight"
+                    android:textAlignment="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:textSize="18dp"
+                    android:layout_column="1" />
+
+                <TextView
+                    android:id="@+id/weightRecap"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/poppinsbold"
+                    android:text="No Entry"
+                    android:textStyle="bold"
+                    android:layout_column="2" />
+                <Button
+                    android:id="@+id/weightEditButton"
+                    android:background="#00FFFFFF"
+                    android:text="Edit"
+                    android:textColor="@color/main_color"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onHeightEdit"
+                    android:layout_column="2"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:background="#FFF"
+                android:gravity="center">
+                <TextView
+                    android:text="Activity"
+                    android:textAlignment="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:textSize="18dp"
+                    android:layout_column="1" />
+
+                <TextView
+                    android:id="@+id/activityRecap"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/poppinsbold"
+                    android:text="No Entry"
+                    android:textStyle="bold"
+                    android:layout_column="2" />
+                <Button
+                    android:id="@+id/activityEditButton"
+                    android:background="#00FFFFFF"
+                    android:text="Edit"
+                    android:textColor="@color/main_color"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onActivityEdit"
+                    android:layout_column="3"/>
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="8dp"
+                android:background="#EEE"
+                android:gravity="center">
+                <TextView
+                    android:text="Plan"
+                    android:textAlignment="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:textSize="18dp"
+                    android:layout_column="1" />
+
+                <TextView
+                    android:id="@+id/planRecap"
+                    android:layout_marginHorizontal="20dp"
+                    android:fontFamily="@font/poppinsbold"
+                    android:text="No Entry"
+                    android:textStyle="bold"
+                    android:layout_column="2" />
+                <Button
+                    android:id="@+id/planEditButton"
+                    android:background="#00FFFFFF"
+                    android:text="Edit"
+                    android:textColor="@color/main_color"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onPlanEdit"
+                    android:layout_column="3"/>
+            </TableRow>
+        </TableLayout>
 
         <Button
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/recapShortcut"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#FF9351"
-            android:text="Back"
+            android:backgroundTint="@color/main_color"
+            android:paddingVertical="10dp"
+            android:fontFamily="@font/poppinsbold"
+            android:text="Recap"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:visibility="gone" />
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="40dp"
+            android:gravity="bottom">
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="#00FFFFFF"
+                android:fontFamily="@font/poppinsbold"
+                android:gravity="center_horizontal"
+                android:paddingVertical="8dp"
+                android:text="Back"
+                android:textColor="@color/main_color"
+                android:textSize="18sp"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/nextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:paddingVertical="8dp"
+                android:backgroundTint="@color/main_color"
+                android:fontFamily="@font/poppinsbold"
+                android:text="Next"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
