@@ -21,9 +21,12 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.nutrilab.R;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Map;
 
@@ -369,7 +372,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 if (genderChoice.getVisibility() == View.VISIBLE) {
-                    if (gender.equals("male") || gender.equals("female")){
+                    if (gender == "male" || gender == "female"){
                         isGenderActivated = false;
                         isHeightActivated = true;
                     }
@@ -395,7 +398,13 @@ public class HomeFragment extends Fragment {
                 }
                 if (recapTable.getVisibility() == View.VISIBLE) {
                     Map<String, Integer> nutrients = calculateNutrients(age, gender, height, weight, activity, plan);
-                    Log.i(TAG, "Nutrients: "+nutrients);
+
+                    // Pass Data and Navigate
+                    Bundle bundle = new Bundle();
+                    bundle.putString("test", "HAHA");
+                    bundle.putSerializable("nutrients", (Serializable) nutrients);
+                    NavController navController = Navigation.findNavController(view);
+                    navController.navigate(R.id.navigation_dashboard, bundle);
                 }
 
                 // Apply changes to View
