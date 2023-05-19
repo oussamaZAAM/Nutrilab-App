@@ -133,8 +133,20 @@ public class HomeFragment extends Fragment {
         backButton = view.findViewById(R.id.backButton);
 
         isAgeActivated = true;
-        isGenderActivated = isHeightActivated = isActivityActivated = isPlanActivated = isRecapActivated = isRecapShortcutActivated = false;
+        isGenderActivated = isHeightActivated = isActivityActivated = isPlanActivated = isRecapActivated = false;
 
+
+        if ((age >= 12 && age <= 120) &&
+                (gender.equals("male") || gender.equals("female")) &&
+                (height >= 80 && height <= 300) &&
+                (weight >= 20 && weight <=200) &&
+                (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) &&
+                (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
+            isRecapShortcutActivated = true;
+            performScreensLogic(view);
+        } else {
+            isRecapShortcutActivated = false;
+        }
         // Event Listeners
 
         ageEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
