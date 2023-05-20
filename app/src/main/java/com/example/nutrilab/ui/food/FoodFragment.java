@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,43 +17,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.ListFragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.example.nutrilab.R;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
 
 public class FoodFragment extends Fragment {
     private static final String TAG = "FoodFragment";
 
-    private ListView foodListView;
     private FoodListAdapter foodListAdapter;
     private ArrayList<String> foodList;
 
     private LinearLayout stagingBox;
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
-    private Button confirmButton;
-    private Button cancelButton;
 
     private ArrayList<String> filteredList = new ArrayList<>();
-    private EditText searchBar;
-
-    private Button addFood;
-    private ListView chosenFoodListView;
-    private ArrayAdapter<String> chosenFoodListAdapter;
     private ArrayList<String> chosenFoodList;
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        Log.d("stop","I did it");
+        Log.d(TAG, "I did it");
     }
 
     @Nullable
@@ -76,16 +60,21 @@ public class FoodFragment extends Fragment {
         foodList.add("Apple");
         foodList.add("Banana");
         foodList.add("Carrot");
+        foodList.add("Tangerine");
+        foodList.add("Pear");
+        foodList.add("Strawberry");
+        foodList.add("Peach");
+
         // Add more food items here
         filteredList.addAll(foodList);
 
-        foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, foodList);
+        foodListAdapter = new FoodListAdapter(getContext(), android.R.layout.simple_list_item_1, foodList);
         foodListView.setAdapter(foodListAdapter);
 
         chosenFoodList = new ArrayList<>();
-        ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(getContext(), chosenFoodList, foodListAdapter);
+        ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(requireContext(), chosenFoodList, foodListAdapter);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
-        foodListAdapter = new FoodListAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
+        foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, filteredList);
 
         foodListView.setAdapter(foodListAdapter);
 
@@ -122,7 +111,7 @@ public class FoodFragment extends Fragment {
 
 
         foodListView.setOnItemClickListener((parent, view1, position, id) -> {
-            String selectedFood = foodList.get(position);
+            String selectedFood = filteredList.get(position);
             selectedFoodTextView.setVisibility(View.VISIBLE);
             stagingBox.setVisibility(View.VISIBLE);
             gramsEditText.setVisibility(View.VISIBLE);
@@ -154,13 +143,6 @@ public class FoodFragment extends Fragment {
             stagingBox.setVisibility(View.GONE);
         });
 
-        chosenFoodListView.setOnItemClickListener((parent, view12, position, id) -> {
-            String foodItem = chosenFoodList.get(position).split(" - ")[0];
-            chosenFoodList.remove(position);
-            chosenFoodListAdapter.notifyDataSetChanged();
-            foodListAdapter.enableFoodItem(foodItem);
-        });
-
         addFood.setOnClickListener(v -> {
             selectedFoodTextView.setVisibility(View.GONE);
             stagingBox.setVisibility(View.GONE);
@@ -176,6 +158,7 @@ public class FoodFragment extends Fragment {
         });
         return view;
     }
+
     private void performSearch(String searchTerm) {
         filteredList.clear(); // Clear the existing filtered data
 

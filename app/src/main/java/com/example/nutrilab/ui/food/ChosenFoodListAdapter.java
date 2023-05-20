@@ -20,10 +20,10 @@ import com.example.nutrilab.R;
 public class ChosenFoodListAdapter extends ArrayAdapter<String> {
     private static final String TAG = "ChosenFoodFragment";
 
-    private final LayoutInflater inflater;
-    private final List<String> foodList;
+    private LayoutInflater inflater;
+    private List<String> foodList;
     private ImageButton cancelFoodButton;
-    private final FoodListAdapter foodListAdapter;
+    private FoodListAdapter foodListAdapter;
 
     public ChosenFoodListAdapter(Context context, List<String> foodList, FoodListAdapter foodListAdapter) {
         super(context, 0, foodList);
