@@ -22,12 +22,11 @@ import com.example.nutrilab.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class FoodListFragment extends Fragment {
 
-    private ListView foodListView;
-    private FoodListAdapter foodListAdapter;
     private ArrayList<String> foodList;
 
 
@@ -39,7 +38,7 @@ public class FoodListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food_list, container, false);
 
-        foodListView = view.findViewById(R.id.food_list_view);
+        ListView foodListView = view.findViewById(R.id.food_list_view);
 //        selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
 //        stagingBox = view.findViewById(R.id.staging_box);
 //        gramsEditText = view.findViewById(R.id.grams_edit_text);
@@ -53,7 +52,7 @@ public class FoodListFragment extends Fragment {
         foodList.add("Carrot");
         // Add more food items here
 
-        foodListAdapter = new FoodListAdapter(getContext(), android.R.layout.simple_list_item_1, foodList);
+        FoodListAdapter foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, foodList);
         foodListView.setAdapter(foodListAdapter);
 
 
@@ -61,7 +60,6 @@ public class FoodListFragment extends Fragment {
             String selectedFood = foodList.get(position);
             Bundle bundle = new Bundle();
             bundle.putString("selectedFood", selectedFood);
-//            bundle.putSerializable("nutrients", (Serializable) nutrients);
 
             NavController navController = Navigation.findNavController(view);
             navController.navigate(R.id.navigation_food, bundle);

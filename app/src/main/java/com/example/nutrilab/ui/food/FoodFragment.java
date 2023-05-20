@@ -25,23 +25,18 @@ import com.example.nutrilab.R;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class FoodFragment extends Fragment {
     private static final String TAG = "FoodFragment";
 
-    private ListView foodListView;
     private FoodListAdapter foodListAdapter;
     private ArrayList<String> foodList;
 
     private LinearLayout stagingBox;
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
-    private Button confirmButton;
-    private Button cancelButton;
 
-    private Button addFood;
-    private ListView chosenFoodListView;
-    private ArrayAdapter<String> chosenFoodListAdapter;
     private ArrayList<String> chosenFoodList;
 
     @Nullable
@@ -49,14 +44,14 @@ public class FoodFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food, container, false);
 
-        foodListView = view.findViewById(R.id.food_list_view);
+        ListView foodListView = view.findViewById(R.id.food_list_view);
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
-        confirmButton = view.findViewById(R.id.confirm_button);
-        cancelButton = view.findViewById(R.id.cancel_button);
-        chosenFoodListView = view.findViewById(R.id.chosen_food_list_view);
-        addFood = view.findViewById(R.id.add_button);
+        Button confirmButton = view.findViewById(R.id.confirm_button);
+        Button cancelButton = view.findViewById(R.id.cancel_button);
+        ListView chosenFoodListView = view.findViewById(R.id.chosen_food_list_view);
+        Button addFood = view.findViewById(R.id.add_button);
 
         foodList = new ArrayList<>();
         foodList.add("Apple");
@@ -64,11 +59,11 @@ public class FoodFragment extends Fragment {
         foodList.add("Carrot");
         // Add more food items here
 
-        foodListAdapter = new FoodListAdapter(getContext(), android.R.layout.simple_list_item_1, foodList);
+        foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, foodList);
         foodListView.setAdapter(foodListAdapter);
 
         chosenFoodList = new ArrayList<>();
-        chosenFoodListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, chosenFoodList);
+        ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(getContext(), chosenFoodList, foodListAdapter);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
 
         Bundle args = getArguments();
@@ -88,7 +83,7 @@ public class FoodFragment extends Fragment {
         confirmButton.setOnClickListener(v -> {
             String food = selectedFoodTextView.getText().toString();
             String grams = gramsEditText.getText().toString();
-            if (!food.isEmpty() && !grams.isEmpty()) {
+            if (!food.isEmpty() && !grams.isEmpty() && Integer.parseInt(grams) > 0) {
                 chosenFoodList.add(food + " - " + grams + "g");
                 chosenFoodListAdapter.notifyDataSetChanged();
                 foodListAdapter.disableFoodItem(food);
@@ -111,8 +106,6 @@ public class FoodFragment extends Fragment {
         });
 
         addFood.setOnClickListener(v -> {
-
-
             NavController navController = Navigation.findNavController(view);
             navController.navigate(R.id.navigation_food_list);
         });
