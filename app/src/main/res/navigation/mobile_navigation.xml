@@ -24,6 +24,12 @@
         tools:layout="@layout/fragment_food" />
 
     <fragment
+        android:id="@+id/navigation_food_list"
+        android:name="com.example.nutrilab.ui.food.FoodListFragment"
+        android:label="@string/title_food"
+        tools:layout="@layout/fragment_food_list" />
+
+    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.nutrilab.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"

@@ -16,10 +16,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.ListFragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.nutrilab.R;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class FoodFragment extends Fragment {
     private static final String TAG = "FoodFragment";
@@ -34,6 +39,7 @@ public class FoodFragment extends Fragment {
     private Button confirmButton;
     private Button cancelButton;
 
+    private Button addFood;
     private ListView chosenFoodListView;
     private ArrayAdapter<String> chosenFoodListAdapter;
     private ArrayList<String> chosenFoodList;
@@ -50,6 +56,7 @@ public class FoodFragment extends Fragment {
         confirmButton = view.findViewById(R.id.confirm_button);
         cancelButton = view.findViewById(R.id.cancel_button);
         chosenFoodListView = view.findViewById(R.id.chosen_food_list_view);
+        addFood = view.findViewById(R.id.add_button);
 
         foodList = new ArrayList<>();
         foodList.add("Apple");
@@ -63,6 +70,13 @@ public class FoodFragment extends Fragment {
         chosenFoodList = new ArrayList<>();
         chosenFoodListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, chosenFoodList);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            stagingBox.setVisibility(View.VISIBLE);
+            selectedFoodTextView.setText(args.getString("selectedFood"));
+            gramsEditText.requestFocus();
+        }
 
         foodListView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedFood = foodList.get(position);
@@ -96,6 +110,12 @@ public class FoodFragment extends Fragment {
             foodListAdapter.enableFoodItem(foodItem);
         });
 
+        addFood.setOnClickListener(v -> {
+
+
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.navigation_food_list);
+        });
         return view;
     }
 }
