@@ -34,10 +34,10 @@ public class FoodListAdapter extends ArrayAdapter<String> {
         String foodItem = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.food_list_item, parent, false);
         }
 
-        TextView foodNameTextView = convertView.findViewById(android.R.id.text1);
+        TextView foodNameTextView = convertView.findViewById(R.id.text_food_item);
         foodNameTextView.setText(foodItem);
 
         if (disabledFoodItems.contains(foodItem)) {

@@ -81,10 +81,12 @@ public class FoodFragment extends Fragment {
 
 
         chosenFoodList = new ArrayList<>();
-        chosenFoodListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, chosenFoodList);
+        chosenFoodListAdapter = new FoodListAdapter(getContext(), android.R.layout.simple_list_item_1, chosenFoodList);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
         foodListAdapter = new FoodListAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
+
         foodListView.setAdapter(foodListAdapter);
+
         searchBar.requestFocus();
 
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -124,8 +126,6 @@ public class FoodFragment extends Fragment {
             selectedFoodTextView.setText(selectedFood);
             gramsEditText.requestFocus();
         });
-
-
         confirmButton.setOnClickListener(v -> {
             String food = selectedFoodTextView.getText().toString();
             String grams = gramsEditText.getText().toString();
