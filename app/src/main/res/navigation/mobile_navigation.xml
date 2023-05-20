@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/navigation_food_list"
         android:name="com.example.nutrilab.ui.food.FoodListFragment"
-        android:label="@string/title_food"
+        android:label="@string/title_food_list"
         tools:layout="@layout/fragment_food_list" />
 
     <fragment
