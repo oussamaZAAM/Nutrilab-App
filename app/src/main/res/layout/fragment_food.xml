@@ -7,66 +7,68 @@
 
     <LinearLayout
         android:id="@+id/staging_box"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/shadow_background"
-        android:paddingTop="8dp"
         android:layout_marginVertical="15dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shadow_background"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        android:visibility="gone">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/selected_food_text_view"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/selected_food_text_view"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/poppinsbold"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
+                android:layout_weight="1"
+                android:fontFamily="@font/poppinsbold"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-                <EditText
-                    android:id="@+id/grams_edit_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/edittext_border"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="3dp"
-                    android:hint="Grams"
-                    android:autofillHints="Grams"
-                    android:inputType="number" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/grams_edit_text"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginVertical="5dp"
-                android:gravity="center">
-                <Button
-                    android:id="@+id/confirm_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:text="Confirm" />
+                android:layout_weight="1"
+                android:autofillHints="Grams"
+                android:background="@drawable/edittext_border"
+                android:hint="Grams"
+                android:inputType="number"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp" />
+        </LinearLayout>
 
-                <Button
-                    android:id="@+id/cancel_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:textColor="@color/main_color"
-                    android:backgroundTint="@color/white"
-                    android:text="Cancel" />
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/confirm_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="Confirm" />
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:backgroundTint="@color/white"
+                android:text="Cancel"
+                android:textColor="@color/main_color" />
+        </LinearLayout>
     </LinearLayout>
 
     <ListView
@@ -77,8 +79,6 @@
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp" />
 
-
-
     <Button
         android:id="@+id/add_button"
         android:layout_width="70dp"
@@ -87,19 +87,36 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="70dp"
         android:background="@drawable/circle_button_background"
-        android:textSize="35sp"
-        android:text="+" />
+        android:text="+"
+        android:textSize="35sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/remove_food_list"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:contentDescription="cancel"
+            android:elevation="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/delete"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginVertical="32dp"
-        android:paddingHorizontal="12dp"
-        android:textSize="24sp"
         android:background="@drawable/edittext_focused"
-        android:textCursorDrawable="@color/main_color"
         android:cursorVisible="true"
+        android:paddingHorizontal="12dp"
+        android:textCursorDrawable="@color/main_color"
+        android:textSize="24sp"
         android:visibility="gone" />
 
     <ListView
@@ -107,13 +124,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp"
         android:elevation="8dp"
-        android:clipToPadding="false"
         android:padding="8dp"
-        android:visibility="gone"/>
-
+        android:visibility="gone" />
 
 
 </LinearLayout>

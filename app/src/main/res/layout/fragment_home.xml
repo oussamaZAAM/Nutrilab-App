@@ -62,27 +62,28 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
 
                 <ImageView
                     android:id="@+id/maleIcon"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="onMaleIconClick"
-                    android:src="@drawable/male_icon" />
+                    android:src="@drawable/male_icon"
+                    android:contentDescription="male" />
 
                 <ImageView
                     android:id="@+id/femaleIcon"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="onFemaleIconClick"
-                    android:src="@drawable/female_icon" />
+                    android:src="@drawable/female_icon"
+                    android:contentDescription="female" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -114,8 +115,7 @@
             android:fontFamily="@font/poppins"
             android:background="@drawable/edittext_focused"
             android:paddingVertical="10dp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/weightTitle"
@@ -151,12 +151,11 @@
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
             android:background="@drawable/edittext_focused"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:text="Select your Activity:" />
             <Spinner
                 android:id="@+id/activitySpinner"
@@ -177,7 +176,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:text="Select a Plan:" />
             <Spinner
                 android:id="@+id/planSpinner"
@@ -204,7 +203,7 @@
                     android:text="Age"
                     android:textAlignment="center"
                     android:layout_marginHorizontal="20dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_column="1" />
 
                 <TextView
@@ -221,7 +220,6 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:fontFamily="monospace"
-                    android:onClick="onAgeEdit"
                     android:text="Edit"
                     android:textColor="@color/main_color"
                     android:textStyle="bold"
@@ -237,7 +235,7 @@
                     android:text="Gender"
                     android:textAlignment="center"
                     android:layout_marginHorizontal="20dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_column="1" />
 
                 <TextView
@@ -256,7 +254,6 @@
                     android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="onGenderEdit"
                     android:layout_column="3"/>
             </TableRow>
             <TableRow
@@ -269,7 +266,7 @@
                     android:text="Height"
                     android:textAlignment="center"
                     android:layout_marginHorizontal="20dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_column="1" />
 
                 <TextView
@@ -288,7 +285,6 @@
                     android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="onHeightEdit"
                     android:layout_column="3"/>
             </TableRow>
             <TableRow
@@ -301,7 +297,7 @@
                     android:text="Weight"
                     android:textAlignment="center"
                     android:layout_marginHorizontal="20dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_column="1" />
 
                 <TextView
@@ -320,7 +316,6 @@
                     android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="onHeightEdit"
                     android:layout_column="2"/>
             </TableRow>
             <TableRow
@@ -333,7 +328,7 @@
                     android:text="Activity"
                     android:textAlignment="center"
                     android:layout_marginHorizontal="20dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_column="1" />
 
                 <TextView
@@ -352,7 +347,6 @@
                     android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="onActivityEdit"
                     android:layout_column="3"/>
             </TableRow>
             <TableRow
@@ -365,7 +359,7 @@
                     android:text="Plan"
                     android:textAlignment="center"
                     android:layout_marginHorizontal="20dp"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:layout_column="1" />
 
                 <TextView
@@ -384,7 +378,6 @@
                     android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="onPlanEdit"
                     android:layout_column="3"/>
             </TableRow>
         </TableLayout>
@@ -412,7 +405,7 @@
                 android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="54dp"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="#00FFFFFF"
@@ -437,7 +430,7 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:gravity="center_horizontal"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentEnd="true"/>
         </RelativeLayout>
 
     </LinearLayout>

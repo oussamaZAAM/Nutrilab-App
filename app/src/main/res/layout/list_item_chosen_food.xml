@@ -29,7 +29,7 @@
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/cancel"
+        android:src="@drawable/remove"
         android:background="@null"
         android:contentDescription="cancel"
         android:elevation="10dp"/>

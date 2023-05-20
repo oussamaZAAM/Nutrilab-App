@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,8 +46,6 @@ public class FoodFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food, container, false);
 
-        ListView foodListView = view.findViewById(R.id.food_list_view);
-        EditText searchBar = view.findViewById(R.id.search_bar);
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
@@ -54,6 +53,9 @@ public class FoodFragment extends Fragment {
         Button cancelButton = view.findViewById(R.id.cancel_button);
         ListView chosenFoodListView = view.findViewById(R.id.chosen_food_list_view);
         Button addFood = view.findViewById(R.id.add_button);
+        ImageButton removeFoodList = view.findViewById(R.id.remove_food_list);
+        EditText searchBar = view.findViewById(R.id.search_bar);
+        ListView foodListView = view.findViewById(R.id.food_list_view);
 
         foodList = new ArrayList<>();
         foodList.add("Apple");
@@ -67,35 +69,35 @@ public class FoodFragment extends Fragment {
         // Add more food items here
         filteredList.addAll(foodList);
 
-        foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, foodList);
+        foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, filteredList);
         foodListView.setAdapter(foodListAdapter);
 
         chosenFoodList = new ArrayList<>();
         ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(requireContext(), chosenFoodList, foodListAdapter);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
 
+        removeFoodList.setOnClickListener(v -> {
+            chosenFoodListView.setVisibility(View.VISIBLE);
+            addFood.setVisibility(View.VISIBLE);
+            removeFoodList.setVisibility(View.GONE);
+            searchBar.setVisibility(View.GONE);
+            foodListView.setVisibility(View.GONE);
+        });
+
         searchBar.requestFocus();
-
         searchBar.addTextChangedListener(new TextWatcher() {
-
-
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 performSearch(String.valueOf(searchBar.getText()));
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
-
-
         });
 
         Bundle args = getArguments();
@@ -104,7 +106,6 @@ public class FoodFragment extends Fragment {
             selectedFoodTextView.setText(args.getString("selectedFood"));
             gramsEditText.requestFocus();
         }
-
 
         foodListView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedFood = filteredList.get(position);
@@ -115,6 +116,7 @@ public class FoodFragment extends Fragment {
             cancelButton.setVisibility(View.VISIBLE);
             chosenFoodListView.setVisibility(View.VISIBLE);
             addFood.setVisibility(View.VISIBLE);
+            removeFoodList.setVisibility(View.GONE);
             searchBar.setVisibility(View.GONE);
             foodListView.setVisibility(View.GONE);
             selectedFoodTextView.setText(selectedFood);
@@ -147,6 +149,7 @@ public class FoodFragment extends Fragment {
             cancelButton.setVisibility(View.GONE);
             chosenFoodListView.setVisibility(View.GONE);
             addFood.setVisibility(View.GONE);
+            removeFoodList.setVisibility(View.VISIBLE);
             searchBar.setVisibility(View.VISIBLE);
             foodListView.setVisibility(View.VISIBLE);
             searchBar.requestFocus();

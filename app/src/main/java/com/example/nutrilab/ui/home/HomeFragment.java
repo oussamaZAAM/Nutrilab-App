@@ -59,12 +59,6 @@ public class HomeFragment extends Fragment {
     private TextView weightRecap;
     private TextView activityRecap;
     private TextView planRecap;
-    private Button ageEditButton;
-    private Button genderEditButton;
-    private Button heightEditButton;
-    private Button weightEditButton;
-    private Button activityEditButton;
-    private Button planEditButton;
 
     private Button recapShortcut;
 
@@ -123,12 +117,12 @@ public class HomeFragment extends Fragment {
         weightRecap = view.findViewById(R.id.weightRecap);
         activityRecap = view.findViewById(R.id.activityRecap);
         planRecap = view.findViewById(R.id.planRecap);
-        ageEditButton = view.findViewById(R.id.ageEditButton);
-        genderEditButton = view.findViewById(R.id.genderEditButton);
-        heightEditButton = view.findViewById(R.id.heightEditButton);
-        weightEditButton = view.findViewById(R.id.weightEditButton);
-        activityEditButton = view.findViewById(R.id.activityEditButton);
-        planEditButton = view.findViewById(R.id.planEditButton);
+        Button ageEditButton = view.findViewById(R.id.ageEditButton);
+        Button genderEditButton = view.findViewById(R.id.genderEditButton);
+        Button heightEditButton = view.findViewById(R.id.heightEditButton);
+        Button weightEditButton = view.findViewById(R.id.weightEditButton);
+        Button activityEditButton = view.findViewById(R.id.activityEditButton);
+        Button planEditButton = view.findViewById(R.id.planEditButton);
 
         recapShortcut = view.findViewById(R.id.recapShortcut);
 
@@ -223,23 +217,19 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        maleIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gender = "male";
-                maleIcon.setBackgroundResource(R.drawable.male_background);
-                femaleIcon.setBackgroundResource(0);
-            }
+        maleIcon.setOnClickListener(v -> {
+            gender = "male";
+            maleIcon.setBackgroundResource(R.drawable.male_background);
+            femaleIcon.setBackgroundResource(0);
         });
 
-        femaleIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                gender = "female";
-                maleIcon.setBackgroundResource(0);
-                femaleIcon.setBackgroundResource(R.drawable.female_background);
-            }
+        femaleIcon.setOnClickListener(v -> {
+            gender = "female";
+            maleIcon.setBackgroundResource(0);
+            femaleIcon.setBackgroundResource(R.drawable.female_background);
         });
+
+        activityMenu.setOnClickListener(v -> activitySpinner.performClick());
 
         activitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -271,6 +261,8 @@ public class HomeFragment extends Fragment {
                 //
             }
         });
+
+        planMenu.setOnClickListener(v -> planSpinner.performClick());
 
         planSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
