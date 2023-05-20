@@ -50,12 +50,17 @@ public class FoodFragment extends Fragment {
     private ArrayAdapter<String> chosenFoodListAdapter;
     private ArrayList<String> chosenFoodList;
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d("stop","I did it");
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food, container, false);
-        super.onCreate(savedInstanceState);
+
 
         foodListView = view.findViewById(R.id.food_list_view);
         searchBar = view.findViewById(R.id.search_bar);
@@ -127,7 +132,7 @@ public class FoodFragment extends Fragment {
             if (!food.isEmpty() && !grams.isEmpty()) {
                 chosenFoodList.add(food + " - " + grams + "g");
                 chosenFoodListAdapter.notifyDataSetChanged();
-//                foodListAdapter.disableFoodItem(food);
+                foodListAdapter.disableFoodItem(food);
                 gramsEditText.setText("");
                 stagingBox.setVisibility(View.GONE);
             }
