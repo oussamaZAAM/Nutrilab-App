@@ -53,7 +53,7 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="5dp">
+                android:paddingVertical="0dp">
 
                 <ImageView
                     android:layout_width="75dp"
@@ -95,15 +95,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
+                    android:layout_marginVertical="2.5dp"
                     android:background="@drawable/nutrients_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="20dp">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="2.5dp"
                         android:layout_marginRight="75dp"
                         android:background="@drawable/nutrients_background"
                         android:gravity="center"
@@ -111,8 +112,8 @@
                         android:paddingHorizontal="20dp">
 
                         <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/carbs" />
 
@@ -127,10 +128,11 @@
                     </LinearLayout>
                     <TextView
                         android:id="@+id/carbs"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="100dp"
                         android:paddingBottom="8dp"
                         android:text="NaN"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -140,16 +142,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
+                    android:layout_marginVertical="2.5dp"
                     android:background="@drawable/nutrients_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="20dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="2.5dp"
                         android:layout_marginRight="75dp"
                         android:background="@drawable/nutrients_background"
                         android:gravity="center"
@@ -157,8 +160,8 @@
                         android:paddingHorizontal="20dp">
 
                         <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/proteins" />
 
@@ -174,10 +177,11 @@
 
                     <TextView
                         android:id="@+id/proteins"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="100dp"
                         android:paddingBottom="8dp"
                         android:text="NaN"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -187,16 +191,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
+                    android:layout_marginVertical="2.5dp"
                     android:background="@drawable/nutrients_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="20dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="2.5dp"
                         android:layout_marginRight="75dp"
                         android:background="@drawable/nutrients_background"
                         android:gravity="center"
@@ -204,8 +209,8 @@
                         android:paddingHorizontal="20dp">
 
                         <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/fats" />
 
@@ -221,10 +226,11 @@
 
                     <TextView
                         android:id="@+id/fats"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="100dp"
                         android:paddingBottom="8dp"
                         android:text="NaN"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -234,16 +240,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
+                    android:layout_marginVertical="2.5dp"
                     android:background="@drawable/nutrients_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="20dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="2.5dp"
                         android:layout_marginRight="75dp"
                         android:background="@drawable/nutrients_background"
                         android:gravity="center"
@@ -251,8 +258,8 @@
                         android:paddingHorizontal="20dp">
 
                         <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/sugar" />
 
@@ -268,10 +275,11 @@
 
                     <TextView
                         android:id="@+id/sugar"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="100dp"
                         android:paddingBottom="8dp"
                         android:text="NaN"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -281,16 +289,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
+                    android:layout_marginVertical="2.5dp"
                     android:background="@drawable/nutrients_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="20dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="2.5dp"
                         android:layout_marginRight="75dp"
                         android:background="@drawable/nutrients_background"
                         android:gravity="center"
@@ -298,8 +307,8 @@
                         android:paddingHorizontal="20dp">
 
                         <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/salt" />
 
@@ -315,10 +324,11 @@
 
                     <TextView
                         android:id="@+id/salt"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="100dp"
                         android:paddingBottom="8dp"
                         android:text="NaN"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -328,16 +338,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
+                    android:layout_marginVertical="2.5dp"
                     android:background="@drawable/nutrients_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingHorizontal="20dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="5dp"
+                        android:layout_weight="1"
+                        android:layout_marginVertical="2.5dp"
                         android:layout_marginRight="75dp"
                         android:background="@drawable/nutrients_background"
                         android:gravity="center"
@@ -345,8 +356,8 @@
                         android:paddingHorizontal="20dp">
 
                         <ImageView
-                            android:layout_width="75dp"
-                            android:layout_height="75dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/fiber" />
 
@@ -362,10 +373,11 @@
 
                     <TextView
                         android:id="@+id/fiber"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_width="100dp"
                         android:paddingBottom="8dp"
                         android:text="NaN"
+                        android:textAlignment="textEnd"
                         android:textColor="@color/main_color"
                         android:textSize="20sp"
                         android:textStyle="bold" />
