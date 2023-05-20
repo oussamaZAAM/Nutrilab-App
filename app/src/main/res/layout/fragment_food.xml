@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-
-    <ListView
-        android:id="@+id/food_list_view2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp"
-        android:elevation="8dp"
-        android:clipToPadding="false"
-        android:padding="8dp"
-        android:visibility="gone"/>
-
-
 
     <LinearLayout
         android:id="@+id/staging_box"
@@ -123,7 +107,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp"
+        android:elevation="8dp"
+        android:clipToPadding="false"
+        android:padding="8dp"
         android:visibility="gone"/>
 
 

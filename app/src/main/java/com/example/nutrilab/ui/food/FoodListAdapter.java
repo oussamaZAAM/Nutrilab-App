@@ -2,6 +2,7 @@ package com.example.nutrilab.ui.food;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FoodListAdapter extends ArrayAdapter<String> {
+    private static final String TAG = "ChosenFoodFragment";
 
     private ArrayList<String> foodList;
     private Set<String> disabledFoodItems;

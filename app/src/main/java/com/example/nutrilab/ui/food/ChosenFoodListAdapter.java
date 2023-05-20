@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -20,15 +19,15 @@ import com.example.nutrilab.R;
 public class ChosenFoodListAdapter extends ArrayAdapter<String> {
     private static final String TAG = "ChosenFoodFragment";
 
-    private LayoutInflater inflater;
-    private List<String> foodList;
+    private final LayoutInflater inflater;
+    private final List<String> chosenFoodList;
+    private final FoodListAdapter foodListAdapter;
     private ImageButton cancelFoodButton;
-    private FoodListAdapter foodListAdapter;
 
-    public ChosenFoodListAdapter(Context context, List<String> foodList, FoodListAdapter foodListAdapter) {
-        super(context, 0, foodList);
+    public ChosenFoodListAdapter(Context context, List<String> chosenFoodList, FoodListAdapter foodListAdapter) {
+        super(context, 0, chosenFoodList);
         this.inflater = LayoutInflater.from(context);
-        this.foodList = foodList;
+        this.chosenFoodList = chosenFoodList;
         this.foodListAdapter = foodListAdapter;
     }
 
@@ -50,14 +49,14 @@ public class ChosenFoodListAdapter extends ArrayAdapter<String> {
         }
 
         cancelFoodButton.setOnClickListener(v -> {
-            String foodItem = foodList.get(position).split(" - ")[0];
-            foodList.remove(position);
+            String foodItem = chosenFoodList.get(position).split(" - ")[0];
+            chosenFoodList.remove(position);
             notifyDataSetChanged();
             foodListAdapter.enableFoodItem(foodItem);
         });
 
         // Set the data for the item
-        String food = foodList.get(position);
+        String food = chosenFoodList.get(position);
         viewHolder.foodNameTextView.setText(food);
 
         return convertView;

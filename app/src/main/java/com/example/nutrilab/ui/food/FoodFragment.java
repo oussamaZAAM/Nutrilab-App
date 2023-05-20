@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,13 +31,13 @@ public class FoodFragment extends Fragment {
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
 
-    private ArrayList<String> filteredList = new ArrayList<>();
+    private final ArrayList<String> filteredList = new ArrayList<>();
     private ArrayList<String> chosenFoodList;
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "I did it");
+        Log.d(TAG, "Stop daddy, I did it!");
     }
 
     @Nullable
@@ -68,15 +67,12 @@ public class FoodFragment extends Fragment {
         // Add more food items here
         filteredList.addAll(foodList);
 
-        foodListAdapter = new FoodListAdapter(getContext(), android.R.layout.simple_list_item_1, foodList);
+        foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, foodList);
         foodListView.setAdapter(foodListAdapter);
 
         chosenFoodList = new ArrayList<>();
         ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(requireContext(), chosenFoodList, foodListAdapter);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
-        foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, filteredList);
-
-        foodListView.setAdapter(foodListAdapter);
 
         searchBar.requestFocus();
 
