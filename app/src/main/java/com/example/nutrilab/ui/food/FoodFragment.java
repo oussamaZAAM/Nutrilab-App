@@ -1,6 +1,8 @@
 package com.example.nutrilab.ui.food;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +18,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.nutrilab.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -30,21 +33,37 @@ import java.util.Objects;
 public class FoodFragment extends Fragment {
     private static final String TAG = "FoodFragment";
 
+    private ListView foodListView;
     private FoodListAdapter foodListAdapter;
     private ArrayList<String> foodList;
 
     private LinearLayout stagingBox;
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
+    private Button confirmButton;
+    private Button cancelButton;
 
+    private ArrayList<String> filteredList = new ArrayList<>();
+    private EditText searchBar;
+
+    private Button addFood;
+    private ListView chosenFoodListView;
+    private ArrayAdapter<String> chosenFoodListAdapter;
     private ArrayList<String> chosenFoodList;
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.d("stop","I did it");
+    }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food, container, false);
 
         ListView foodListView = view.findViewById(R.id.food_list_view);
+        EditText searchBar = view.findViewById(R.id.search_bar);
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
@@ -58,6 +77,7 @@ public class FoodFragment extends Fragment {
         foodList.add("Banana");
         foodList.add("Carrot");
         // Add more food items here
+        filteredList.addAll(foodList);
 
         foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, foodList);
         foodListView.setAdapter(foodListAdapter);
@@ -65,6 +85,33 @@ public class FoodFragment extends Fragment {
         chosenFoodList = new ArrayList<>();
         ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(getContext(), chosenFoodList, foodListAdapter);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
+        foodListAdapter = new FoodListAdapter(getContext(), android.R.layout.simple_list_item_1, filteredList);
+
+        foodListView.setAdapter(foodListAdapter);
+
+        searchBar.requestFocus();
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                performSearch(String.valueOf(searchBar.getText()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+
+        });
 
         Bundle args = getArguments();
         if (args != null) {
@@ -73,9 +120,18 @@ public class FoodFragment extends Fragment {
             gramsEditText.requestFocus();
         }
 
+
         foodListView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedFood = foodList.get(position);
+            selectedFoodTextView.setVisibility(View.VISIBLE);
             stagingBox.setVisibility(View.VISIBLE);
+            gramsEditText.setVisibility(View.VISIBLE);
+            confirmButton.setVisibility(View.VISIBLE);
+            cancelButton.setVisibility(View.VISIBLE);
+            chosenFoodListView.setVisibility(View.VISIBLE);
+            addFood.setVisibility(View.VISIBLE);
+            searchBar.setVisibility(View.GONE);
+            foodListView.setVisibility(View.GONE);
             selectedFoodTextView.setText(selectedFood);
             gramsEditText.requestFocus();
         });
@@ -106,9 +162,28 @@ public class FoodFragment extends Fragment {
         });
 
         addFood.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(view);
-            navController.navigate(R.id.navigation_food_list);
+            selectedFoodTextView.setVisibility(View.GONE);
+            stagingBox.setVisibility(View.GONE);
+            gramsEditText.setVisibility(View.GONE);
+            confirmButton.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.GONE);
+            chosenFoodListView.setVisibility(View.GONE);
+            addFood.setVisibility(View.GONE);
+            searchBar.setVisibility(View.VISIBLE);
+            foodListView.setVisibility(View.VISIBLE);
+            searchBar.requestFocus();
+
         });
         return view;
+    }
+    private void performSearch(String searchTerm) {
+        filteredList.clear(); // Clear the existing filtered data
+
+        for (String item : foodList) {
+            if (item.toLowerCase().contains(searchTerm.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        foodListAdapter.notifyDataSetChanged();
     }
 }
