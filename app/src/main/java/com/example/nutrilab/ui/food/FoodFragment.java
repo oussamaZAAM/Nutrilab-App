@@ -64,48 +64,36 @@ public class FoodFragment extends Fragment {
         chosenFoodListAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, chosenFoodList);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
 
-        foodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFood = foodList.get(position);
-                stagingBox.setVisibility(View.VISIBLE);
-                selectedFoodTextView.setText(selectedFood);
-                gramsEditText.requestFocus();
-            }
+        foodListView.setOnItemClickListener((parent, view1, position, id) -> {
+            String selectedFood = foodList.get(position);
+            stagingBox.setVisibility(View.VISIBLE);
+            selectedFoodTextView.setText(selectedFood);
+            gramsEditText.requestFocus();
         });
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String food = selectedFoodTextView.getText().toString();
-                String grams = gramsEditText.getText().toString();
-                if (!food.isEmpty() && !grams.isEmpty()) {
-                    chosenFoodList.add(food + " - " + grams + "g");
-                    chosenFoodListAdapter.notifyDataSetChanged();
-                    foodListAdapter.disableFoodItem(food);
-                    gramsEditText.setText("");
-                    stagingBox.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedFoodTextView.setText("");
+        confirmButton.setOnClickListener(v -> {
+            String food = selectedFoodTextView.getText().toString();
+            String grams = gramsEditText.getText().toString();
+            if (!food.isEmpty() && !grams.isEmpty()) {
+                chosenFoodList.add(food + " - " + grams + "g");
+                chosenFoodListAdapter.notifyDataSetChanged();
+                foodListAdapter.disableFoodItem(food);
                 gramsEditText.setText("");
                 stagingBox.setVisibility(View.GONE);
             }
         });
 
-        chosenFoodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String foodItem = chosenFoodList.get(position).split(" - ")[0];
-                chosenFoodList.remove(position);
-                chosenFoodListAdapter.notifyDataSetChanged();
-                foodListAdapter.enableFoodItem(foodItem);
-            }
+        cancelButton.setOnClickListener(v -> {
+            selectedFoodTextView.setText("");
+            gramsEditText.setText("");
+            stagingBox.setVisibility(View.GONE);
+        });
+
+        chosenFoodListView.setOnItemClickListener((parent, view12, position, id) -> {
+            String foodItem = chosenFoodList.get(position).split(" - ")[0];
+            chosenFoodList.remove(position);
+            chosenFoodListAdapter.notifyDataSetChanged();
+            foodListAdapter.enableFoodItem(foodItem);
         });
 
         return view;

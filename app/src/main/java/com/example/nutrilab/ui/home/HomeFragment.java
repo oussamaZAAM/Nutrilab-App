@@ -152,14 +152,11 @@ public class HomeFragment extends Fragment {
         }
         // Event Listeners
 
-        ageEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    ageEditText.setBackgroundResource(R.drawable.edittext_border);
-                } else {
-                    ageEditText.setBackgroundResource(R.drawable.edittext_focused);
-                }
+        ageEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                ageEditText.setBackgroundResource(R.drawable.edittext_border);
+            } else {
+                ageEditText.setBackgroundResource(R.drawable.edittext_focused);
             }
         });
 
@@ -300,147 +297,120 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        ageEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isAgeActivated = true;
-                isRecapActivated = false;
-                performScreensLogic(view);
-            }
+        ageEditButton.setOnClickListener(v -> {
+            isAgeActivated = true;
+            isRecapActivated = false;
+            performScreensLogic(view);
         });
-        genderEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isGenderActivated = true;
-                isRecapActivated = false;
-                performScreensLogic(view);
-            }
+        genderEditButton.setOnClickListener(v -> {
+            isGenderActivated = true;
+            isRecapActivated = false;
+            performScreensLogic(view);
         });
-        heightEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isHeightActivated = true;
-                isRecapActivated = false;
-                performScreensLogic(view);
-            }
+        heightEditButton.setOnClickListener(v -> {
+            isHeightActivated = true;
+            isRecapActivated = false;
+            performScreensLogic(view);
         });
-        weightEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isHeightActivated = true;
-                isRecapActivated = false;
-                performScreensLogic(view);
-            }
+        weightEditButton.setOnClickListener(v -> {
+            isHeightActivated = true;
+            isRecapActivated = false;
+            performScreensLogic(view);
         });
-        activityEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isActivityActivated = true;
-                isRecapActivated = false;
-                performScreensLogic(view);
-            }
+        activityEditButton.setOnClickListener(v -> {
+            isActivityActivated = true;
+            isRecapActivated = false;
+            performScreensLogic(view);
         });
-        planEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isPlanActivated = true;
-                isRecapActivated = false;
-                performScreensLogic(view);
-            }
+        planEditButton.setOnClickListener(v -> {
+            isPlanActivated = true;
+            isRecapActivated = false;
+            performScreensLogic(view);
         });
-        recapShortcut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isAgeActivated = false;
-                isGenderActivated = false;
-                isHeightActivated = false;
-                isActivityActivated = false;
-                isPlanActivated = false;
-                isRecapActivated = true;
-                performScreensLogic(view);
-            }
+        recapShortcut.setOnClickListener(v -> {
+            isAgeActivated = false;
+            isGenderActivated = false;
+            isHeightActivated = false;
+            isActivityActivated = false;
+            isPlanActivated = false;
+            isRecapActivated = true;
+            performScreensLogic(view);
         });
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ageEditText.getVisibility() == View.VISIBLE) {
-                    if (age >= 12 && age <= 120){
-                        // Hide the age field and show the gender field
-                        isAgeActivated = false;
-                        isGenderActivated = true;
-                    }
-                }
-                if (genderChoice.getVisibility() == View.VISIBLE) {
-                    if (gender == "male" || gender == "female"){
-                        isGenderActivated = false;
-                        isHeightActivated = true;
-                    }
-                }
-                if (heightEditText.getVisibility() == View.VISIBLE && weightEditText.getVisibility() == View.VISIBLE) {
-                    if ((height >= 80 && height <= 300) && (weight >= 20 && weight <= 200)){
-                        isHeightActivated = false;
-                        isActivityActivated = true;
-                    }
-                }
-                if (activityMenu.getVisibility() == View.VISIBLE) {
-                    if (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) {
-                        isActivityActivated = false;
-                        isPlanActivated = true;
-                    }
-                }
-                if (planMenu.getVisibility() == View.VISIBLE) {
-                    if (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle")) {
-                        isPlanActivated = false;
-                        isRecapActivated = true;
-                        isRecapShortcutActivated = true;
-                    }
-                }
-                if (recapTable.getVisibility() == View.VISIBLE) {
-                    Map<String, Integer> nutrients = calculateNutrients(age, gender, height, weight, activity, plan);
-
-                    // Pass Data and Navigate
-                    Bundle bundle = new Bundle();
-                    bundle.putString("test", "HAHA");
-                    bundle.putSerializable("nutrients", (Serializable) nutrients);
-                    NavController navController = Navigation.findNavController(view);
-                    navController.navigate(R.id.navigation_dashboard, bundle);
-                }
-
-                // Apply changes to View
-                performScreensLogic(view);
-            }
-        });
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (genderChoice.getVisibility() == View.VISIBLE) {
-                    // Show the age field and hide the gender field
-                    isGenderActivated = false;
-                    isAgeActivated = true;
-                }
-                if (heightEditText.getVisibility() == View.VISIBLE && weightEditText.getVisibility() == View.VISIBLE) {
-                    // Show the gender field and hide the h/weight field
-                    isHeightActivated = false;
+        nextButton.setOnClickListener(v -> {
+            if (ageEditText.getVisibility() == View.VISIBLE) {
+                if (age >= 12 && age <= 120){
+                    // Hide the age field and show the gender field
+                    isAgeActivated = false;
                     isGenderActivated = true;
                 }
-                if (activityMenu.getVisibility() == View.VISIBLE) {
-                    isActivityActivated = false;
+            }
+            if (genderChoice.getVisibility() == View.VISIBLE) {
+                if (gender == "male" || gender == "female"){
+                    isGenderActivated = false;
                     isHeightActivated = true;
                 }
-                if (planMenu.getVisibility() == View.VISIBLE) {
-                    isPlanActivated = false;
+            }
+            if (heightEditText.getVisibility() == View.VISIBLE && weightEditText.getVisibility() == View.VISIBLE) {
+                if ((height >= 80 && height <= 300) && (weight >= 20 && weight <= 200)){
+                    isHeightActivated = false;
                     isActivityActivated = true;
                 }
-                if (recapTable.getVisibility() == View.VISIBLE) {
-                    isRecapActivated = false;
+            }
+            if (activityMenu.getVisibility() == View.VISIBLE) {
+                if (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) {
+                    isActivityActivated = false;
                     isPlanActivated = true;
                 }
-
-                // Apply changes to View
-                performScreensLogic(view);
             }
+            if (planMenu.getVisibility() == View.VISIBLE) {
+                if (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle")) {
+                    isPlanActivated = false;
+                    isRecapActivated = true;
+                    isRecapShortcutActivated = true;
+                }
+            }
+            if (recapTable.getVisibility() == View.VISIBLE) {
+                Map<String, Integer> nutrients = calculateNutrients(age, gender, height, weight, activity, plan);
+
+                // Pass Data and Navigate
+                Bundle bundle = new Bundle();
+                bundle.putString("test", "HAHA");
+                bundle.putSerializable("nutrients", (Serializable) nutrients);
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.navigation_dashboard, bundle);
+            }
+
+            // Apply changes to View
+            performScreensLogic(view);
+        });
+
+        backButton.setOnClickListener(v -> {
+            if (genderChoice.getVisibility() == View.VISIBLE) {
+                // Show the age field and hide the gender field
+                isGenderActivated = false;
+                isAgeActivated = true;
+            }
+            if (heightEditText.getVisibility() == View.VISIBLE && weightEditText.getVisibility() == View.VISIBLE) {
+                // Show the gender field and hide the h/weight field
+                isHeightActivated = false;
+                isGenderActivated = true;
+            }
+            if (activityMenu.getVisibility() == View.VISIBLE) {
+                isActivityActivated = false;
+                isHeightActivated = true;
+            }
+            if (planMenu.getVisibility() == View.VISIBLE) {
+                isPlanActivated = false;
+                isActivityActivated = true;
+            }
+            if (recapTable.getVisibility() == View.VISIBLE) {
+                isRecapActivated = false;
+                isPlanActivated = true;
+            }
+
+            // Apply changes to View
+            performScreensLogic(view);
         });
 
         return view;

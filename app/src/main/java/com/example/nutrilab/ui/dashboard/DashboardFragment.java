@@ -55,21 +55,18 @@ public class DashboardFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             nutrients = (Map<String, Integer>) args.getSerializable("nutrients"); // Retrieve the Map from the arguments
-            calories.setText(Objects.requireNonNull(nutrients.get("kCalories")).toString()+" kCal");
-            carbs.setText(Objects.requireNonNull(nutrients.get("carbs")).toString()+" g");
-            proteins.setText(Objects.requireNonNull(nutrients.get("proteins")).toString()+" g");
-            fats.setText(Objects.requireNonNull(nutrients.get("fats")).toString()+" g");
-            sugar.setText(Objects.requireNonNull(nutrients.get("sugar")).toString()+" g");
-            salt.setText(Objects.requireNonNull(nutrients.get("salt")).toString()+" g");
-            fiber.setText(Objects.requireNonNull(nutrients.get("fiber")).toString()+" g");
+            calories.setText(Objects.requireNonNull(nutrients.get("kCalories"))+" kCal");
+            carbs.setText(Objects.requireNonNull(nutrients.get("carbs"))+" g");
+            proteins.setText(Objects.requireNonNull(nutrients.get("proteins"))+" g");
+            fats.setText(Objects.requireNonNull(nutrients.get("fats"))+" g");
+            sugar.setText(Objects.requireNonNull(nutrients.get("sugar"))+" g");
+            salt.setText(Objects.requireNonNull(nutrients.get("salt"))+" g");
+            fiber.setText(Objects.requireNonNull(nutrients.get("fiber"))+" g");
         }
 
-        resetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.navigation_home);
-            }
+        resetButton.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(view);
+            navController.navigate(R.id.navigation_home);
         });
 
         return view;
