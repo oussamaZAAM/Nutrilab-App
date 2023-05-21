@@ -1,5 +1,11 @@
 package com.example.nutrilab.ui.food;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,12 +32,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.List;
 
 public class FoodFragment extends Fragment {
     private static final String TAG = "FoodFragment";
@@ -47,7 +60,7 @@ public class FoodFragment extends Fragment {
     private Button generateButton;
     private ListView chosenFoodListView;
     private final ArrayList<String> filteredList = new ArrayList<>();
-    private ArrayList<String> chosenFoodList;
+    private ArrayList<Map<String,Double>> chosenFoodList;
     ArrayList<String> foodListName = new ArrayList<>();
     ArrayList<HashMap<String, String>> foodList = new ArrayList<>();
 
@@ -76,12 +89,13 @@ public class FoodFragment extends Fragment {
     public ListView getChosenFoodListView() {
         return chosenFoodListView;
     }
+    Boolean generate = false;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food, container, false);
-
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
@@ -199,12 +213,17 @@ public class FoodFragment extends Fragment {
                 generateButton.setVisibility(View.GONE);
             }
         });
-
+        generateButton.setOnClickListener((v)->{
+            generate=true;
+        });
         confirmButton.setOnClickListener(v -> {
             String food = selectedFoodTextView.getText().toString();
             String grams = gramsEditText.getText().toString();
-            if (!food.isEmpty() && !grams.isEmpty() && Integer.parseInt(grams) > 0) {
-                chosenFoodList.add(food + " - " + grams + "g");
+            if (!food.isEmpty() && !grams.isEmpty() && parseInt(grams) > 0) {
+                chosenFoodList.add(new HashMap<String, Double>() {{
+                    put(food, parseDouble(grams));
+                }});
+
                 chosenFoodListAdapter.notifyDataSetChanged();
                 foodListAdapter.disableFoodItem(food);
                 gramsEditText.setText("");
@@ -256,11 +275,130 @@ public class FoodFragment extends Fragment {
         foodListAdapter.notifyDataSetChanged();
     }
 
-    public void checkEmptiness(ArrayList<String> chosenFoodList) {
+    public void checkEmptiness(ArrayList<Map<String,Double>> chosenFoodList) {
         if (chosenFoodList.size() == 0) {
             emptyState.setVisibility(View.VISIBLE);
         } else {
             emptyState.setVisibility(View.GONE);
         }
+    }
+
+    public static Map<String, Double> addValuesOfTwoObjects(Map<String, Double> obj1, Map<String, Double> obj2) {
+        Map<String, Double> obj3 = new HashMap<>();
+
+        obj3.put("Calories", obj1.get("kCalories") - obj2.get("Calories"));
+        obj3.put("Protein", obj1.get("proteins") - obj2.get("Protein"));
+        obj3.put("Carbs", obj1.get("carbs") - obj2.get("Carbs"));
+        obj3.put("Fat", obj1.get("fats") - obj2.get("Fat"));
+        obj3.put("Fiber", obj1.get("fiber") - obj2.get("Fiber"));
+        obj3.put("Salt", obj1.get("salt") - obj2.get("Salt"));
+        obj3.put("Sugar", obj1.get("sugar") - obj2.get("Sugar"));
+
+        return obj3;
+    }
+
+    public void enableAlgo() {
+        if (generate) {
+
+
+            Map<String, Double> nutrients = sumNutrients(chosenFoodList);
+            Map<String, Double> nutriRes =new HashMap<String, Double>() {
+                {put("ayoub",(double)66);}};
+            Map neededNutri = addValuesOfTwoObjects(nutriRes, nutrients);
+            List<Map<String,Double>> eatenFoodNames = chosenFoodList;
+            neededNutri.put("foods", eatenFoodNames);
+            try {
+                // Create a URL object with the API endpoint
+                URL url = new URL("https://sbo3a.onrender.com/polls/getFood/");
+
+                // Open a connection to the URL
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                // Set the request method (GET, POST, etc.)
+                connection.setRequestMethod("POST");
+
+
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/json");
+                Gson gson = new Gson();
+                String requestBody = gson.toJson(neededNutri);
+                // Create the request payload
+
+
+                // Write the request payload to the connection's output stream
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(requestBody.getBytes());
+                outputStream.flush();
+                outputStream.close();
+
+                // Get the response code
+                int responseCode = connection.getResponseCode();
+                System.out.println("Response Code: " + responseCode);
+
+                // Read the response from the API
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line;
+                StringBuilder response = new StringBuilder();
+                while ((line = reader.readLine()) != null) {
+                    response.append(line);
+                }
+                reader.close();
+
+                // Print the response
+                System.out.println("Response: " + response.toString());
+
+                // Disconnect the connection
+                connection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+//            alert("Please insert your informations");
+//            router.push("#yourInformations");
+            Log.d("lol","loll");
+        }
+    }
+
+    public Map<String, Double> sumObjectsByKey(Map<String, Double> object1, Map<String, Double> object2) {
+        Map<String, Double> sum = new HashMap<>();
+        double size = parseDouble(object2.get("size").toString()) / 100.0;
+
+        sum.put("Calories", object1.get("Calories") + (object2.get("Calories") * size));
+        sum.put("Protein", object1.get("Protein") + (object2.get("Protein") * size));
+        sum.put("Carbs", object1.get("Carbs") + (object2.get("Carbs") * size));
+        sum.put("Fat", object1.get("Fat") + (object2.get("Fat") * size));
+        sum.put("Fiber", object1.get("Fiber") + (object2.get("Fiber") * size));
+        sum.put("Salt", object1.get("Salt") + (object2.get("Salt") * size));
+        sum.put("Sugar", object1.get("Sugar") + (object2.get("Sugar") * size));
+
+        return sum;
+    }
+
+    public Map<String, Double> sumNutrients(List<Map<String, Double>> eatenFoodList) {
+        Map<String, Double> nutrients = new HashMap<>();
+        nutrients.put("Calories", 0.0);
+        nutrients.put("Protein", 0.0);
+        nutrients.put("Carbs", 0.0);
+        nutrients.put("Fat", 0.0);
+        nutrients.put("Fiber", 0.0);
+        nutrients.put("Salt", 0.0);
+        nutrients.put("Sugar", 0.0);
+
+        for (Map<String, Double> food : eatenFoodList) {
+            nutrients = sumObjectsByKey(nutrients, food);
+        }
+
+        return nutrients;
+    }
+
+    public static List<String> extractKeys(List<Map<String, Double>> list) {
+        List<String> keysList = new ArrayList<>();
+        for (Map<String, Double> map : list) {
+            String food = map.keySet().iterator().next();
+            keysList.add(food);
+
+        }
+        return keysList;
     }
 }
