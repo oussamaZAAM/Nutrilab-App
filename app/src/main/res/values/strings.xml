@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Nutrilab</string>
     <string name="title_home">Home</string>
+    <string name="title_infos">Informations</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_food">Food</string>
     <string name="title_food_list">Food List</string>

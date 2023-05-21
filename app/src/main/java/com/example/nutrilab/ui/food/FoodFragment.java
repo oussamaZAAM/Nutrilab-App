@@ -25,10 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -64,14 +62,17 @@ public class FoodFragment extends Fragment {
         }
         return json;
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "Stop daddy, I did it!");
     }
+
     public ListView getChosenFoodListView() {
         return chosenFoodListView;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -128,7 +129,6 @@ public class FoodFragment extends Fragment {
         }
 
 
-
         // Add more food items here
         filteredList.addAll(foodListName);
 
@@ -174,7 +174,6 @@ public class FoodFragment extends Fragment {
             gramsEditText.requestFocus();
         }
 
-
         foodListView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedFood = filteredList.get(position);
             selectedFoodTextView.setVisibility(View.VISIBLE);
@@ -187,10 +186,9 @@ public class FoodFragment extends Fragment {
             removeFoodList.setVisibility(View.GONE);
             searchBar.setVisibility(View.GONE);
             foodListView.setVisibility(View.GONE);
-            emptyState.setVisibility(View.GONE);
             selectedFoodTextView.setText(selectedFood);
             gramsEditText.requestFocus();
-            if(chosenFoodList.size()!=0){
+            if (chosenFoodList.size() != 0) {
                 generateButton.setVisibility(View.GONE);
             }
         });
@@ -207,7 +205,7 @@ public class FoodFragment extends Fragment {
                 generateButton.setVisibility(View.VISIBLE);
                 checkEmptiness(chosenFoodList);
             }
-            if(chosenFoodList.size()!=0){
+            if (chosenFoodList.size() != 0) {
                 generateButton.setVisibility(View.VISIBLE);
             }
         });
@@ -216,7 +214,9 @@ public class FoodFragment extends Fragment {
             selectedFoodTextView.setText("");
             gramsEditText.setText("");
             stagingBox.setVisibility(View.GONE);
-            generateButton.setVisibility(View.VISIBLE);
+            if (chosenFoodList.size() != 0) {
+                generateButton.setVisibility(View.VISIBLE);
+            }
             checkEmptiness(chosenFoodList);
         });
 
