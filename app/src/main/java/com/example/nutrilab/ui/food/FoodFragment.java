@@ -41,7 +41,8 @@ public class FoodFragment extends Fragment {
     private LinearLayout stagingBox;
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
-
+    private Button generateButton;
+    private ListView chosenFoodListView;
     private final ArrayList<String> filteredList = new ArrayList<>();
     private ArrayList<String> chosenFoodList;
     ArrayList<String> foodListName = new ArrayList<>();
@@ -67,7 +68,9 @@ public class FoodFragment extends Fragment {
         super.onDestroy();
         Log.d(TAG, "Stop daddy, I did it!");
     }
-
+    public ListView getChosenFoodListView() {
+        return chosenFoodListView;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -76,12 +79,12 @@ public class FoodFragment extends Fragment {
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
-
+        generateButton = view.findViewById(R.id.generate_btn);
         test = view.findViewById(R.id.test);
 
         Button confirmButton = view.findViewById(R.id.confirm_button);
         Button cancelButton = view.findViewById(R.id.cancel_button);
-        ListView chosenFoodListView = view.findViewById(R.id.chosen_food_list_view);
+        chosenFoodListView = view.findViewById(R.id.chosen_food_list_view);
         Button addFood = view.findViewById(R.id.add_button);
         ImageButton removeFoodList = view.findViewById(R.id.remove_food_list);
         EditText searchBar = view.findViewById(R.id.search_bar);
@@ -131,7 +134,7 @@ public class FoodFragment extends Fragment {
         foodListView.setAdapter(foodListAdapter);
 
         chosenFoodList = new ArrayList<>();
-        ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(requireContext(), chosenFoodList, foodListAdapter);
+        ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(requireContext(), chosenFoodList, foodListAdapter, view);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
 
         checkEmptiness(chosenFoodList);
@@ -151,6 +154,7 @@ public class FoodFragment extends Fragment {
             searchBar.setVisibility(View.GONE);
             foodListView.setVisibility(View.GONE);
             checkEmptiness(chosenFoodList);
+
         });
 
         searchBar.requestFocus();
@@ -176,6 +180,7 @@ public class FoodFragment extends Fragment {
             gramsEditText.requestFocus();
         }
 
+
         foodListView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedFood = filteredList.get(position);
             selectedFoodTextView.setVisibility(View.VISIBLE);
@@ -191,6 +196,9 @@ public class FoodFragment extends Fragment {
             test.setVisibility(View.GONE);
             selectedFoodTextView.setText(selectedFood);
             gramsEditText.requestFocus();
+            if(chosenFoodList.size()!=0){
+                generateButton.setVisibility(View.GONE);
+            }
         });
 
         confirmButton.setOnClickListener(v -> {
@@ -202,7 +210,11 @@ public class FoodFragment extends Fragment {
                 foodListAdapter.disableFoodItem(food);
                 gramsEditText.setText("");
                 stagingBox.setVisibility(View.GONE);
+                generateButton.setVisibility(View.VISIBLE);
                 checkEmptiness(chosenFoodList);
+            }
+            if(chosenFoodList.size()!=0){
+                generateButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -210,6 +222,7 @@ public class FoodFragment extends Fragment {
             selectedFoodTextView.setText("");
             gramsEditText.setText("");
             stagingBox.setVisibility(View.GONE);
+            generateButton.setVisibility(View.VISIBLE);
             checkEmptiness(chosenFoodList);
         });
 
@@ -222,6 +235,7 @@ public class FoodFragment extends Fragment {
             chosenFoodListView.setVisibility(View.GONE);
             addFood.setVisibility(View.GONE);
             test.setVisibility(View.GONE);
+            generateButton.setVisibility(View.GONE);
             removeFoodList.setVisibility(View.VISIBLE);
             searchBar.setVisibility(View.VISIBLE);
             foodListView.setVisibility(View.VISIBLE);
