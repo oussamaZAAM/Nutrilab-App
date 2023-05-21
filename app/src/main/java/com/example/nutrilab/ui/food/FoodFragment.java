@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.nutrilab.R;
+import com.example.nutrilab.ui.general.SharedPrefsHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,12 +42,14 @@ import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.List;
 
 public class FoodFragment extends Fragment {
-
     private static final String TAG = "FoodFragment";
+    private static final String PREFS_NAME = "MyPrefs";
+    private static final String NUTRIENTS = "nutrients";
 
     private FoodListAdapter foodListAdapter;
 
@@ -143,6 +146,9 @@ public class FoodFragment extends Fragment {
             e.printStackTrace();
         }
 
+        // Get Nutrients from Shared Preferences
+        Map<String, Integer> nutrients = SharedPrefsHelper.loadMap(requireContext(), PREFS_NAME, NUTRIENTS);
+        Log.i(TAG, "Nutrients: "+nutrients);
 
         // Add more food items here
         filteredList.addAll(foodListName);
