@@ -58,7 +58,7 @@ public class FoodFragment extends Fragment {
     private LinearLayout stagingBox;
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
-    private Button generateButton;
+    private LinearLayout generateButton;
     private ListView chosenFoodListView;
     private final ArrayList<String> filteredList = new ArrayList<>();
     private ArrayList<Map<String,Double>> chosenFoodList;

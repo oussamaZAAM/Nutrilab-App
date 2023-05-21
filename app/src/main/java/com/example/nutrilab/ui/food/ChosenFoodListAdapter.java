@@ -54,7 +54,7 @@ public class ChosenFoodListAdapter extends ArrayAdapter<Map<String, Double>> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Button listView = chosenFoodView.findViewById(R.id.generate_btn);
+        LinearLayout listView = chosenFoodView.findViewById(R.id.generate_btn);
         RelativeLayout emptyState = chosenFoodView.findViewById(R.id.empty_state);
         cancelFoodButton.setOnClickListener(v -> {
             String foodItem = chosenFoodList.get(position).keySet().iterator().next();
