@@ -24,12 +24,15 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.nutrilab.R;
+import com.example.nutrilab.ui.general.SharedPrefsHelper;
 
 import java.io.Serializable;
 import java.util.Map;
 
 public class InfosFragment extends Fragment {
     private static final String TAG = "HomeFragment";
+    private static final String PREFS_NAME = "MyPrefs";
+    private static final String NUTRIENTS = "nutrients";
 
     private EditText ageEditText;
     private TextView infoTitle;
@@ -362,6 +365,9 @@ public class InfosFragment extends Fragment {
             }
             if (recapTable.getVisibility() == View.VISIBLE) {
                 Map<String, Integer> nutrients = calculateNutrients(age, gender, height, weight, activity, plan);
+
+                // Store data in Shared Preferences Store
+                SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, NUTRIENTS, nutrients);
 
                 // Pass Data and Navigate
                 Bundle bundle = new Bundle();
