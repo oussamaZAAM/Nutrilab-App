@@ -21,28 +21,57 @@ import androidx.fragment.app.Fragment;
 
 import com.example.nutrilab.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FoodFragment extends Fragment {
+
     private static final String TAG = "FoodFragment";
 
     private FoodListAdapter foodListAdapter;
-    private ArrayList<String> foodList;
 
     private RelativeLayout emptyState;
     private LinearLayout stagingBox;
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
-
+    private Button generateButton;
+    private ListView chosenFoodListView;
     private final ArrayList<String> filteredList = new ArrayList<>();
     private ArrayList<String> chosenFoodList;
+    ArrayList<String> foodListName = new ArrayList<>();
+    ArrayList<HashMap<String, String>> foodList = new ArrayList<>();
 
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getActivity().getAssets().open("FoodData.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "Stop daddy, I did it!");
     }
-
+    public ListView getChosenFoodListView() {
+        return chosenFoodListView;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -53,32 +82,61 @@ public class FoodFragment extends Fragment {
         gramsEditText = view.findViewById(R.id.grams_edit_text);
 
         emptyState = view.findViewById(R.id.empty_state);
+        generateButton = view.findViewById(R.id.generate_btn);
 
         Button confirmButton = view.findViewById(R.id.confirm_button);
         Button cancelButton = view.findViewById(R.id.cancel_button);
-        ListView chosenFoodListView = view.findViewById(R.id.chosen_food_list_view);
+        chosenFoodListView = view.findViewById(R.id.chosen_food_list_view);
         Button addFood = view.findViewById(R.id.add_button);
         ImageButton removeFoodList = view.findViewById(R.id.remove_food_list);
         EditText searchBar = view.findViewById(R.id.search_bar);
         ListView foodListView = view.findViewById(R.id.food_list_view);
 
-        foodList = new ArrayList<>();
-        foodList.add("Apple");
-        foodList.add("Banana");
-        foodList.add("Carrot");
-        foodList.add("Tangerine");
-        foodList.add("Pear");
-        foodList.add("Strawberry");
-        foodList.add("Peach");
+
+        try {
+            JSONObject obj = new JSONObject(loadJSONFromAsset());
+            JSONArray m_jArry = obj.getJSONArray("NutriLab");
+            HashMap<String, String> m_li;
+
+            for (int i = 0; i < m_jArry.length(); i++) {
+
+                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                String Salt = jo_inside.getString("Salt");
+                String Calories = jo_inside.getString("Calories");
+                String Fat = jo_inside.getString("Fat");
+                String Sugar = jo_inside.getString("Sugar");
+                String Protein = jo_inside.getString("Protein");
+                String Carbs = jo_inside.getString("Carbs");
+                String name = jo_inside.getString("name");
+
+                //Add your values in your `ArrayList` as below:
+                m_li = new HashMap<String, String>();
+                m_li.put("name", name);
+                foodListName.add(name);
+                m_li.put("Salt", Salt);
+                m_li.put("Fat", Fat);
+                m_li.put("Sugar", Sugar);
+                m_li.put("Protein", Protein);
+                m_li.put("Carbs", Carbs);
+                m_li.put("Calories", Calories);
+
+                foodList.add(m_li);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
 
         // Add more food items here
-        filteredList.addAll(foodList);
+        filteredList.addAll(foodListName);
 
         foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, filteredList);
         foodListView.setAdapter(foodListAdapter);
 
         chosenFoodList = new ArrayList<>();
-        ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(requireContext(), chosenFoodList, foodListAdapter);
+        ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(requireContext(), chosenFoodList, foodListAdapter, view);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
 
         checkEmptiness(chosenFoodList);
@@ -90,6 +148,7 @@ public class FoodFragment extends Fragment {
             searchBar.setVisibility(View.GONE);
             foodListView.setVisibility(View.GONE);
             checkEmptiness(chosenFoodList);
+
         });
 
         searchBar.requestFocus();
@@ -115,6 +174,7 @@ public class FoodFragment extends Fragment {
             gramsEditText.requestFocus();
         }
 
+
         foodListView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedFood = filteredList.get(position);
             selectedFoodTextView.setVisibility(View.VISIBLE);
@@ -130,6 +190,9 @@ public class FoodFragment extends Fragment {
             emptyState.setVisibility(View.GONE);
             selectedFoodTextView.setText(selectedFood);
             gramsEditText.requestFocus();
+            if(chosenFoodList.size()!=0){
+                generateButton.setVisibility(View.GONE);
+            }
         });
 
         confirmButton.setOnClickListener(v -> {
@@ -141,7 +204,11 @@ public class FoodFragment extends Fragment {
                 foodListAdapter.disableFoodItem(food);
                 gramsEditText.setText("");
                 stagingBox.setVisibility(View.GONE);
+                generateButton.setVisibility(View.VISIBLE);
                 checkEmptiness(chosenFoodList);
+            }
+            if(chosenFoodList.size()!=0){
+                generateButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -149,6 +216,7 @@ public class FoodFragment extends Fragment {
             selectedFoodTextView.setText("");
             gramsEditText.setText("");
             stagingBox.setVisibility(View.GONE);
+            generateButton.setVisibility(View.VISIBLE);
             checkEmptiness(chosenFoodList);
         });
 
@@ -161,6 +229,7 @@ public class FoodFragment extends Fragment {
             chosenFoodListView.setVisibility(View.GONE);
             addFood.setVisibility(View.GONE);
             emptyState.setVisibility(View.GONE);
+            generateButton.setVisibility(View.GONE);
             removeFoodList.setVisibility(View.VISIBLE);
             searchBar.setVisibility(View.VISIBLE);
             foodListView.setVisibility(View.VISIBLE);
@@ -172,7 +241,7 @@ public class FoodFragment extends Fragment {
     private void performSearch(String searchTerm) {
         filteredList.clear(); // Clear the existing filtered data
 
-        for (String item : foodList) {
+        for (String item : foodListName) {
             if (item.toLowerCase().contains(searchTerm.toLowerCase())) {
                 filteredList.add(item);
             }
@@ -181,7 +250,6 @@ public class FoodFragment extends Fragment {
     }
 
     public void checkEmptiness(ArrayList<String> chosenFoodList) {
-        Log.i(TAG, "Check!");
         if (chosenFoodList.size() == 0) {
             emptyState.setVisibility(View.VISIBLE);
         } else {

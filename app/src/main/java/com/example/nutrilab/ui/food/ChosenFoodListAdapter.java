@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,12 +27,13 @@ public class ChosenFoodListAdapter extends ArrayAdapter<String> {
     private final List<String> chosenFoodList;
     private final FoodListAdapter foodListAdapter;
     private ImageButton cancelFoodButton;
-
-    public ChosenFoodListAdapter(Context context, List<String> chosenFoodList, FoodListAdapter foodListAdapter) {
+    private View chosenFoodView;
+    public ChosenFoodListAdapter(Context context, List<String> chosenFoodList, FoodListAdapter foodListAdapter, View chosenFoodView) {
         super(context, 0, chosenFoodList);
         this.inflater = LayoutInflater.from(context);
         this.chosenFoodList = chosenFoodList;
         this.foodListAdapter = foodListAdapter;
+        this.chosenFoodView = chosenFoodView;
     }
 
     @NonNull
@@ -49,12 +52,15 @@ public class ChosenFoodListAdapter extends ArrayAdapter<String> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
+        Button listView = chosenFoodView.findViewById(R.id.generate_btn);
         cancelFoodButton.setOnClickListener(v -> {
             String foodItem = chosenFoodList.get(position).split(" - ")[0];
             chosenFoodList.remove(position);
             notifyDataSetChanged();
             foodListAdapter.enableFoodItem(foodItem);
+            if(chosenFoodList.size()==0){
+                listView.setVisibility(View.GONE);
+            }
         });
 
         // Set the data for the item
