@@ -15,18 +15,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
 import com.example.nutrilab.R;
 
-public class ChosenFoodListAdapter extends ArrayAdapter<String> {
+public class ChosenFoodListAdapter extends ArrayAdapter<Map<String, Double>> {
     private static final String TAG = "ChosenFoodFragment";
 
     private final LayoutInflater inflater;
-    private final List<String> chosenFoodList;
+    private final List<Map<String,Double>> chosenFoodList;
     private final FoodListAdapter foodListAdapter;
     private ImageButton cancelFoodButton;
     private View chosenFoodView;
-    public ChosenFoodListAdapter(Context context, List<String> chosenFoodList, FoodListAdapter foodListAdapter, View chosenFoodView) {
+    public ChosenFoodListAdapter(Context context, List<Map<String, Double>> chosenFoodList, FoodListAdapter foodListAdapter, View chosenFoodView) {
         super(context, 0, chosenFoodList);
         this.inflater = LayoutInflater.from(context);
         this.chosenFoodList = chosenFoodList;
@@ -52,7 +53,8 @@ public class ChosenFoodListAdapter extends ArrayAdapter<String> {
         }
         Button listView = chosenFoodView.findViewById(R.id.generate_btn);
         cancelFoodButton.setOnClickListener(v -> {
-            String foodItem = chosenFoodList.get(position).split(" - ")[0];
+            String key = chosenFoodList.get(position).keySet().iterator().next();
+            String foodItem = key;
             chosenFoodList.remove(position);
             notifyDataSetChanged();
             foodListAdapter.enableFoodItem(foodItem);
@@ -62,7 +64,7 @@ public class ChosenFoodListAdapter extends ArrayAdapter<String> {
         });
 
         // Set the data for the item
-        String food = chosenFoodList.get(position);
+        String food = chosenFoodList.get(position).keySet().iterator().next();
         viewHolder.foodNameTextView.setText(food);
 
         return convertView;
