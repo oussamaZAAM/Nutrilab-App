@@ -126,7 +126,7 @@ public class FoodFragment extends Fragment {
                 String name = jo_inside.getString("name");
 
                 //Add your values in your `ArrayList` as below:
-                m_li = new HashMap<String, String>();
+                m_li = new HashMap<>();
                 m_li.put("name", name);
                 foodListName.add(name);
                 m_li.put("Salt", Salt);
