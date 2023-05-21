@@ -1,6 +1,6 @@
-package com.example.nutrilab.ui.infos;
+package com.example.nutrilab.ui.home.infos;
 
-import static com.example.nutrilab.ui.infos.NutritionCalculator.calculateNutrients;
+import static com.example.nutrilab.ui.home.infos.NutritionCalculator.calculateNutrients;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

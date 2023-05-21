@@ -40,6 +40,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,12 +68,12 @@ public class FoodFragment extends Fragment {
     public String loadJSONFromAsset() {
         String json = null;
         try {
-            InputStream is = getActivity().getAssets().open("FoodData.json");
+            InputStream is = requireActivity().getAssets().open("FoodData.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -83,7 +84,6 @@ public class FoodFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "Stop daddy, I did it!");
     }
 
     public ListView getChosenFoodListView() {
@@ -129,7 +129,7 @@ public class FoodFragment extends Fragment {
                 String name = jo_inside.getString("name");
 
                 //Add your values in your `ArrayList` as below:
-                m_li = new HashMap<String, String>();
+                m_li = new HashMap<>();
                 m_li.put("name", name);
                 foodListName.add(name);
                 m_li.put("Salt", Salt);
@@ -213,9 +213,8 @@ public class FoodFragment extends Fragment {
                 generateButton.setVisibility(View.GONE);
             }
         });
-        generateButton.setOnClickListener((v)->{
-            generate=true;
-        });
+        generateButton.setOnClickListener(v-> generate=true);
+
         confirmButton.setOnClickListener(v -> {
             String food = selectedFoodTextView.getText().toString();
             String grams = gramsEditText.getText().toString();
@@ -345,7 +344,7 @@ public class FoodFragment extends Fragment {
                 reader.close();
 
                 // Print the response
-                System.out.println("Response: " + response.toString());
+                System.out.println("Response: " + response);
 
                 // Disconnect the connection
                 connection.disconnect();
