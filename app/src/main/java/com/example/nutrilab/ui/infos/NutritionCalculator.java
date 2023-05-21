@@ -1,4 +1,4 @@
-package com.example.nutrilab.ui.home;
+package com.example.nutrilab.ui.infos;
 
 import java.util.HashMap;
 import java.util.Map;

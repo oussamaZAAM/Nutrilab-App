@@ -26,13 +26,6 @@ public class DashboardFragment extends Fragment {
     private FragmentDashboardBinding binding;
 
     private Map<String, Integer> nutrients;
-    private TextView calories;
-    private TextView carbs;
-    private TextView proteins;
-    private TextView fats;
-    private TextView sugar;
-    private TextView salt;
-    private TextView fiber;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,

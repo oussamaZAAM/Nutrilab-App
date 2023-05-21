@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +50,7 @@ public class FoodFragment extends Fragment {
 
     private FoodListAdapter foodListAdapter;
 
-    private TextView test;
+    private RelativeLayout emptyState;
     private LinearLayout stagingBox;
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
@@ -74,15 +76,18 @@ public class FoodFragment extends Fragment {
         }
         return json;
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "Stop daddy, I did it!");
     }
+
     public ListView getChosenFoodListView() {
         return chosenFoodListView;
     }
     Boolean generate = false;
+
 
     @Nullable
     @Override
@@ -91,8 +96,9 @@ public class FoodFragment extends Fragment {
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
+
+        emptyState = view.findViewById(R.id.empty_state);
         generateButton = view.findViewById(R.id.generate_btn);
-        test = view.findViewById(R.id.test);
 
         Button confirmButton = view.findViewById(R.id.confirm_button);
         Button cancelButton = view.findViewById(R.id.cancel_button);
@@ -138,7 +144,6 @@ public class FoodFragment extends Fragment {
         }
 
 
-
         // Add more food items here
         filteredList.addAll(foodListName);
 
@@ -150,14 +155,6 @@ public class FoodFragment extends Fragment {
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
 
         checkEmptiness(chosenFoodList);
-//        cancelFoodButton.setOnClickListener(v -> {
-//            Log.i(TAG, "Test");
-//            if (chosenFoodList.size() <= 1) {
-//                test.setVisibility(View.VISIBLE);
-//            } else {
-//                test.setVisibility(View.GONE);
-//            }
-//        });
 
         removeFoodList.setOnClickListener(v -> {
             chosenFoodListView.setVisibility(View.VISIBLE);
@@ -192,7 +189,6 @@ public class FoodFragment extends Fragment {
             gramsEditText.requestFocus();
         }
 
-
         foodListView.setOnItemClickListener((parent, view1, position, id) -> {
             String selectedFood = filteredList.get(position);
             selectedFoodTextView.setVisibility(View.VISIBLE);
@@ -205,10 +201,9 @@ public class FoodFragment extends Fragment {
             removeFoodList.setVisibility(View.GONE);
             searchBar.setVisibility(View.GONE);
             foodListView.setVisibility(View.GONE);
-            test.setVisibility(View.GONE);
             selectedFoodTextView.setText(selectedFood);
             gramsEditText.requestFocus();
-            if(chosenFoodList.size()!=0){
+            if (chosenFoodList.size() != 0) {
                 generateButton.setVisibility(View.GONE);
             }
         });
@@ -230,7 +225,7 @@ public class FoodFragment extends Fragment {
                 generateButton.setVisibility(View.VISIBLE);
                 checkEmptiness(chosenFoodList);
             }
-            if(chosenFoodList.size()!=0){
+            if (chosenFoodList.size() != 0) {
                 generateButton.setVisibility(View.VISIBLE);
             }
         });
@@ -239,7 +234,9 @@ public class FoodFragment extends Fragment {
             selectedFoodTextView.setText("");
             gramsEditText.setText("");
             stagingBox.setVisibility(View.GONE);
-            generateButton.setVisibility(View.VISIBLE);
+            if (chosenFoodList.size() != 0) {
+                generateButton.setVisibility(View.VISIBLE);
+            }
             checkEmptiness(chosenFoodList);
         });
 
@@ -251,7 +248,7 @@ public class FoodFragment extends Fragment {
             cancelButton.setVisibility(View.GONE);
             chosenFoodListView.setVisibility(View.GONE);
             addFood.setVisibility(View.GONE);
-            test.setVisibility(View.GONE);
+            emptyState.setVisibility(View.GONE);
             generateButton.setVisibility(View.GONE);
             removeFoodList.setVisibility(View.VISIBLE);
             searchBar.setVisibility(View.VISIBLE);
@@ -274,9 +271,9 @@ public class FoodFragment extends Fragment {
 
     public void checkEmptiness(ArrayList<Map<String,Double>> chosenFoodList) {
         if (chosenFoodList.size() == 0) {
-            test.setVisibility(View.VISIBLE);
+            emptyState.setVisibility(View.VISIBLE);
         } else {
-            test.setVisibility(View.GONE);
+            emptyState.setVisibility(View.GONE);
         }
     }
 
