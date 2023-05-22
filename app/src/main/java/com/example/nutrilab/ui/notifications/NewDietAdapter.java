@@ -61,7 +61,7 @@ public class NewDietAdapter extends BaseAdapter {
         Object value = entry.getValue();
 
         keyTextView.setText(key);
-        valueTextView.setText(String.valueOf(value));
+        valueTextView.setText((Math.ceil((Double)value))+ " g");
 
         return convertView;
     }
