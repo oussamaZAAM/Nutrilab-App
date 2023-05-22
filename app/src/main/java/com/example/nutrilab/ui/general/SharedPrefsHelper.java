@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class SharedPrefsHelper {
 
-    public static void saveMap(Context context, String PREFS_NAME, String MAP_KEY, Map<String,Integer> map) {
+    public static void saveMap(Context context, String PREFS_NAME, String MAP_KEY, Map<String,Double> map) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
@@ -21,7 +21,7 @@ public class SharedPrefsHelper {
         editor.apply();
     }
 
-    public static Map<String, Integer> loadMap(Context context, String PREFS_NAME, String MAP_KEY) {
+    public static Map<String, Double> loadMap(Context context, String PREFS_NAME, String MAP_KEY) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         String mapJson = sharedPreferences.getString(MAP_KEY, null);

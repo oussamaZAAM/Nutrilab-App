@@ -1,10 +1,12 @@
 package com.example.nutrilab.ui.infos;
 
+import static java.lang.Double.parseDouble;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class NutritionCalculator {
-    public static Map<String, Integer> calculateNutrients(int age, String gender, float height, float weight, String activity, String plan) {
+    public static Map<String, Double> calculateNutrients(int age, String gender, float height, float weight, String activity, String plan) {
         // Calculate BMR : Harris-Benedict Calculator
         float BMR = 0;
         if (gender.equals("male")) {
@@ -151,15 +153,15 @@ public class NutritionCalculator {
         float salt = 6;
 
         // Create a map to store the nutrient values
-        Map<String, Integer> nutrients = new HashMap<>();
-        nutrients.put("kCalories", Math.round(kCalories));
-        nutrients.put("proteins", Math.round(proteins));
-        nutrients.put("fats", Math.round(fats));
-        nutrients.put("carbs", Math.round(carbs));
-        nutrients.put("iron", Math.round(iron));
-        nutrients.put("fiber", Math.round(fiber));
-        nutrients.put("sugar", Math.round(sugar));
-        nutrients.put("salt", Math.round(salt));
+        Map<String, Double> nutrients = new HashMap<>();
+        nutrients.put("kCalories", (double) Math.round(kCalories));
+        nutrients.put("proteins", (double) Math.round(proteins));
+        nutrients.put("fats", (double) Math.round(fats));
+        nutrients.put("carbs", (double) Math.round(carbs));
+        nutrients.put("iron", (double) Math.round(iron));
+        nutrients.put("fiber", (double) Math.round(fiber));
+        nutrients.put("sugar", (double) Math.round(sugar));
+        nutrients.put("salt", (double) Math.round(salt));
 
         return nutrients;
     }
