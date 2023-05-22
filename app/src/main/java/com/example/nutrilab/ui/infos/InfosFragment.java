@@ -423,7 +423,6 @@ public class InfosFragment extends Fragment {
                 }
             }
             if (genderChoice.getVisibility() == View.VISIBLE) {
-                Log.i(TAG, "Gender: "+gender);
                 if (gender == "male" || gender == "female") {
                     isGenderActivated = false;
                     isHeightActivated = true;

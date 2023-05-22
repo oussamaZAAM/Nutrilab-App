@@ -3,6 +3,7 @@ package com.example.nutrilab.ui.food;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Editable;
@@ -91,7 +92,7 @@ public class FoodFragment extends Fragment {
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
-        if (android.os.Build.VERSION.SDK_INT > 9) {
+        if (Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
@@ -157,6 +158,13 @@ public class FoodFragment extends Fragment {
             if (chosenFoodList.size() != 0) {
                 generateButton.setVisibility(View.VISIBLE);
                 enableAlgo(view);
+                for (int i=0;i<chosenFoodList.size();i++) {
+                    Map<String, Double> foodName = chosenFoodList.get(i);
+                    for (String key : foodName.keySet()) {
+                        String extractedKey = key;
+                        foodListAdapter.disableFoodItem(extractedKey);
+                    }
+                }
             }
         } catch (Exception e) {
             chosenFoodList = new ArrayList<>();
@@ -175,7 +183,6 @@ public class FoodFragment extends Fragment {
             foodListView.setVisibility(View.GONE);
             checkEmptiness(chosenFoodList);
             if (chosenFoodList.size() != 0) {
-
                 generateButton.setVisibility(View.VISIBLE);
             }
 
