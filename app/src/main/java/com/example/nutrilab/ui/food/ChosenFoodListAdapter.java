@@ -1,6 +1,9 @@
 package com.example.nutrilab.ui.food;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +17,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.example.nutrilab.R;
+import com.example.nutrilab.ui.general.SharedPrefsHelper;
 
 public class ChosenFoodListAdapter extends ArrayAdapter<Map<String, Double>> {
 
     private static final String TAG = "ChosenFoodFragment";
+    private static final String PREFS_NAME = "MyPrefs";
 
     private final LayoutInflater inflater;
     private final List<Map<String,Double>> chosenFoodList;
@@ -59,6 +65,7 @@ public class ChosenFoodListAdapter extends ArrayAdapter<Map<String, Double>> {
         cancelFoodButton.setOnClickListener(v -> {
             String foodItem = chosenFoodList.get(position).keySet().iterator().next();
             chosenFoodList.remove(position);
+            SharedPrefsHelper.saveArrayList(getContext(), PREFS_NAME, "CHOSEN_FOOD", chosenFoodList);
             notifyDataSetChanged();
             foodListAdapter.enableFoodItem(foodItem);
             if (chosenFoodList.size() == 0) {

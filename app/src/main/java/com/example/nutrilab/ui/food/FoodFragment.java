@@ -3,11 +3,6 @@ package com.example.nutrilab.ui.food;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
-import com.example.nutrilab.ui.general.APICallTask;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Editable;
@@ -28,36 +23,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.example.nutrilab.R;
+import com.example.nutrilab.ui.general.APICallTask;
 import com.example.nutrilab.ui.general.SharedPrefsHelper;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public class FoodFragment extends Fragment {
     private static final String TAG = "FoodFragment";
@@ -76,7 +57,7 @@ public class FoodFragment extends Fragment {
     private ProgressBar generateLoading;
     private ListView chosenFoodListView;
     private final ArrayList<String> filteredList = new ArrayList<>();
-    private ArrayList<Map<String,Double>> chosenFoodList;
+    private ArrayList<Map<String, Double>> chosenFoodList;
     ArrayList<String> foodListName = new ArrayList<>();
     ArrayList<HashMap> foodList = new ArrayList<>();
     Map<String, Double> nutrientsNeeded;
@@ -99,7 +80,6 @@ public class FoodFragment extends Fragment {
     }
 
 
-
     Boolean generate = false;
 
 
@@ -111,8 +91,7 @@ public class FoodFragment extends Fragment {
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
@@ -167,15 +146,18 @@ public class FoodFragment extends Fragment {
         }
 
 
-
-
         // Add more food items here
         filteredList.addAll(foodListName);
 
         foodListAdapter = new FoodListAdapter(requireContext(), android.R.layout.simple_list_item_1, filteredList);
         foodListView.setAdapter(foodListAdapter);
 
-        chosenFoodList = new ArrayList<>();
+        try {
+            chosenFoodList = SharedPrefsHelper.loadArrayList(requireContext(), PREFS_NAME, "CHOSEN_FOOD");
+        } catch (Exception e) {
+            chosenFoodList = new ArrayList<>();
+        }
+
         ChosenFoodListAdapter chosenFoodListAdapter = new ChosenFoodListAdapter(requireContext(), chosenFoodList, foodListAdapter, view);
         chosenFoodListView.setAdapter(chosenFoodListAdapter);
 
@@ -188,9 +170,9 @@ public class FoodFragment extends Fragment {
             searchBar.setVisibility(View.GONE);
             foodListView.setVisibility(View.GONE);
             checkEmptiness(chosenFoodList);
-            if(chosenFoodList.size()!=0){
+            if (chosenFoodList.size() != 0) {
 
-            generateButton.setVisibility(View.VISIBLE);
+                generateButton.setVisibility(View.VISIBLE);
             }
 
         });
@@ -236,10 +218,10 @@ public class FoodFragment extends Fragment {
                 generateButton.setVisibility(View.GONE);
             }
         });
-        generateButton.setOnClickListener((v)->{
+        generateButton.setOnClickListener((v) -> {
             generateText.setVisibility(View.GONE);
             generateLoading.setVisibility(View.VISIBLE);
-            generate=true;
+            generate = true;
             enableAlgo(view);
         });
 
@@ -250,6 +232,10 @@ public class FoodFragment extends Fragment {
                 chosenFoodList.add(new HashMap<String, Double>() {{
                     put(food, parseDouble(grams));
                 }});
+
+                try{
+                    SharedPrefsHelper.saveArrayList(requireContext(), PREFS_NAME, "CHOSEN_FOOD", chosenFoodList);
+                } catch (Exception e) {}
 
                 chosenFoodListAdapter.notifyDataSetChanged();
                 foodListAdapter.disableFoodItem(food);
@@ -302,17 +288,19 @@ public class FoodFragment extends Fragment {
         foodListAdapter.notifyDataSetChanged();
     }
 
-    public void checkEmptiness(ArrayList<Map<String,Double>> chosenFoodList) {
+    public void checkEmptiness(ArrayList<Map<String, Double>> chosenFoodList) {
         if (chosenFoodList.size() == 0) {
             emptyState.setVisibility(View.VISIBLE);
         } else {
             emptyState.setVisibility(View.GONE);
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
+
     public static Map<String, Double> addValuesOfTwoObjects(Map<String, Double> obj1, Map<String, Double> obj2) {
         Map<String, Double> obj3 = new HashMap<>();
 
@@ -332,9 +320,9 @@ public class FoodFragment extends Fragment {
         if (generate) {
             List<Map<String, Double>> extendedChosenFoodList = new ArrayList<>();
             for (int i = 0; i < foodList.size(); i++) {
-                for(int j=0;j<chosenFoodList.size(); j++){
-                    if(foodList.get(i).get("name")==chosenFoodList.get(j).keySet().iterator().next()){
-                        foodList.get(i).put("grams",chosenFoodList.get(j).get(foodList.get(i).get("name")));
+                for (int j = 0; j < chosenFoodList.size(); j++) {
+                    if (foodList.get(i).get("name") == chosenFoodList.get(j).keySet().iterator().next()) {
+                        foodList.get(i).put("grams", chosenFoodList.get(j).get(foodList.get(i).get("name")));
                         extendedChosenFoodList.add(foodList.get(i));
                     }
 
@@ -344,7 +332,7 @@ public class FoodFragment extends Fragment {
             Map<String, Double> nutriRes = nutrientsNeeded;
             Map neededNutri = addValuesOfTwoObjects(nutriRes, nutrients);
             List<Map> eatenFoodNames = new ArrayList<>();
-            int k =0;
+            int k = 0;
             APICallTask task = new APICallTask(getParentFragment());
             task.execute(neededNutri, view, chosenFoodList, requireContext());
             for (Map<String, Double> map : chosenFoodList) {
@@ -427,7 +415,7 @@ public class FoodFragment extends Fragment {
         } else {
 //            alert("Please insert your informations");
 //            router.push("#yourInformations");
-            Log.d("lol","loll");
+            Log.d("lol", "loll");
         }
     }
 
