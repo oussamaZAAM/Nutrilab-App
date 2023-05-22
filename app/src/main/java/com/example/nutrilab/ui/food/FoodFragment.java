@@ -2,6 +2,8 @@ package com.example.nutrilab.ui.food;
 
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
+
+import com.example.nutrilab.ui.general.APICallTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -335,6 +337,8 @@ public class FoodFragment extends Fragment {
             Map neededNutri = addValuesOfTwoObjects(nutriRes, nutrients);
             List<Map> eatenFoodNames = new ArrayList<>();
             int k =0;
+            APICallTask task = new APICallTask();
+            task.execute(neededNutri, view, chosenFoodList, requireContext());
             for (Map<String, Double> map : chosenFoodList) {
                 String key = map.keySet().iterator().next();
                 Double value = map.get(key);
@@ -345,72 +349,72 @@ public class FoodFragment extends Fragment {
                 k++;
             }
             neededNutri.put("foods", eatenFoodNames);
-            try {
-                // Create a URL object with the API endpoint
-                URL url = new URL("https://sbo3a.onrender.com/polls/getFood/");
-
-                // Open a connection to the URL
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-                // Set the request method (GET, POST, etc.)
-                connection.setRequestMethod("POST");
-
-
-                connection.setDoOutput(true);
-                connection.setRequestProperty("Content-Type", "application/json");
-                Gson gson = new Gson();
-//                List foodsList = new ArrayList();
-//                String food;
-//                for(Object foodItem: (List)neededNutri.get("foods")){
-//                    food = gson.toJson(foodItem);
-//                    foodsList.add(food);
+//            try {
+//                // Create a URL object with the API endpoint
+//                URL url = new URL("https://sbo3a.onrender.com/polls/getFood/");
+//
+//                // Open a connection to the URL
+//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//
+//                // Set the request method (GET, POST, etc.)
+//                connection.setRequestMethod("POST");
+//
+//
+//                connection.setDoOutput(true);
+//                connection.setRequestProperty("Content-Type", "application/json");
+//                Gson gson = new Gson();
+////                List foodsList = new ArrayList();
+////                String food;
+////                for(Object foodItem: (List)neededNutri.get("foods")){
+////                    food = gson.toJson(foodItem);
+////                    foodsList.add(food);
+////                }
+////                neededNutri.put("foods",foodsList);
+//                String requestBody = gson.toJson(neededNutri);
+//                // Create the request payload
+//
+////                OutputStream outputPost = new BufferedOutputStream(connection.getOutputStream());
+////                writeStream(outputPost);
+////                outputPost.flush();
+////                outputPost.close();
+////                client.setFixedLengthStreamingMode(outputPost.getBytes().length);
+////                client.setChunkedStreamingMode(0);
+//                // Write the request payload to the connection's output stream
+//                OutputStream outputStream =  new BufferedOutputStream(connection.getOutputStream());
+//                outputStream.write(requestBody.getBytes());
+//                outputStream.flush();
+//                outputStream.close();
+//
+//                // Get the response code
+//                int responseCode = connection.getResponseCode();
+//                // Read the response from the API
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                String line;
+//                StringBuilder response = new StringBuilder();
+//                while ((line = reader.readLine()) != null) {
+//                    response.append(line);
 //                }
-//                neededNutri.put("foods",foodsList);
-                String requestBody = gson.toJson(neededNutri);
-                // Create the request payload
-
-//                OutputStream outputPost = new BufferedOutputStream(connection.getOutputStream());
-//                writeStream(outputPost);
-//                outputPost.flush();
-//                outputPost.close();
-//                client.setFixedLengthStreamingMode(outputPost.getBytes().length);
-//                client.setChunkedStreamingMode(0);
-                // Write the request payload to the connection's output stream
-                OutputStream outputStream =  new BufferedOutputStream(connection.getOutputStream());
-                outputStream.write(requestBody.getBytes());
-                outputStream.flush();
-                outputStream.close();
-
-                // Get the response code
-                int responseCode = connection.getResponseCode();
-                // Read the response from the API
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                StringBuilder response = new StringBuilder();
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-                reader.close();
-                Type type = new TypeToken<Map<String, Double>>() {}.getType();
-                Map<String, Double> map = gson.fromJson(response.toString(), type);
-                System.out.println(map);
-                Set<String> eatenFoodSet = new HashSet<>();
-                for(Map<String,Double> e:chosenFoodList){
-                    String key = e.keySet().iterator().next()+"_";
-                    map.put(key,e.get(e.keySet().iterator().next()));
-                    eatenFoodSet.add(key);
-                }
-                SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, FOOD_DIET, map);
-                SharedPrefsHelper.saveSet(requireContext(), PREFS_NAME, FOOD_EATEN, eatenFoodSet);
-
-                connection.disconnect();
-
-                NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.navigation_notifications);
-                // Disconnect the connection
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//                reader.close();
+//                Type type = new TypeToken<Map<String, Double>>() {}.getType();
+//                Map<String, Double> map = gson.fromJson(response.toString(), type);
+//                System.out.println(map);
+//                Set<String> eatenFoodSet = new HashSet<>();
+//                for(Map<String,Double> e:chosenFoodList){
+//                    String key = e.keySet().iterator().next()+"_";
+//                    map.put(key,e.get(e.keySet().iterator().next()));
+//                    eatenFoodSet.add(key);
+//                }
+//                SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, FOOD_DIET, map);
+//                SharedPrefsHelper.saveSet(requireContext(), PREFS_NAME, FOOD_EATEN, eatenFoodSet);
+//
+//                connection.disconnect();
+//
+//                NavController navController = Navigation.findNavController(view);
+//                navController.navigate(R.id.navigation_notifications);
+//                // Disconnect the connection
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
         } else {
 //            alert("Please insert your informations");
