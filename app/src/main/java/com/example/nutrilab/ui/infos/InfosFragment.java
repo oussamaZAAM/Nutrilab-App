@@ -364,7 +364,7 @@ public class InfosFragment extends Fragment {
                 }
             }
             if (recapTable.getVisibility() == View.VISIBLE) {
-                Map<String, Integer> nutrients = calculateNutrients(age, gender, height, weight, activity, plan);
+                Map<String, Double> nutrients = calculateNutrients(age, gender, height, weight, activity, plan);
 
                 // Store data in Shared Preferences Store
                 SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, NUTRIENTS, nutrients);

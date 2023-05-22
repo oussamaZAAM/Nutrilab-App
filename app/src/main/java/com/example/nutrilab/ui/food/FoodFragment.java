@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,19 +28,23 @@ import androidx.fragment.app.Fragment;
 
 import com.example.nutrilab.R;
 import com.example.nutrilab.ui.general.SharedPrefsHelper;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,10 +67,12 @@ public class FoodFragment extends Fragment {
     private final ArrayList<String> filteredList = new ArrayList<>();
     private ArrayList<Map<String,Double>> chosenFoodList;
     ArrayList<String> foodListName = new ArrayList<>();
-    ArrayList<HashMap<String, String>> foodList = new ArrayList<>();
+    ArrayList<HashMap> foodList = new ArrayList<>();
+    Map<String, Double> nutrientsNeeded;
 
     public String loadJSONFromAsset() {
         String json = null;
+        // Get Nutrients from Shared Preferences
         try {
             InputStream is = getActivity().getAssets().open("FoodData.json");
             int size = is.available();
@@ -80,15 +87,7 @@ public class FoodFragment extends Fragment {
         return json;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "Stop daddy, I did it!");
-    }
 
-    public ListView getChosenFoodListView() {
-        return chosenFoodListView;
-    }
     Boolean generate = false;
 
 
@@ -96,10 +95,15 @@ public class FoodFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_food, container, false);
+        nutrientsNeeded = SharedPrefsHelper.loadMap(requireContext(), PREFS_NAME, NUTRIENTS);
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
-
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         emptyState = view.findViewById(R.id.empty_state);
         generateButton = view.findViewById(R.id.generate_btn);
 
@@ -115,7 +119,7 @@ public class FoodFragment extends Fragment {
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset());
             JSONArray m_jArry = obj.getJSONArray("NutriLab");
-            HashMap<String, String> m_li;
+            HashMap m_li;
 
             for (int i = 0; i < m_jArry.length(); i++) {
 
@@ -127,17 +131,19 @@ public class FoodFragment extends Fragment {
                 String Protein = jo_inside.getString("Protein");
                 String Carbs = jo_inside.getString("Carbs");
                 String name = jo_inside.getString("name");
+                String Fiber = jo_inside.getString("Fiber");
 
                 //Add your values in your `ArrayList` as below:
                 m_li = new HashMap<>();
                 m_li.put("name", name);
                 foodListName.add(name);
-                m_li.put("Salt", Salt);
-                m_li.put("Fat", Fat);
-                m_li.put("Sugar", Sugar);
-                m_li.put("Protein", Protein);
-                m_li.put("Carbs", Carbs);
-                m_li.put("Calories", Calories);
+                m_li.put("Salt", parseDouble(Salt));
+                m_li.put("Fat", parseDouble(Fat));
+                m_li.put("Sugar", parseDouble(Sugar));
+                m_li.put("Protein", parseDouble(Protein));
+                m_li.put("Carbs", parseDouble(Carbs));
+                m_li.put("Calories", parseDouble(Calories));
+                m_li.put("Fiber", parseDouble(Fiber));
 
                 foodList.add(m_li);
             }
@@ -146,9 +152,8 @@ public class FoodFragment extends Fragment {
             e.printStackTrace();
         }
 
-        // Get Nutrients from Shared Preferences
-        Map<String, Integer> nutrients = SharedPrefsHelper.loadMap(requireContext(), PREFS_NAME, NUTRIENTS);
-        Log.i(TAG, "Nutrients: "+nutrients);
+
+
 
         // Add more food items here
         filteredList.addAll(foodListName);
@@ -215,6 +220,7 @@ public class FoodFragment extends Fragment {
         });
         generateButton.setOnClickListener((v)->{
             generate=true;
+            enableAlgo();
         });
         confirmButton.setOnClickListener(v -> {
             String food = selectedFoodTextView.getText().toString();
@@ -286,6 +292,7 @@ public class FoodFragment extends Fragment {
     public static Map<String, Double> addValuesOfTwoObjects(Map<String, Double> obj1, Map<String, Double> obj2) {
         Map<String, Double> obj3 = new HashMap<>();
 
+
         obj3.put("Calories", obj1.get("kCalories") - obj2.get("Calories"));
         obj3.put("Protein", obj1.get("proteins") - obj2.get("Protein"));
         obj3.put("Carbs", obj1.get("carbs") - obj2.get("Carbs"));
@@ -299,13 +306,31 @@ public class FoodFragment extends Fragment {
 
     public void enableAlgo() {
         if (generate) {
+            List<Map<String, Double>> extendedChosenFoodList = new ArrayList<>();
+            for (int i = 0; i < foodList.size(); i++) {
+                for(int j=0;j<chosenFoodList.size(); j++){
+                    if(foodList.get(i).get("name")==chosenFoodList.get(j).keySet().iterator().next()){
+                        foodList.get(i).put("grams",chosenFoodList.get(j).get(foodList.get(i).get("name")));
+                        extendedChosenFoodList.add(foodList.get(i));
+                    }
 
-
-            Map<String, Double> nutrients = sumNutrients(chosenFoodList);
-            Map<String, Double> nutriRes =new HashMap<String, Double>() {
-                {put("ayoub",(double)66);}};
+                }
+            }
+            Map<String, Double> nutrients = sumNutrients(extendedChosenFoodList);
+            Map<String, Double> nutriRes = nutrientsNeeded;
             Map neededNutri = addValuesOfTwoObjects(nutriRes, nutrients);
-            List<Map<String,Double>> eatenFoodNames = chosenFoodList;
+            List<Map> eatenFoodNames = new ArrayList<>();
+            int k =0;
+            for (Map<String, Double> map : chosenFoodList) {
+                String key = map.keySet().iterator().next();
+                Double value = map.get(key);
+                eatenFoodNames.add(new HashMap());
+                eatenFoodNames.get(k).put("name", key);
+                eatenFoodNames.get(k).put("weight", value);
+
+                k++;
+            }
+            System.out.println(eatenFoodNames);
             neededNutri.put("foods", eatenFoodNames);
             try {
                 // Create a URL object with the API endpoint
@@ -321,20 +346,33 @@ public class FoodFragment extends Fragment {
                 connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json");
                 Gson gson = new Gson();
+                System.out.println(neededNutri);
+//                List foodsList = new ArrayList();
+//                String food;
+//                for(Object foodItem: (List)neededNutri.get("foods")){
+//                System.out.println(foodItem);
+//                    food = gson.toJson(foodItem);
+//                    foodsList.add(food);
+//                }
+//                neededNutri.put("foods",foodsList);
                 String requestBody = gson.toJson(neededNutri);
+                System.out.println(requestBody);
                 // Create the request payload
 
-
+//                OutputStream outputPost = new BufferedOutputStream(connection.getOutputStream());
+//                writeStream(outputPost);
+//                outputPost.flush();
+//                outputPost.close();
+//                client.setFixedLengthStreamingMode(outputPost.getBytes().length);
+//                client.setChunkedStreamingMode(0);
                 // Write the request payload to the connection's output stream
-                OutputStream outputStream = connection.getOutputStream();
+                OutputStream outputStream =  new BufferedOutputStream(connection.getOutputStream());
                 outputStream.write(requestBody.getBytes());
                 outputStream.flush();
                 outputStream.close();
 
                 // Get the response code
                 int responseCode = connection.getResponseCode();
-                System.out.println("Response Code: " + responseCode);
-
                 // Read the response from the API
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line;
@@ -362,7 +400,7 @@ public class FoodFragment extends Fragment {
 
     public Map<String, Double> sumObjectsByKey(Map<String, Double> object1, Map<String, Double> object2) {
         Map<String, Double> sum = new HashMap<>();
-        double size = parseDouble(object2.get("size").toString()) / 100.0;
+        double size = object2.get("grams") / 100.0;
 
         sum.put("Calories", object1.get("Calories") + (object2.get("Calories") * size));
         sum.put("Protein", object1.get("Protein") + (object2.get("Protein") * size));
@@ -384,8 +422,8 @@ public class FoodFragment extends Fragment {
         nutrients.put("Fiber", 0.0);
         nutrients.put("Salt", 0.0);
         nutrients.put("Sugar", 0.0);
-
         for (Map<String, Double> food : eatenFoodList) {
+
             nutrients = sumObjectsByKey(nutrients, food);
         }
 

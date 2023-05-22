@@ -25,7 +25,7 @@ public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
 
-    private Map<String, Integer> nutrients;
+    private Map<String, Double> nutrients;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,7 +47,7 @@ public class DashboardFragment extends Fragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            nutrients = (Map<String, Integer>) args.getSerializable("nutrients"); // Retrieve the Map from the arguments
+            nutrients = (Map<String, Double>) args.getSerializable("nutrients"); // Retrieve the Map from the arguments
             calories.setText(Objects.requireNonNull(nutrients.get("kCalories"))+" kCal");
             carbs.setText(Objects.requireNonNull(nutrients.get("carbs"))+" g");
             proteins.setText(Objects.requireNonNull(nutrients.get("proteins"))+" g");
