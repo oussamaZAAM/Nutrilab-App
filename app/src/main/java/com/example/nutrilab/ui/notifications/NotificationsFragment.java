@@ -15,6 +15,9 @@ import com.example.nutrilab.R;
 import com.example.nutrilab.databinding.FragmentNotificationsBinding;
 import com.example.nutrilab.ui.food.FoodListAdapter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
@@ -23,7 +26,8 @@ public class NotificationsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
-        newDietAdapter = new FoodListAdapter(requireContext(), filteredList);
+        Map<String, Double> ayoub = new HashMap<>();
+        newDietAdapter = new NewDietAdapter(requireContext(), ayoub);
         newDietListView = view.findViewById(R.id.new_diet);
         newDietListView.setAdapter(newDietAdapter);
         NotificationsViewModel notificationsViewModel =

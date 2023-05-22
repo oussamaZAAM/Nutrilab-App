@@ -25,6 +25,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.nutrilab.R;
 import com.example.nutrilab.ui.general.SharedPrefsHelper;
@@ -221,7 +223,7 @@ public class FoodFragment extends Fragment {
         });
         generateButton.setOnClickListener((v)->{
             generate=true;
-            enableAlgo();
+            enableAlgo(view);
         });
 
         confirmButton.setOnClickListener(v -> {
@@ -309,7 +311,7 @@ public class FoodFragment extends Fragment {
         return obj3;
     }
 
-    public void enableAlgo() {
+    public void enableAlgo(View view) {
         if (generate) {
             List<Map<String, Double>> extendedChosenFoodList = new ArrayList<>();
             for (int i = 0; i < foodList.size(); i++) {
@@ -382,12 +384,15 @@ public class FoodFragment extends Fragment {
                     response.append(line);
                 }
                 reader.close();
-
+                Type type = new TypeToken<Map<String, Double>>() {}.getType();
+                Map<String, Double> map = gson.fromJson(response.toString(), type);
                 // Print the response
                 System.out.println("Response: " + response);
-
-                // Disconnect the connection
+                System.out.println(map);
                 connection.disconnect();
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.navigation_notifications);
+                // Disconnect the connection
             } catch (IOException e) {
                 e.printStackTrace();
             }
