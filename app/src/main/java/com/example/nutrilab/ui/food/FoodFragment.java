@@ -290,7 +290,10 @@ public class FoodFragment extends Fragment {
             emptyState.setVisibility(View.GONE);
         }
     }
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
     public static Map<String, Double> addValuesOfTwoObjects(Map<String, Double> obj1, Map<String, Double> obj2) {
         Map<String, Double> obj3 = new HashMap<>();
 
