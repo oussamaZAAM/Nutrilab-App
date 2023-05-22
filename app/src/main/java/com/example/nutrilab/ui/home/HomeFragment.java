@@ -1,6 +1,7 @@
 package com.example.nutrilab.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import androidx.navigation.Navigation;
 import com.example.nutrilab.R;
 
 public class HomeFragment extends Fragment {
-
     private static final String TAG = "HomeFragment";
 
     @Override
@@ -31,7 +31,6 @@ public class HomeFragment extends Fragment {
 
         getStarted.setOnClickListener(v->{
             NavController navController = Navigation.findNavController(view);
-            navController.popBackStack(R.id.navigation_home, false);
             navController.navigate(R.id.navigation_infos);
         });
 

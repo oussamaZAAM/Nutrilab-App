@@ -33,4 +33,43 @@ public class SharedPrefsHelper {
 
         return new HashMap<>();
     }
+
+    public static void saveInteger(Context context, String PREFS_NAME, String KEY, Integer value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt(KEY, value);
+        editor.apply();
+    }
+
+    public static Integer loadInteger(Context context, String PREFS_NAME, String KEY) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(KEY, 0);
+    }
+
+    public static void saveString(Context context, String PREFS_NAME, String KEY, String value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(KEY, value);
+        editor.apply();
+    }
+
+    public static String loadString(Context context, String PREFS_NAME, String KEY) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(KEY, null);
+    }
+
+    public static void saveFloat(Context context, String PREFS_NAME, String KEY, Float value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putFloat(KEY, value);
+        editor.apply();
+    }
+
+    public static Float loadFloat(Context context, String PREFS_NAME, String KEY) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getFloat(KEY, 0);
+    }
 }

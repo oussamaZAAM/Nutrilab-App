@@ -6,21 +6,22 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -52,8 +53,10 @@ public class InfosFragment extends Fragment {
     private Button backButton;
 
     private LinearLayout activityMenu;
+    private Spinner activitySpinner;
 
     private LinearLayout planMenu;
+    private Spinner planSpinner;
 
     private TableLayout recapTable;
     private TextView ageRecap;
@@ -104,11 +107,11 @@ public class InfosFragment extends Fragment {
         heightTitle = view.findViewById(R.id.heightTitle);
         weightTitle = view.findViewById(R.id.weightTitle);
 
-        Spinner activitySpinner = view.findViewById(R.id.activitySpinner);
+        activitySpinner = view.findViewById(R.id.activitySpinner);
         activitySpinner.setAdapter(activityAdapter);
         activityMenu = view.findViewById(R.id.activityMenu);
 
-        Spinner planSpinner = view.findViewById(R.id.planSpinner);
+        planSpinner = view.findViewById(R.id.planSpinner);
         planSpinner.setAdapter(planAdapter);
         planMenu = view.findViewById(R.id.planMenu);
 
@@ -130,6 +133,58 @@ public class InfosFragment extends Fragment {
 
         nextButton = view.findViewById(R.id.nextButton);
         backButton = view.findViewById(R.id.backButton);
+
+
+
+        // Get the Age value from shared preferences
+        try {
+            age = SharedPrefsHelper.loadInteger(requireContext(), PREFS_NAME, "AGE");
+            ageEditText.setText(String.valueOf(age));
+        } catch (Exception e) {}
+
+        // Get the Gender value from shared preferences
+        try {
+            gender = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "GENDER");
+            if (gender.equals("female")) {
+                femaleIcon.setOnClickListener(v -> {
+                    maleIcon.setBackgroundResource(0);
+                    femaleIcon.setBackgroundResource(R.drawable.female_background);
+                });
+            } else {
+                maleIcon.setOnClickListener(v -> {
+                    maleIcon.setBackgroundResource(R.drawable.male_background);
+                    femaleIcon.setBackgroundResource(0);
+                });
+            }
+        } catch (Exception e) {}
+
+        // Get the Height value from shared preferences
+        try {
+            height = SharedPrefsHelper.loadFloat(requireContext(), PREFS_NAME, "HEIGHT");
+            weight = SharedPrefsHelper.loadFloat(requireContext(), PREFS_NAME, "WEIGHT");
+            heightEditText.setText(String.valueOf(height));
+            weightEditText.setText(String.valueOf(weight));
+        } catch (Exception e) {}
+
+        // Get the Activity value from shared preferences
+        try {
+            activity = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "ACTIVITY");
+            activitySpinner.setSelection(3);
+        } catch (Exception e) {}
+
+        // Get the Activity value from shared preferences
+        try {
+            plan = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "PLAN");
+            planSpinner.setSelection(1);
+        } catch (Exception e) {}
+
+        if ((age >= 12 && age <= 120) && (gender.equals("male") || gender.equals("female")) && (height >= 80 && height <= 300) && (weight >= 20 && weight <= 200) && (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) && (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
+            recapShortcut.setVisibility(View.VISIBLE);
+        } else {
+            recapShortcut.setVisibility(View.GONE);
+        }
+
+
 
         isAgeActivated = true;
         isGenderActivated = isHeightActivated = isActivityActivated = isPlanActivated = isRecapActivated = false;
@@ -336,7 +391,7 @@ public class InfosFragment extends Fragment {
                 }
             }
             if (genderChoice.getVisibility() == View.VISIBLE) {
-                if (gender == "male" || gender == "female") {
+                if (gender.equals("male") || gender.equals("female")) {
                     isGenderActivated = false;
                     isHeightActivated = true;
                 }
@@ -412,6 +467,71 @@ public class InfosFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPrefsHelper.saveInteger(requireContext(), PREFS_NAME, "AGE", age);
+        SharedPrefsHelper.saveString(requireContext(), PREFS_NAME, "GENDER", gender);
+        SharedPrefsHelper.saveFloat(requireContext(), PREFS_NAME, "HEIGHT", height);
+        SharedPrefsHelper.saveFloat(requireContext(), PREFS_NAME, "WEIGHT", weight);
+        SharedPrefsHelper.saveString(requireContext(), PREFS_NAME, "ACTIVITY", activity);
+        SharedPrefsHelper.saveString(requireContext(), PREFS_NAME, "PLAN", plan);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Get the Age value from shared preferences
+        try {
+            age = SharedPrefsHelper.loadInteger(requireContext(), PREFS_NAME, "AGE");
+            ageEditText.setText(String.valueOf(age));
+        } catch (Exception e) {}
+
+        // Get the Gender value from shared preferences
+        try {
+            gender = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "GENDER");
+            if (gender.equals("female")) {
+                femaleIcon.setOnClickListener(v -> {
+                    maleIcon.setBackgroundResource(0);
+                    femaleIcon.setBackgroundResource(R.drawable.female_background);
+                });
+            } else {
+                maleIcon.setOnClickListener(v -> {
+                    maleIcon.setBackgroundResource(R.drawable.male_background);
+                    femaleIcon.setBackgroundResource(0);
+                });
+            }
+        } catch (Exception e) {}
+
+        // Get the Height value from shared preferences
+        try {
+            height = SharedPrefsHelper.loadFloat(requireContext(), PREFS_NAME, "HEIGHT");
+            weight = SharedPrefsHelper.loadFloat(requireContext(), PREFS_NAME, "WEIGHT");
+            heightEditText.setText(String.valueOf(height));
+            weightEditText.setText(String.valueOf(weight));
+        } catch (Exception e) {}
+
+        // Get the Activity value from shared preferences
+        try {
+            activity = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "ACTIVITY");
+            activitySpinner.setSelection(3);
+        } catch (Exception e) {}
+
+        // Get the Activity value from shared preferences
+        try {
+            plan = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "PLAN");
+            planSpinner.setSelection(1);
+        } catch (Exception e) {}
+
+        if ((age >= 12 && age <= 120) && (gender.equals("male") || gender.equals("female")) && (height >= 80 && height <= 300) && (weight >= 20 && weight <= 200) && (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) && (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
+            recapShortcut.setVisibility(View.VISIBLE);
+        } else {
+            recapShortcut.setVisibility(View.GONE);
+        }
+    }
+
 
     private void performScreensLogic(View rootView) {
         // Set Layout params for layout elements

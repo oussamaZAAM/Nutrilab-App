@@ -1,7 +1,6 @@
 package com.example.nutrilab;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -10,7 +9,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.nutrilab.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,5 +35,4 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-
 }
