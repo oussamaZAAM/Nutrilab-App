@@ -3,6 +3,7 @@ package com.example.nutrilab.ui.food;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Editable;
@@ -61,7 +62,7 @@ public class FoodFragment extends Fragment {
     ArrayList<String> foodListName = new ArrayList<>();
     ArrayList<HashMap> foodList = new ArrayList<>();
     Map<String, Double> nutrientsNeeded;
-
+    APICallTask task = new APICallTask(getParentFragment());
     public String loadJSONFromAsset() {
         String json = null;
         // Get Nutrients from Shared Preferences
@@ -156,6 +157,10 @@ public class FoodFragment extends Fragment {
             chosenFoodList = SharedPrefsHelper.loadArrayList(requireContext(), PREFS_NAME, "CHOSEN_FOOD");
             if (chosenFoodList.size() != 0) {
                 generateButton.setVisibility(View.VISIBLE);
+                boolean isTaskRunning = task != null && task.getStatus() == AsyncTask.Status.RUNNING;
+                if(isTaskRunning){
+                generateLoading.setVisibility(View.VISIBLE);
+                }
             }
 
         } catch (Exception e) {
@@ -337,7 +342,7 @@ public class FoodFragment extends Fragment {
             Map neededNutri = addValuesOfTwoObjects(nutriRes, nutrients);
             List<Map> eatenFoodNames = new ArrayList<>();
             int k = 0;
-            APICallTask task = new APICallTask(getParentFragment());
+
             task.execute(neededNutri, view, chosenFoodList, requireContext());
             for (Map<String, Double> map : chosenFoodList) {
                 String key = map.keySet().iterator().next();
