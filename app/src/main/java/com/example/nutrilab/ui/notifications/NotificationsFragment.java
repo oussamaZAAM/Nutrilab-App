@@ -23,7 +23,6 @@ public class NotificationsFragment extends Fragment {
     private static final String PREFS_NAME = "MyPrefs";
     private static final String FOOD_DIET = "foodDiet";
     private static final String FOOD_EATEN = "foodEaten";
-    private FragmentNotificationsBinding binding;
     private TextView textNotifications;
     private ListView newDietListView;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -42,6 +41,5 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 }
