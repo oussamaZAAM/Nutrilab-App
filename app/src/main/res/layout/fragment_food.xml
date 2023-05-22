@@ -118,7 +118,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="@drawable/ripple_effect"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/generate_text"

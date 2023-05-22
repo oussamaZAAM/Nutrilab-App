@@ -2,30 +2,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_notifications"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/main_color"
+        android:elevation="4dp"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="start|center_vertical">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_arrow"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="back" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/purple_200"
-        android:paddingVertical="20dp"
-        android:text="New Diet"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="30sp"/>
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="12dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/text_notifications"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/purple_200"
+            android:paddingVertical="20dp"
+            android:text="New Diet"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="30sp"/>
 
-    <ListView
-        android:id="@+id/new_diet"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@android:color/holo_orange_dark"
-        android:dividerHeight="1dp"
-        android:layout_marginTop="20dp"
-        />
-        </LinearLayout>
+        <ListView
+            android:id="@+id/new_diet"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@android:color/holo_orange_dark"
+            android:dividerHeight="1dp"
+            android:layout_marginTop="20dp"
+            />
+    </LinearLayout>
+</LinearLayout>
