@@ -621,8 +621,8 @@ public class InfosFragment extends Fragment {
 
             ageRecap.setText(String.valueOf(age));
             genderRecap.setText(gender);
-            heightRecap.setText(String.valueOf(height));
-            weightRecap.setText(String.valueOf(weight));
+            heightRecap.setText(String.valueOf(height)+" cm");
+            weightRecap.setText(String.valueOf(weight)+" kg");
             switch (activity) {
                 case "sedentary":
                     activityRecap.setText("Sedentary");
