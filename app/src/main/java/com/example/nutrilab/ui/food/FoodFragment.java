@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -70,6 +72,8 @@ public class FoodFragment extends Fragment {
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
     private LinearLayout generateButton;
+    private TextView generateText;
+    private ProgressBar generateLoading;
     private ListView chosenFoodListView;
     private final ArrayList<String> filteredList = new ArrayList<>();
     private ArrayList<Map<String,Double>> chosenFoodList;
@@ -114,6 +118,8 @@ public class FoodFragment extends Fragment {
         }
         emptyState = view.findViewById(R.id.empty_state);
         generateButton = view.findViewById(R.id.generate_btn);
+        generateText = view.findViewById(R.id.generate_text);
+        generateLoading = view.findViewById(R.id.generate_loading);
 
         Button confirmButton = view.findViewById(R.id.confirm_button);
         Button cancelButton = view.findViewById(R.id.cancel_button);
@@ -231,6 +237,8 @@ public class FoodFragment extends Fragment {
             }
         });
         generateButton.setOnClickListener((v)->{
+            generateText.setVisibility(View.GONE);
+            generateLoading.setVisibility(View.VISIBLE);
             generate=true;
             enableAlgo(view);
         });

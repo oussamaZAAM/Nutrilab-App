@@ -108,36 +108,38 @@
         />
     <LinearLayout
         android:id="@+id/generate_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
         android:layout_gravity="center"
-        android:padding="10dp"
-        android:background="@drawable/nutrients_background"
+        android:gravity="center"
+        android:padding="15dp"
+        android:background="@drawable/button_main"
         android:orientation="vertical"
         android:clickable="true"
         android:focusable="true"
         android:foreground="@drawable/ripple_effect"
-        android:visibility="gone">
-
-        <ImageButton
-            android:id="@id/generate_btn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            android:src="@drawable/generate"
-            android:background="@android:color/transparent"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="@drawable/ripple_effect" />
+        >
 
         <TextView
+            android:id="@+id/generate_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Generate"
-            android:textSize="16dp"
+            android:gravity="center"
+            android:text="Generate "
+            android:textSize="16sp"
+            android:fontFamily="@font/raleway"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="3dp"
             android:textColor="@android:color/black" />
+
+        <ProgressBar
+            android:id="@+id/generate_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/progress"
+            android:visibility="gone"/>
 
     </LinearLayout>
 
