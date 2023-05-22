@@ -57,7 +57,7 @@ public class FoodFragment extends Fragment {
     private static final String TAG = "FoodFragment";
     private static final String PREFS_NAME = "MyPrefs";
     private static final String NUTRIENTS = "nutrients";
-
+    private static final String FOOD = "food";
     private FoodListAdapter foodListAdapter;
 
     private RelativeLayout emptyState;
@@ -386,9 +386,9 @@ public class FoodFragment extends Fragment {
                 reader.close();
                 Type type = new TypeToken<Map<String, Double>>() {}.getType();
                 Map<String, Double> map = gson.fromJson(response.toString(), type);
-                // Print the response
-                System.out.println("Response: " + response);
-                System.out.println(map);
+               
+                SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, FOOD, map);
+
                 connection.disconnect();
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.navigation_notifications);
