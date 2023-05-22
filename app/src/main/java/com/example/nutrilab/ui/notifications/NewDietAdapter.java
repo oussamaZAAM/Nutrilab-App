@@ -26,8 +26,8 @@ public class NewDietAdapter extends BaseAdapter {
     private static final String TAG = "NewDietList";
 
     public NewDietAdapter(Context context, Map<String, Double> NewDietList) {
-        mContext = context;
-        mDataList = new ArrayList<>(NewDietList.entrySet());
+        this.mContext = context;
+        this.mDataList = new ArrayList<>(NewDietList.entrySet());
     }
 
     @Override
@@ -47,14 +47,16 @@ public class NewDietAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_new_diet, parent, false);
         }
-
         TextView keyTextView = convertView.findViewById(R.id.food_name);
         TextView valueTextView = convertView.findViewById(R.id.food_grams);
 
         Map.Entry<String, Double> entry = mDataList.get(position);
+
         String key = entry.getKey();
         Object value = entry.getValue();
 
