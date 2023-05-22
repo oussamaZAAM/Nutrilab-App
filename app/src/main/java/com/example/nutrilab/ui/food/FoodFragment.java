@@ -49,15 +49,18 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.List;
+import java.util.Set;
 
 public class FoodFragment extends Fragment {
     private static final String TAG = "FoodFragment";
     private static final String PREFS_NAME = "MyPrefs";
     private static final String NUTRIENTS = "nutrients";
-    private static final String FOOD = "food";
+    private static final String FOOD_DIET = "foodDiet";
+    private static final String FOOD_EATEN = "foodEaten";
     private FoodListAdapter foodListAdapter;
 
     private RelativeLayout emptyState;
@@ -386,10 +389,18 @@ public class FoodFragment extends Fragment {
                 reader.close();
                 Type type = new TypeToken<Map<String, Double>>() {}.getType();
                 Map<String, Double> map = gson.fromJson(response.toString(), type);
-               
-                SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, FOOD, map);
+                System.out.println(map);
+                Set<String> eatenFoodSet = new HashSet<>();
+                for(Map<String,Double> e:chosenFoodList){
+                    String key = e.keySet().iterator().next()+"_";
+                    map.put(key,e.get(e.keySet().iterator().next()));
+                    eatenFoodSet.add(key);
+                }
+                SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, FOOD_DIET, map);
+                SharedPrefsHelper.saveSet(requireContext(), PREFS_NAME, FOOD_EATEN, eatenFoodSet);
 
                 connection.disconnect();
+
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.navigation_notifications);
                 // Disconnect the connection

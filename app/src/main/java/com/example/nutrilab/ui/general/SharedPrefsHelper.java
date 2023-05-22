@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class SharedPrefsHelper {
 
@@ -45,6 +47,18 @@ public class SharedPrefsHelper {
     public static Integer loadInteger(Context context, String PREFS_NAME, String KEY) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(KEY, 0);
+    }
+public static void saveSet(Context context, String PREFS_NAME, String KEY, Set value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putStringSet(KEY, value);
+        editor.apply();
+    }
+
+    public static Set loadSet(Context context, String PREFS_NAME, String KEY) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getStringSet(KEY, null);
     }
 
     public static void saveString(Context context, String PREFS_NAME, String KEY, String value) {

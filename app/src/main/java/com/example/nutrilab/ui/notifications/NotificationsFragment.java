@@ -21,7 +21,8 @@ import java.util.Map;
 
 public class NotificationsFragment extends Fragment {
     private static final String PREFS_NAME = "MyPrefs";
-    private static final String FOOD = "food";
+    private static final String FOOD_DIET = "foodDiet";
+    private static final String FOOD_EATEN = "foodEaten";
     private FragmentNotificationsBinding binding;
     private TextView textNotifications;
     private ListView newDietListView;
@@ -29,7 +30,8 @@ public class NotificationsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
-        NewDietAdapter newDietAdapter = new NewDietAdapter(requireContext(), SharedPrefsHelper.loadMap(requireContext(), PREFS_NAME, FOOD));
+        NewDietAdapter newDietAdapter = new NewDietAdapter(requireContext(), SharedPrefsHelper.loadMap(requireContext(), PREFS_NAME, FOOD_DIET), SharedPrefsHelper.loadSet(requireContext(), PREFS_NAME, FOOD_EATEN));
+
         newDietListView = view.findViewById(R.id.new_diet);
         newDietListView.setAdapter(newDietAdapter);
         textNotifications = view.findViewById(R.id.text_notifications);

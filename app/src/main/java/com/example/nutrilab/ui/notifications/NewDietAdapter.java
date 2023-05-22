@@ -1,6 +1,7 @@
 package com.example.nutrilab.ui.notifications;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +16,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.nutrilab.R;
+import com.example.nutrilab.ui.general.SharedPrefsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class NewDietAdapter extends BaseAdapter {
     private Context mContext;
+    private Set eatenFoodSet;
     private List<Map.Entry<String, Double>> mDataList;
     private static final String TAG = "NewDietList";
 
-    public NewDietAdapter(Context context, Map<String, Double> NewDietList) {
+    public NewDietAdapter(Context context, Map<String, Double> NewDietList, Set eatenFoodSet) {
         this.mContext = context;
         this.mDataList = new ArrayList<>(NewDietList.entrySet());
+        this.eatenFoodSet=eatenFoodSet;
     }
 
     @Override
@@ -54,14 +59,29 @@ public class NewDietAdapter extends BaseAdapter {
         }
         TextView keyTextView = convertView.findViewById(R.id.food_name);
         TextView valueTextView = convertView.findViewById(R.id.food_grams);
+        TextView valueTextOpView = convertView.findViewById(R.id.food_grams_op);
 
         Map.Entry<String, Double> entry = mDataList.get(position);
+        String key;
+        if(eatenFoodSet.contains(entry.getKey())){
+            if(entry.getValue()>0){
+                valueTextOpView.setTextColor(Color.BLACK);
+                key  = entry.getKey().substring(0,entry.getKey().length()-1);
+                valueTextOpView.setVisibility(View.GONE);
+            } else{
+                valueTextOpView.setTextColor(Color.RED);
+                key  = entry.getKey().substring(0,entry.getKey().length()-1);
+                valueTextOpView.setText("(-"+(int)Math.ceil((Double)entry.getValue())+")");
+            }
+        } else {
+            valueTextOpView.setTextColor(Color.rgb(28,178,73));
+            key  = entry.getKey();
+            valueTextOpView.setText("(+"+(int)Math.ceil((Double)entry.getValue())+")");
+        }
 
-        String key = entry.getKey();
         Object value = entry.getValue();
-
         keyTextView.setText(key);
-        valueTextView.setText((Math.ceil((Double)value))+ " g");
+        valueTextView.setText(((int)Math.ceil((Double)value))+ " g");
 
         return convertView;
     }
