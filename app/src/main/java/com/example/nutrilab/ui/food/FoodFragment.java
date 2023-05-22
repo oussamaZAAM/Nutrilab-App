@@ -337,7 +337,7 @@ public class FoodFragment extends Fragment {
             Map neededNutri = addValuesOfTwoObjects(nutriRes, nutrients);
             List<Map> eatenFoodNames = new ArrayList<>();
             int k =0;
-            APICallTask task = new APICallTask();
+            APICallTask task = new APICallTask(getParentFragment());
             task.execute(neededNutri, view, chosenFoodList, requireContext());
             for (Map<String, Double> map : chosenFoodList) {
                 String key = map.keySet().iterator().next();

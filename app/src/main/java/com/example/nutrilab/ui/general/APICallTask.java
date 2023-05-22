@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -16,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -29,23 +31,30 @@ import java.util.Set;
 
 
 public class APICallTask extends AsyncTask<Object, Void, String> {
+    private WeakReference<Fragment> fragmentRef;
+
     private static final String PREFS_NAME = "MyPrefs";
     private static final String FOOD_DIET = "foodDiet";
     private static final String FOOD_EATEN = "foodEaten";
     NavController navController;
+    public APICallTask(Fragment fragment) {
+        fragmentRef = new WeakReference<>(fragment);
+    }
     @Override
     protected String doInBackground(Object... params) {
         // Perform the API call and return the response
         makeAPICall((Map) params[0], (List<Map<String,Double>>) params[2], (Context) params[3]);
-        navController = Navigation.findNavController((View)params[1]);
+
         return "well done";
     }
-
     @Override
     protected void onPostExecute(String response) {
-        // Process the API response in the main thread
-        navController.navigate(R.id.navigation_notifications);
-
+        Fragment fragment = fragmentRef.get();
+        if (fragment != null && fragment.isAdded()) {
+            // Process the API response in the main thread
+            navController = Navigation.findNavController(fragment.requireView());
+            navController.navigate(R.id.navigation_notifications);
+        }
     }
 
     public void makeAPICall(Map neededNutri, List<Map<String,Double>> chosenFoodList, Context context){
