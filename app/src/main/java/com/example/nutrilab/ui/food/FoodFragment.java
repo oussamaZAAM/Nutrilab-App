@@ -44,7 +44,7 @@ import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import java.sql.SQLOutput;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +62,7 @@ public class FoodFragment extends Fragment {
     private LinearLayout stagingBox;
     private TextView selectedFoodTextView;
     private EditText gramsEditText;
-    private Button generateButton;
+    private LinearLayout generateButton;
     private ListView chosenFoodListView;
     private final ArrayList<String> filteredList = new ArrayList<>();
     private ArrayList<Map<String,Double>> chosenFoodList;
@@ -74,18 +74,19 @@ public class FoodFragment extends Fragment {
         String json = null;
         // Get Nutrients from Shared Preferences
         try {
-            InputStream is = getActivity().getAssets().open("FoodData.json");
+            InputStream is = requireActivity().getAssets().open("FoodData.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
             is.close();
-            json = new String(buffer, "UTF-8");
+            json = new String(buffer, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
         return json;
     }
+
 
 
     Boolean generate = false;
@@ -222,6 +223,7 @@ public class FoodFragment extends Fragment {
             generate=true;
             enableAlgo();
         });
+
         confirmButton.setOnClickListener(v -> {
             String food = selectedFoodTextView.getText().toString();
             String grams = gramsEditText.getText().toString();
@@ -330,7 +332,6 @@ public class FoodFragment extends Fragment {
 
                 k++;
             }
-            System.out.println(eatenFoodNames);
             neededNutri.put("foods", eatenFoodNames);
             try {
                 // Create a URL object with the API endpoint
@@ -346,17 +347,14 @@ public class FoodFragment extends Fragment {
                 connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json");
                 Gson gson = new Gson();
-                System.out.println(neededNutri);
 //                List foodsList = new ArrayList();
 //                String food;
 //                for(Object foodItem: (List)neededNutri.get("foods")){
-//                System.out.println(foodItem);
 //                    food = gson.toJson(foodItem);
 //                    foodsList.add(food);
 //                }
 //                neededNutri.put("foods",foodsList);
                 String requestBody = gson.toJson(neededNutri);
-                System.out.println(requestBody);
                 // Create the request payload
 
 //                OutputStream outputPost = new BufferedOutputStream(connection.getOutputStream());
@@ -383,7 +381,7 @@ public class FoodFragment extends Fragment {
                 reader.close();
 
                 // Print the response
-                System.out.println("Response: " + response.toString());
+                System.out.println("Response: " + response);
 
                 // Disconnect the connection
                 connection.disconnect();

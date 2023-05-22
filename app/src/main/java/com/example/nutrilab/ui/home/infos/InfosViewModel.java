@@ -1,4 +1,4 @@
-package com.example.nutrilab.ui.infos;
+package com.example.nutrilab.ui.home.infos;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
