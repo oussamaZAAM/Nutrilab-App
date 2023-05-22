@@ -23,6 +23,7 @@ public class NotificationsFragment extends Fragment {
     private static final String PREFS_NAME = "MyPrefs";
     private static final String FOOD = "food";
     private FragmentNotificationsBinding binding;
+    private TextView textNotifications;
     private ListView newDietListView;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -31,15 +32,9 @@ public class NotificationsFragment extends Fragment {
         NewDietAdapter newDietAdapter = new NewDietAdapter(requireContext(), SharedPrefsHelper.loadMap(requireContext(), PREFS_NAME, FOOD));
         newDietListView = view.findViewById(R.id.new_diet);
         newDietListView.setAdapter(newDietAdapter);
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
-
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
+        textNotifications = view.findViewById(R.id.text_notifications);
+        textNotifications.setText("New Diet");
+       return view;
     }
 
     @Override
