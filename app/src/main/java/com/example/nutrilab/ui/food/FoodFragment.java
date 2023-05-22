@@ -180,6 +180,10 @@ public class FoodFragment extends Fragment {
             searchBar.setVisibility(View.GONE);
             foodListView.setVisibility(View.GONE);
             checkEmptiness(chosenFoodList);
+            if(chosenFoodList.size()!=0){
+
+            generateButton.setVisibility(View.VISIBLE);
+            }
 
         });
 
