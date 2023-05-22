@@ -144,15 +144,16 @@ public class InfosFragment extends Fragment {
         // Get the Gender value from shared preferences
         try {
             gender = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "GENDER");
+            if (gender.equals("male")){
+                maleIcon.setOnClickListener(v -> {
+                    maleIcon.setBackgroundResource(R.drawable.male_background);
+                    femaleIcon.setBackgroundResource(0);
+                });
+            }
             if (gender.equals("female")) {
                 femaleIcon.setOnClickListener(v -> {
                     maleIcon.setBackgroundResource(0);
                     femaleIcon.setBackgroundResource(R.drawable.female_background);
-                });
-            } else {
-                maleIcon.setOnClickListener(v -> {
-                    maleIcon.setBackgroundResource(R.drawable.male_background);
-                    femaleIcon.setBackgroundResource(0);
                 });
             }
         } catch (Exception e) {
@@ -204,6 +205,31 @@ public class InfosFragment extends Fragment {
                 ageEditText.setBackgroundResource(R.drawable.edittext_border);
             } else {
                 ageEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if (age == 0) {
+                    ageEditText.setText("");
+                }
+            }
+        });
+
+        heightEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                heightEditText.setBackgroundResource(R.drawable.edittext_border);
+            } else {
+                heightEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if (height == 0.0f) {
+                    heightEditText.setText("");
+                }
+            }
+        });
+
+        weightEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                weightEditText.setBackgroundResource(R.drawable.edittext_border);
+            } else {
+                weightEditText.setBackgroundResource(R.drawable.edittext_focused);
+                if (weight == 0.0f) {
+                    weightEditText.setText("");
+                }
             }
         });
 
@@ -393,7 +419,7 @@ public class InfosFragment extends Fragment {
                 }
             }
             if (genderChoice.getVisibility() == View.VISIBLE) {
-                if (gender.equals("male") || gender.equals("female")) {
+                if (gender == "male" || gender == "female") {
                     isGenderActivated = false;
                     isHeightActivated = true;
                 }
@@ -423,11 +449,14 @@ public class InfosFragment extends Fragment {
                 // Store data in Shared Preferences Store
                 SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, NUTRIENTS, nutrients);
 
-                // Pass Data and Navigate
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("nutrients", (Serializable) nutrients);
-                NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.navigation_dashboard, bundle);
+                // Check if data is legit
+                if ((age >= 12 && age <= 120) && (gender.equals("male") || gender.equals("female")) && (height >= 80 && height <= 300) && (weight >= 20 && weight <= 200) && (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) && (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
+                    // Pass Data and Navigate
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("nutrients", (Serializable) nutrients);
+                    NavController navController = Navigation.findNavController(view);
+                    navController.navigate(R.id.navigation_dashboard, bundle);
+                }
             }
 
             // Apply changes to View
