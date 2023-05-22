@@ -154,6 +154,10 @@ public class FoodFragment extends Fragment {
 
         try {
             chosenFoodList = SharedPrefsHelper.loadArrayList(requireContext(), PREFS_NAME, "CHOSEN_FOOD");
+            if (chosenFoodList.size() != 0) {
+                generateButton.setVisibility(View.VISIBLE);
+                enableAlgo(view);
+            }
         } catch (Exception e) {
             chosenFoodList = new ArrayList<>();
         }
