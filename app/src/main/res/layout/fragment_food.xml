@@ -184,8 +184,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="0.5dp"
+        android:divider="@android:color/holo_orange_dark"
+        android:dividerHeight="1dp"
         android:elevation="8dp"
         android:padding="8dp"
         android:visibility="gone" />

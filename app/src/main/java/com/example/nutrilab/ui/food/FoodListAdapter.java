@@ -1,6 +1,7 @@
 package com.example.nutrilab.ui.food;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class FoodListAdapter extends ArrayAdapter<String> {
 
         TextView foodNameTextView = convertView.findViewById(R.id.text_food_item);
         foodNameTextView.setText(foodItem);
+        foodNameTextView.setTextColor(Color.BLACK);
 
         if (disabledFoodItems.contains(foodItem)) {
             convertView.setEnabled(false);
