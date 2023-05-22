@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,12 +134,12 @@ public class InfosFragment extends Fragment {
         backButton = view.findViewById(R.id.backButton);
 
 
-
         // Get the Age value from shared preferences
         try {
             age = SharedPrefsHelper.loadInteger(requireContext(), PREFS_NAME, "AGE");
             ageEditText.setText(String.valueOf(age));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Get the Gender value from shared preferences
         try {
@@ -156,7 +155,8 @@ public class InfosFragment extends Fragment {
                     femaleIcon.setBackgroundResource(0);
                 });
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Get the Height value from shared preferences
         try {
@@ -164,26 +164,28 @@ public class InfosFragment extends Fragment {
             weight = SharedPrefsHelper.loadFloat(requireContext(), PREFS_NAME, "WEIGHT");
             heightEditText.setText(String.valueOf(height));
             weightEditText.setText(String.valueOf(weight));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Get the Activity value from shared preferences
         try {
             activity = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "ACTIVITY");
             activitySpinner.setSelection(3);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Get the Activity value from shared preferences
         try {
             plan = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "PLAN");
             planSpinner.setSelection(1);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         if ((age >= 12 && age <= 120) && (gender.equals("male") || gender.equals("female")) && (height >= 80 && height <= 300) && (weight >= 20 && weight <= 200) && (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) && (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
             recapShortcut.setVisibility(View.VISIBLE);
         } else {
             recapShortcut.setVisibility(View.GONE);
         }
-
 
 
         isAgeActivated = true;
@@ -487,23 +489,21 @@ public class InfosFragment extends Fragment {
         try {
             age = SharedPrefsHelper.loadInteger(requireContext(), PREFS_NAME, "AGE");
             ageEditText.setText(String.valueOf(age));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Get the Gender value from shared preferences
         try {
             gender = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "GENDER");
             if (gender.equals("female")) {
-                femaleIcon.setOnClickListener(v -> {
-                    maleIcon.setBackgroundResource(0);
-                    femaleIcon.setBackgroundResource(R.drawable.female_background);
-                });
+                maleIcon.setBackgroundResource(0);
+                femaleIcon.setBackgroundResource(R.drawable.female_background);
             } else {
-                maleIcon.setOnClickListener(v -> {
-                    maleIcon.setBackgroundResource(R.drawable.male_background);
-                    femaleIcon.setBackgroundResource(0);
-                });
+                maleIcon.setBackgroundResource(R.drawable.male_background);
+                femaleIcon.setBackgroundResource(0);
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Get the Height value from shared preferences
         try {
@@ -511,19 +511,22 @@ public class InfosFragment extends Fragment {
             weight = SharedPrefsHelper.loadFloat(requireContext(), PREFS_NAME, "WEIGHT");
             heightEditText.setText(String.valueOf(height));
             weightEditText.setText(String.valueOf(weight));
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Get the Activity value from shared preferences
         try {
             activity = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "ACTIVITY");
             activitySpinner.setSelection(3);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Get the Activity value from shared preferences
         try {
             plan = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "PLAN");
             planSpinner.setSelection(1);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         if ((age >= 12 && age <= 120) && (gender.equals("male") || gender.equals("female")) && (height >= 80 && height <= 300) && (weight >= 20 && weight <= 200) && (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) && (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
             recapShortcut.setVisibility(View.VISIBLE);
