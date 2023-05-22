@@ -3,78 +3,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/gradient_background2"
-        android:padding="16dp">
+        android:layout_marginBottom="35dp">
 
-        <LinearLayout
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginVertical="40dp"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_background2"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="40dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/anton"
+                    android:text="NutriLab"
+                    android:textColor="@color/black"
+                    android:textSize="24dp" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/logo" />
+            </LinearLayout>
+
             <TextView
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="10dp"
+                android:fontFamily="@font/poppinsbold"
+                android:gravity="center"
+                android:text="Let us help you find Today's Meal"
+                android:textColor="@color/black"
+                android:textSize="28dp" />
+
+            <TextView
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
+                android:fontFamily="@font/poppins"
+                android:gravity="center"
+                android:text="Measure your daily need of nutrients and Balance your food"
+                android:textColor="@color/black"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/science1" />
+
+            <Button
+                android:id="@+id/get_started"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NutriLab"
-                android:fontFamily="@font/anton"
-                android:textSize="24dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/poppinsbold"
+                android:gravity="center"
+                android:text="Get Started"
                 android:textColor="@color/black" />
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/logo"
-                android:scaleType="fitCenter"
-                android:layout_marginHorizontal="5dp"/>
+
         </LinearLayout>
-
-        <TextView
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:text="Let us help you find Today's Meal"
-            android:fontFamily="@font/poppinsbold"
-            android:textSize="28dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_marginVertical="10dp"
-            />
-
-        <TextView
-            android:layout_width="330dp"
-            android:layout_height="wrap_content"
-            android:text="Measure your daily need of nutrients and Balance your food"
-            android:fontFamily="@font/poppins"
-            android:textSize="20dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="50dp"
-            />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/science1" />
-
-        <Button
-            android:id="@+id/get_started"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_marginTop="25dp"
-            android:text="Get Started"
-            android:textColor="@color/black"
-            android:fontFamily="@font/poppinsbold"/>
-
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

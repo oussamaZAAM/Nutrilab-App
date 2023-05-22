@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,9 @@ import com.example.nutrilab.R;
 import com.example.nutrilab.ui.general.SharedPrefsHelper;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class InfosFragment extends Fragment {
@@ -419,6 +423,7 @@ public class InfosFragment extends Fragment {
                 }
             }
             if (genderChoice.getVisibility() == View.VISIBLE) {
+                Log.i(TAG, "Gender: "+gender);
                 if (gender == "male" || gender == "female") {
                     isGenderActivated = false;
                     isHeightActivated = true;
@@ -546,14 +551,16 @@ public class InfosFragment extends Fragment {
         // Get the Activity value from shared preferences
         try {
             activity = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "ACTIVITY");
-            activitySpinner.setSelection(3);
+            List<String> activities = new ArrayList<>(Arrays.asList("sedentary", "lightly_active", "moderately_active", "very_active", "super_active"));
+            activitySpinner.setSelection(activities.indexOf(activity));
         } catch (Exception e) {
         }
 
         // Get the Activity value from shared preferences
         try {
             plan = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "PLAN");
-            planSpinner.setSelection(1);
+            List<String> plans = new ArrayList<>(Arrays.asList("maintain", "lose_weight", "build_muscle"));
+            activitySpinner.setSelection(plans.indexOf(plan));
         } catch (Exception e) {
         }
 

@@ -114,18 +114,22 @@
         android:padding="10dp"
         android:background="@drawable/nutrients_background"
         android:orientation="vertical"
-        android:visibility="gone"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="@drawable/ripple_effect">
+        android:foreground="@drawable/ripple_effect"
+        android:visibility="gone">
 
         <ImageButton
+            android:id="@id/generate_btn"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:scaleType="fitCenter"
             android:layout_gravity="center"
             android:src="@drawable/generate"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="@drawable/ripple_effect" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -133,9 +137,10 @@
             android:layout_gravity="center"
             android:text="Generate"
             android:textSize="16dp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black" />
 
     </LinearLayout>
+
 
 
     <Button
