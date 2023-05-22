@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_infos"
-        android:name="com.example.nutrilab.ui.home.infos.InfosFragment"
+        android:name="com.example.nutrilab.ui.infos.InfosFragment"
         android:label="@string/title_infos"
         tools:layout="@layout/fragment_infos" />
 

@@ -1,6 +1,6 @@
-package com.example.nutrilab.ui.home.infos;
+package com.example.nutrilab.ui.infos;
 
-import static com.example.nutrilab.ui.home.infos.NutritionCalculator.calculateNutrients;
+import static com.example.nutrilab.ui.infos.NutritionCalculator.calculateNutrients;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -9,12 +9,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -79,8 +81,7 @@ public class InfosFragment extends Fragment {
     public boolean isRecapShortcutActivated;
 
     @SuppressLint({"CutPasteId", "ClickableViewAccessibility"})
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_infos, container, false);
 
         // Populate data inside Activity dropdown menu
@@ -133,13 +134,7 @@ public class InfosFragment extends Fragment {
         isAgeActivated = true;
         isGenderActivated = isHeightActivated = isActivityActivated = isPlanActivated = isRecapActivated = false;
 
-
-        if ((age >= 12 && age <= 120) &&
-                (gender.equals("male") || gender.equals("female")) &&
-                (height >= 80 && height <= 300) &&
-                (weight >= 20 && weight <=200) &&
-                (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) &&
-                (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
+        if ((age >= 12 && age <= 120) && (gender.equals("male") || gender.equals("female")) && (height >= 80 && height <= 300) && (weight >= 20 && weight <= 200) && (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) && (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
             isRecapShortcutActivated = true;
             performScreensLogic(view);
         } else {
@@ -257,6 +252,7 @@ public class InfosFragment extends Fragment {
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //
@@ -284,6 +280,7 @@ public class InfosFragment extends Fragment {
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //
@@ -332,20 +329,20 @@ public class InfosFragment extends Fragment {
 
         nextButton.setOnClickListener(v -> {
             if (ageEditText.getVisibility() == View.VISIBLE) {
-                if (age >= 12 && age <= 120){
+                if (age >= 12 && age <= 120) {
                     // Hide the age field and show the gender field
                     isAgeActivated = false;
                     isGenderActivated = true;
                 }
             }
             if (genderChoice.getVisibility() == View.VISIBLE) {
-                if (gender == "male" || gender == "female"){
+                if (gender == "male" || gender == "female") {
                     isGenderActivated = false;
                     isHeightActivated = true;
                 }
             }
             if (heightEditText.getVisibility() == View.VISIBLE && weightEditText.getVisibility() == View.VISIBLE) {
-                if ((height >= 80 && height <= 300) && (weight >= 20 && weight <= 200)){
+                if ((height >= 80 && height <= 300) && (weight >= 20 && weight <= 200)) {
                     isHeightActivated = false;
                     isActivityActivated = true;
                 }
@@ -371,7 +368,6 @@ public class InfosFragment extends Fragment {
 
                 // Pass Data and Navigate
                 Bundle bundle = new Bundle();
-                bundle.putString("test", "HAHA");
                 bundle.putSerializable("nutrients", (Serializable) nutrients);
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.navigation_dashboard, bundle);
@@ -418,6 +414,10 @@ public class InfosFragment extends Fragment {
     }
 
     private void performScreensLogic(View rootView) {
+        // Set Layout params for layout elements
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) infoTitle.getLayoutParams();
+        float scale = getResources().getDisplayMetrics().density;
+
         if (isAgeActivated) {
             ageEditText.setVisibility(View.VISIBLE);
             infoTitle.setText("How old are you?");
@@ -464,7 +464,7 @@ public class InfosFragment extends Fragment {
             genderRecap.setText(gender);
             heightRecap.setText(String.valueOf(height));
             weightRecap.setText(String.valueOf(weight));
-            switch(activity){
+            switch (activity) {
                 case "sedentary":
                     activityRecap.setText("Sedentary");
                     break;
@@ -484,7 +484,7 @@ public class InfosFragment extends Fragment {
                     activityRecap.setText("Sedentary");
                     break;
             }
-            switch(plan){
+            switch (plan) {
                 case "maintain":
                     planRecap.setText("Maintain");
                     break;
@@ -500,9 +500,14 @@ public class InfosFragment extends Fragment {
             }
 
             infoTitle.setText("Recap");
+
+            layoutParams.setMargins(0, (int) (8 * scale + 0.5f), 0, (int) (8 * scale + 0.5f));
+            infoTitle.setLayoutParams(layoutParams);
             nextButton.setText("Apply");
         } else {
             recapTable.setVisibility(View.GONE);
+            layoutParams.setMargins(0, (int) (158 * scale + 0.5f), 0, (int) (8 * scale + 0.5f));
+            infoTitle.setLayoutParams(layoutParams);
             nextButton.setText("Next");
         }
         if (isRecapShortcutActivated && !isRecapActivated) {

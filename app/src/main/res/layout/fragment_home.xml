@@ -8,33 +8,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@drawable/gradient_background2"
         android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="40dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NutriLab"
+                android:fontFamily="@font/anton"
+                android:textSize="24dp"
+                android:textColor="@color/black" />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/logo"
+                android:scaleType="fitCenter"
+                android:layout_marginHorizontal="5dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:text="Let us help you find Today's Meal"
+            android:fontFamily="@font/poppinsbold"
+            android:textSize="28dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginVertical="10dp"
+            />
+
+        <TextView
+            android:layout_width="330dp"
+            android:layout_height="wrap_content"
+            android:text="Measure your daily need of nutrients and Balance your food"
+            android:fontFamily="@font/poppins"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="50dp"
+            />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="250dp"
             android:scaleType="centerCrop"
             android:src="@drawable/science1" />
 
-        <TextView
-            android:id="@+id/titleTextView"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/get_started"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to My App"
-            android:textSize="24sp"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp" />
-
-        <TextView
-            android:id="@+id/descriptionTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non sem sit amet elit malesuada condimentum."
-            android:textSize="16sp"
-            android:textColor="#666666" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="25dp"
+            android:text="Get Started"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppinsbold"/>
 
     </LinearLayout>
 

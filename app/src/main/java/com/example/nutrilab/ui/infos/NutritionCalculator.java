@@ -1,5 +1,7 @@
 package com.example.nutrilab.ui.infos;
 
+import static java.lang.Double.parseDouble;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,16 +17,22 @@ public class NutritionCalculator {
 
         // Calculate Calories
         float kCalories = 0;
-        if (activity.equals("sedentary")) {
-            kCalories = 1.2f * BMR;
-        } else if (activity.equals("lightly_active")) {
-            kCalories = 1.375f * BMR;
-        } else if (activity.equals("moderately_active")) {
-            kCalories = 1.55f * BMR;
-        } else if (activity.equals("very_active")) {
-            kCalories = 1.725f * BMR;
-        } else if (activity.equals("super_active")) {
-            kCalories = 1.9f * BMR;
+        switch (activity) {
+            case "sedentary":
+                kCalories = 1.2f * BMR;
+                break;
+            case "lightly_active":
+                kCalories = 1.375f * BMR;
+                break;
+            case "moderately_active":
+                kCalories = 1.55f * BMR;
+                break;
+            case "very_active":
+                kCalories = 1.725f * BMR;
+                break;
+            case "super_active":
+                kCalories = 1.9f * BMR;
+                break;
         }
 
         if (plan.equals("lose_weight")) {
@@ -35,58 +43,87 @@ public class NutritionCalculator {
 
         // Calculate Proteins
         float proteins = 0;
-        if (plan.equals("maintain")) {
-            if (activity.equals("sedentary") || activity.equals("lightly_active")) {
-                proteins = 0.8f * weight;
-            } else if (activity.equals("moderately_active")) {
-                proteins = 0.9f * weight;
-            } else if (activity.equals("very_active") || activity.equals("super_active")) {
-                proteins = 1.0f * weight;
-            }
-        } else if (plan.equals("lose_weight")) {
-            if (activity.equals("sedentary")) {
-                proteins = 1.2f * weight;
-            } else if (activity.equals("lightly_active")) {
-                proteins = 1.3f * weight;
-            } else if (activity.equals("moderately_active")) {
-                proteins = 1.4f * weight;
-            } else if (activity.equals("very_active")) {
-                proteins = 1.5f * weight;
-            } else if (activity.equals("super_active")) {
-                proteins = 1.6f * weight;
-            }
-        } else if (plan.equals("build_muscle")) {
-            if (activity.equals("sedentary")) {
-                proteins = 1.6f * weight;
-            } else if (activity.equals("lightly_active")) {
-                proteins = 1.7f * weight;
-            } else if (activity.equals("moderately_active")) {
-                proteins = 1.8f * weight;
-            } else if (activity.equals("very_active")) {
-                proteins = 1.9f * weight;
-            } else if (activity.equals("super_active")) {
-                proteins = 2.0f * weight;
-            }
+        switch (plan) {
+            case "maintain":
+                switch (activity) {
+                    case "sedentary":
+                    case "lightly_active":
+                        proteins = 0.8f * weight;
+                        break;
+                    case "moderately_active":
+                        proteins = 0.9f * weight;
+                        break;
+                    case "very_active":
+                    case "super_active":
+                        proteins = 1.0f * weight;
+                        break;
+                }
+                break;
+            case "lose_weight":
+                switch (activity) {
+                    case "sedentary":
+                        proteins = 1.2f * weight;
+                        break;
+                    case "lightly_active":
+                        proteins = 1.3f * weight;
+                        break;
+                    case "moderately_active":
+                        proteins = 1.4f * weight;
+                        break;
+                    case "very_active":
+                        proteins = 1.5f * weight;
+                        break;
+                    case "super_active":
+                        proteins = 1.6f * weight;
+                        break;
+                }
+                break;
+            case "build_muscle":
+                switch (activity) {
+                    case "sedentary":
+                        proteins = 1.6f * weight;
+                        break;
+                    case "lightly_active":
+                        proteins = 1.7f * weight;
+                        break;
+                    case "moderately_active":
+                        proteins = 1.8f * weight;
+                        break;
+                    case "very_active":
+                        proteins = 1.9f * weight;
+                        break;
+                    case "super_active":
+                        proteins = 2.0f * weight;
+                        break;
+                }
+                break;
         }
 
         // Calculate Fats
         float fats = 0;
-        if (plan.equals("maintain")) {
-            fats = (kCalories * 0.275f) / 9;
-        } else if (
-                plan.equals("lose_weight")) {
-            fats = 0.75f * weight;
-        } else if (plan.equals("build_muscle")) {
-            fats = 1.0f * weight;
+        switch (plan) {
+            case "maintain":
+                fats = (kCalories * 0.275f) / 9;
+                break;
+            case "lose_weight":
+                fats = 0.75f * weight;
+                break;
+            case "build_muscle":
+                fats = 1.0f * weight;
+                break;
         }
         // Calculate Carbs
         float carbs = 0;
-        if (plan.equals("lose_weight")) {
-            carbs = (kCalories * 0.45f) / 4;
-        } else if (plan.equals("maintain")) {
-            carbs = (kCalories * 0.55f) / 4;
-        } else if (plan.equals("build_muscle")) {
-            carbs = (kCalories * 0.65f) / 4;
+        switch (plan) {
+            case "lose_weight":
+                carbs = (kCalories * 0.45f) / 4;
+                break;
+            case "maintain":
+                carbs = (kCalories * 0.55f) / 4;
+                break;
+            case "build_muscle":
+                carbs = (kCalories * 0.65f) / 4;
+                break;
         }
 
         // Calculate Iron
