@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.infos.InfosFragment">
+    tools:context=".ui.infos.InfosFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:id="@+id/infoTitle"
             android:layout_width="379dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="158dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/poppins"
             android:gravity="center"
@@ -28,26 +28,18 @@
 
         <EditText
             android:id="@+id/ageEditText"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="10dp"
             android:inputType="number"
             android:textColor="@color/black"
             android:fontFamily="@font/poppins"
             android:background="@drawable/edittext_focused"
             android:textSize="36sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Gender:"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/genderChoice"
@@ -382,23 +374,12 @@
             </TableRow>
         </TableLayout>
 
-        <Button
-            android:id="@+id/recapShortcut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/main_color"
-            android:paddingVertical="10dp"
-            android:fontFamily="@font/poppinsbold"
-            android:text="Recap"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:visibility="gone"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="50dp"
+            android:layout_marginHorizontal="10dp"
             android:gravity="bottom">
 
             <Button
@@ -406,8 +387,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="54dp"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:background="#00FFFFFF"
                 android:fontFamily="@font/poppinsbold"
                 android:gravity="center_horizontal"
@@ -418,11 +397,25 @@
                 android:visibility="invisible" />
 
             <Button
+                android:id="@+id/recapShortcut"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                android:paddingVertical="8dp"
+                android:backgroundTint="@color/main_color"
+                android:fontFamily="@font/poppinsbold"
+                android:text="Recap"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/nextButton"
+                android:layout_marginBottom="75dp"
+                android:visibility="gone"/>
+
+            <Button
                 android:id="@+id/nextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="54dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
                 android:paddingVertical="8dp"
                 android:backgroundTint="@color/main_color"
                 android:fontFamily="@font/poppinsbold"
@@ -430,7 +423,7 @@
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:gravity="center_horizontal"
-                android:layout_alignParentEnd="true"/>
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
     </LinearLayout>
