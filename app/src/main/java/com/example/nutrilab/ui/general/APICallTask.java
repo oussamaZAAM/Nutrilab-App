@@ -63,7 +63,7 @@ public class APICallTask extends AsyncTask<Object, Void, String> {
     public void makeAPICall(Map neededNutri, List<Map<String,Double>> chosenFoodList, Context context) {
         try {
             // Create a URL object with the API endpoint
-            URL url = new URL("https://sbo3a.onrender.com/polls/getFood/");
+            URL url = new URL("https://nutrilab-api.up.railway.app/polls/getFood/");
 
             // Open a connection to the URL
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
