@@ -2,6 +2,7 @@ package com.example.nutrilab.ui.general;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -46,18 +47,16 @@ public class APICallTask extends AsyncTask<Object, Void, String> {
     protected String doInBackground(Object... params) {
         // Perform the API call and return the response
         makeAPICall((Map) params[0], (List<Map<String,Double>>) params[2], (Context) params[3]);
+            navController = Navigation.findNavController((View)params[1]);
         return "well done";
     }
 
     @Override
     protected void onPostExecute(String response) {
         // Get the fragment from the weak reference
-        Fragment fragment = fragmentRef.get();
-        if (fragment != null && fragment.isAdded()) {
             // Process the API response in the main thread
-            navController = Navigation.findNavController(fragment.requireView());
             navController.navigate(R.id.navigation_notifications);
-        }
+
     }
 
     public void makeAPICall(Map neededNutri, List<Map<String,Double>> chosenFoodList, Context context) {

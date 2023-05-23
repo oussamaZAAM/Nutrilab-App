@@ -3,6 +3,7 @@ package com.example.nutrilab.ui.food;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -10,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -80,7 +82,6 @@ public class FoodFragment extends Fragment {
 
     Boolean generate = false;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @NonNull Bundle savedInstanceState) {
@@ -103,7 +104,6 @@ public class FoodFragment extends Fragment {
         ImageButton removeFoodList = view.findViewById(R.id.remove_food_list);
         EditText searchBar = view.findViewById(R.id.search_bar);
         ListView foodListView = view.findViewById(R.id.food_list_view);
-
 
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset());
