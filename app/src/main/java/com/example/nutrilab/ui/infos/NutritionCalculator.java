@@ -1,11 +1,25 @@
 package com.example.nutrilab.ui.infos;
 
-import static java.lang.Double.parseDouble;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Utility class for calculating nutritional values based on user information.
+ */
 public class NutritionCalculator {
+
+    /**
+     * Calculates the nutrient values based on user information.
+     *
+     * @param age      The age of the user.
+     * @param gender   The gender of the user.
+     * @param height   The height of the user in cm.
+     * @param weight   The weight of the user in kg.
+     * @param activity The activity level of the user.
+     * @param plan     The plan of the user.
+     * @return A map containing the calculated nutrient values.
+     */
     public static Map<String, Double> calculateNutrients(int age, String gender, float height, float weight, String activity, String plan) {
         // Calculate BMR : Harris-Benedict Calculator
         float BMR = 0;
@@ -55,7 +69,7 @@ public class NutritionCalculator {
                         break;
                     case "very_active":
                     case "super_active":
-                        proteins = 1.0f * weight;
+                        proteins = weight;
                         break;
                 }
                 break;
@@ -109,7 +123,7 @@ public class NutritionCalculator {
                 fats = 0.75f * weight;
                 break;
             case "build_muscle":
-                fats = 1.0f * weight;
+                fats = weight;
                 break;
         }
         // Calculate Carbs
@@ -127,7 +141,7 @@ public class NutritionCalculator {
         }
 
         // Calculate Iron
-        float iron = 0;
+        float iron;
         if (gender.equals("female")) {
             if (age <= 50) {
                 iron = 0.018f;

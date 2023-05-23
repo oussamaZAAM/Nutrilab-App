@@ -3,7 +3,6 @@ package com.example.nutrilab.ui.food;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
-import android.os.Build;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -43,11 +42,8 @@ import java.util.List;
 import java.util.Map;
 
 public class FoodFragment extends Fragment {
-    private static final String TAG = "FoodFragment";
     private static final String PREFS_NAME = "MyPrefs";
     private static final String NUTRIENTS = "nutrients";
-    private static final String FOOD_DIET = "foodDiet";
-    private static final String FOOD_EATEN = "foodEaten";
     private FoodListAdapter foodListAdapter;
 
     private RelativeLayout emptyState;
@@ -62,7 +58,7 @@ public class FoodFragment extends Fragment {
     private ArrayList<Map<String, Double>> chosenFoodList;
     ArrayList<String> foodListName = new ArrayList<>();
     ArrayList<HashMap> foodList = new ArrayList<>();
-    Map<String, Double> nutrientsNeeded;
+    HashMap nutrientsNeeded;
     APICallTask task = new APICallTask(getParentFragment());
     public String loadJSONFromAsset() {
         String json = null;
@@ -93,10 +89,8 @@ public class FoodFragment extends Fragment {
         selectedFoodTextView = view.findViewById(R.id.selected_food_text_view);
         stagingBox = view.findViewById(R.id.staging_box);
         gramsEditText = view.findViewById(R.id.grams_edit_text);
-        if (Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         emptyState = view.findViewById(R.id.empty_state);
         generateButton = view.findViewById(R.id.generate_btn);
         generateText = view.findViewById(R.id.generate_text);
@@ -161,8 +155,7 @@ public class FoodFragment extends Fragment {
                 for (int i=0;i<chosenFoodList.size();i++) {
                     Map<String, Double> foodName = chosenFoodList.get(i);
                     for (String key : foodName.keySet()) {
-                        String extractedKey = key;
-                        foodListAdapter.disableFoodItem(extractedKey);
+                        foodListAdapter.disableFoodItem(key);
                     }
                 }
                 boolean isTaskRunning = task != null && task.getStatus() == AsyncTask.Status.RUNNING;
@@ -251,7 +244,7 @@ public class FoodFragment extends Fragment {
 
                 try{
                     SharedPrefsHelper.saveArrayList(requireContext(), PREFS_NAME, "CHOSEN_FOOD", chosenFoodList);
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
 
                 chosenFoodListAdapter.notifyDataSetChanged();
                 foodListAdapter.disableFoodItem(food);
@@ -347,90 +340,21 @@ public class FoodFragment extends Fragment {
             Map<String, Double> nutrients = sumNutrients(extendedChosenFoodList);
             Map<String, Double> nutriRes = nutrientsNeeded;
             Map neededNutri = addValuesOfTwoObjects(nutriRes, nutrients);
-            List<Map> eatenFoodNames = new ArrayList<>();
+            List<Map<String, java.io.Serializable>> eatenFoodNames = new ArrayList<Map<String, java.io.Serializable>>();
             int k = 0;
 
             task.execute(neededNutri, view, chosenFoodList, requireContext());
             for (Map<String, Double> map : chosenFoodList) {
                 String key = map.keySet().iterator().next();
                 Double value = map.get(key);
-                eatenFoodNames.add(new HashMap());
+                eatenFoodNames.add(new HashMap<String, java.io.Serializable>());
                 eatenFoodNames.get(k).put("name", key);
                 eatenFoodNames.get(k).put("weight", value);
 
                 k++;
             }
             neededNutri.put("foods", eatenFoodNames);
-//            try {
-//                // Create a URL object with the API endpoint
-//                URL url = new URL("https://sbo3a.onrender.com/polls/getFood/");
-//
-//                // Open a connection to the URL
-//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//
-//                // Set the request method (GET, POST, etc.)
-//                connection.setRequestMethod("POST");
-//
-//
-//                connection.setDoOutput(true);
-//                connection.setRequestProperty("Content-Type", "application/json");
-//                Gson gson = new Gson();
-////                List foodsList = new ArrayList();
-////                String food;
-////                for(Object foodItem: (List)neededNutri.get("foods")){
-////                    food = gson.toJson(foodItem);
-////                    foodsList.add(food);
-////                }
-////                neededNutri.put("foods",foodsList);
-//                String requestBody = gson.toJson(neededNutri);
-//                // Create the request payload
-//
-////                OutputStream outputPost = new BufferedOutputStream(connection.getOutputStream());
-////                writeStream(outputPost);
-////                outputPost.flush();
-////                outputPost.close();
-////                client.setFixedLengthStreamingMode(outputPost.getBytes().length);
-////                client.setChunkedStreamingMode(0);
-//                // Write the request payload to the connection's output stream
-//                OutputStream outputStream =  new BufferedOutputStream(connection.getOutputStream());
-//                outputStream.write(requestBody.getBytes());
-//                outputStream.flush();
-//                outputStream.close();
-//
-//                // Get the response code
-//                int responseCode = connection.getResponseCode();
-//                // Read the response from the API
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//                String line;
-//                StringBuilder response = new StringBuilder();
-//                while ((line = reader.readLine()) != null) {
-//                    response.append(line);
-//                }
-//                reader.close();
-//                Type type = new TypeToken<Map<String, Double>>() {}.getType();
-//                Map<String, Double> map = gson.fromJson(response.toString(), type);
-//                System.out.println(map);
-//                Set<String> eatenFoodSet = new HashSet<>();
-//                for(Map<String,Double> e:chosenFoodList){
-//                    String key = e.keySet().iterator().next()+"_";
-//                    map.put(key,e.get(e.keySet().iterator().next()));
-//                    eatenFoodSet.add(key);
-//                }
-//                SharedPrefsHelper.saveMap(requireContext(), PREFS_NAME, FOOD_DIET, map);
-//                SharedPrefsHelper.saveSet(requireContext(), PREFS_NAME, FOOD_EATEN, eatenFoodSet);
-//
-//                connection.disconnect();
-//
-//                NavController navController = Navigation.findNavController(view);
-//                navController.navigate(R.id.navigation_notifications);
-//                // Disconnect the connection
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
         } else {
-//            alert("Please insert your informations");
-//            router.push("#yourInformations");
             Log.d("lol", "loll");
         }
     }
@@ -465,15 +389,5 @@ public class FoodFragment extends Fragment {
         }
 
         return nutrients;
-    }
-
-    public static List<String> extractKeys(List<Map<String, Double>> list) {
-        List<String> keysList = new ArrayList<>();
-        for (Map<String, Double> map : list) {
-            String food = map.keySet().iterator().next();
-            keysList.add(food);
-
-        }
-        return keysList;
     }
 }

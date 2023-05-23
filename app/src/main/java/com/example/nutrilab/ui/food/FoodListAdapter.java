@@ -2,8 +2,6 @@ package com.example.nutrilab.ui.food;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +18,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FoodListAdapter extends ArrayAdapter<String> {
-    private static final String TAG = "ChosenFoodFragment";
 
-    private ArrayList<String> foodList;
-    private Set<String> disabledFoodItems;
+    // Set to store disabled food items
+    private final Set<String> disabledFoodItems;
 
     public FoodListAdapter(@NonNull Context context, int resource, ArrayList<String> foodList) {
         super(context, resource, foodList);
-        this.foodList = foodList;
         this.disabledFoodItems = new HashSet<>();
     }
 
@@ -36,6 +32,7 @@ public class FoodListAdapter extends ArrayAdapter<String> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String foodItem = getItem(position);
 
+        // Inflate the layout for the list item if necessary
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.food_list_item, parent, false);
         }
@@ -44,6 +41,7 @@ public class FoodListAdapter extends ArrayAdapter<String> {
         foodNameTextView.setText(foodItem);
         foodNameTextView.setTextColor(Color.BLACK);
 
+        // Set the appearance and interactivity based on whether the food item is disabled or not
         if (disabledFoodItems.contains(foodItem)) {
             convertView.setEnabled(false);
             convertView.setAlpha(0.5f);
@@ -58,16 +56,20 @@ public class FoodListAdapter extends ArrayAdapter<String> {
     @Override
     public boolean isEnabled(int position) {
         String foodItem = getItem(position);
+        // Check if the food item is enabled or disabled
         return !disabledFoodItems.contains(foodItem);
     }
 
+    // Disable a specific food item
     public void disableFoodItem(String foodItem) {
         disabledFoodItems.add(foodItem);
         notifyDataSetChanged();
     }
 
+    // Enable a specific food item
     public void enableFoodItem(String foodItem) {
         disabledFoodItems.remove(foodItem);
         notifyDataSetChanged();
     }
 }
+

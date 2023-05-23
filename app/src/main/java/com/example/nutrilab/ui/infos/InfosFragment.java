@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InfosFragment extends Fragment {
+
     private static final String TAG = "HomeFragment";
     private static final String PREFS_NAME = "MyPrefs";
     private static final String NUTRIENTS = "nutrients";
@@ -137,18 +137,18 @@ public class InfosFragment extends Fragment {
         nextButton = view.findViewById(R.id.nextButton);
         backButton = view.findViewById(R.id.backButton);
 
-
         // Get the Age value from shared preferences
         try {
             age = SharedPrefsHelper.loadInteger(requireContext(), PREFS_NAME, "AGE");
             ageEditText.setText(String.valueOf(age));
         } catch (Exception e) {
+            // Handle exception
         }
 
         // Get the Gender value from shared preferences
         try {
             gender = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "GENDER");
-            if (gender.equals("male")){
+            if (gender.equals("male")) {
                 maleIcon.setOnClickListener(v -> {
                     maleIcon.setBackgroundResource(R.drawable.male_background);
                     femaleIcon.setBackgroundResource(0);
@@ -161,6 +161,7 @@ public class InfosFragment extends Fragment {
                 });
             }
         } catch (Exception e) {
+            // Handle exception
         }
 
         // Get the Height value from shared preferences
@@ -170,6 +171,7 @@ public class InfosFragment extends Fragment {
             heightEditText.setText(String.valueOf(height));
             weightEditText.setText(String.valueOf(weight));
         } catch (Exception e) {
+            // Handle exception
         }
 
         // Get the Activity value from shared preferences
@@ -177,6 +179,7 @@ public class InfosFragment extends Fragment {
             activity = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "ACTIVITY");
             activitySpinner.setSelection(3);
         } catch (Exception e) {
+            // Handle exception
         }
 
         // Get the Activity value from shared preferences
@@ -184,6 +187,7 @@ public class InfosFragment extends Fragment {
             plan = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "PLAN");
             planSpinner.setSelection(1);
         } catch (Exception e) {
+            // Handle exception
         }
 
         if ((age >= 12 && age <= 120) && (gender.equals("male") || gender.equals("female")) && (height >= 80 && height <= 300) && (weight >= 20 && weight <= 200) && (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) && (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
@@ -191,7 +195,6 @@ public class InfosFragment extends Fragment {
         } else {
             recapShortcut.setVisibility(View.GONE);
         }
-
 
         isAgeActivated = true;
         isGenderActivated = isHeightActivated = isActivityActivated = isPlanActivated = isRecapActivated = false;
@@ -202,6 +205,7 @@ public class InfosFragment extends Fragment {
         } else {
             isRecapShortcutActivated = false;
         }
+
         // Event Listeners
 
         ageEditText.setOnFocusChangeListener((v, hasFocus) -> {
@@ -254,7 +258,7 @@ public class InfosFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                // This method is called after the text has been changed.
             }
         });
 
@@ -275,7 +279,7 @@ public class InfosFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                // This method is called after the text has been changed.
             }
         });
 
@@ -296,7 +300,7 @@ public class InfosFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                // This method is called after the text has been changed.
             }
         });
 
@@ -342,7 +346,7 @@ public class InfosFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //
+                // Handle no selection
             }
         });
 
@@ -370,7 +374,7 @@ public class InfosFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                //
+                // Handle no selection
             }
         });
 
@@ -379,31 +383,37 @@ public class InfosFragment extends Fragment {
             isRecapActivated = false;
             performScreensLogic(view);
         });
+
         genderEditButton.setOnClickListener(v -> {
             isGenderActivated = true;
             isRecapActivated = false;
             performScreensLogic(view);
         });
+
         heightEditButton.setOnClickListener(v -> {
             isHeightActivated = true;
             isRecapActivated = false;
             performScreensLogic(view);
         });
+
         weightEditButton.setOnClickListener(v -> {
             isHeightActivated = true;
             isRecapActivated = false;
             performScreensLogic(view);
         });
+
         activityEditButton.setOnClickListener(v -> {
             isActivityActivated = true;
             isRecapActivated = false;
             performScreensLogic(view);
         });
+
         planEditButton.setOnClickListener(v -> {
             isPlanActivated = true;
             isRecapActivated = false;
             performScreensLogic(view);
         });
+
         recapShortcut.setOnClickListener(v -> {
             isAgeActivated = false;
             isGenderActivated = false;
@@ -423,7 +433,7 @@ public class InfosFragment extends Fragment {
                 }
             }
             if (genderChoice.getVisibility() == View.VISIBLE) {
-                if (gender == "male" || gender == "female") {
+                if (gender.equals("male") || gender.equals("female")) {
                     isGenderActivated = false;
                     isHeightActivated = true;
                 }
@@ -523,6 +533,7 @@ public class InfosFragment extends Fragment {
             age = SharedPrefsHelper.loadInteger(requireContext(), PREFS_NAME, "AGE");
             ageEditText.setText(String.valueOf(age));
         } catch (Exception e) {
+            // Handle exception
         }
 
         // Get the Gender value from shared preferences
@@ -536,6 +547,7 @@ public class InfosFragment extends Fragment {
                 femaleIcon.setBackgroundResource(0);
             }
         } catch (Exception e) {
+            // Handle exception
         }
 
         // Get the Height value from shared preferences
@@ -545,6 +557,7 @@ public class InfosFragment extends Fragment {
             heightEditText.setText(String.valueOf(height));
             weightEditText.setText(String.valueOf(weight));
         } catch (Exception e) {
+            // Handle exception
         }
 
         // Get the Activity value from shared preferences
@@ -553,14 +566,16 @@ public class InfosFragment extends Fragment {
             List<String> activities = new ArrayList<>(Arrays.asList("sedentary", "lightly_active", "moderately_active", "very_active", "super_active"));
             activitySpinner.setSelection(activities.indexOf(activity));
         } catch (Exception e) {
+            // Handle exception
         }
 
-        // Get the Activity value from shared preferences
+        // Get the Plan value from shared preferences
         try {
             plan = SharedPrefsHelper.loadString(requireContext(), PREFS_NAME, "PLAN");
             List<String> plans = new ArrayList<>(Arrays.asList("maintain", "lose_weight", "build_muscle"));
-            activitySpinner.setSelection(plans.indexOf(plan));
+            planSpinner.setSelection(plans.indexOf(plan));
         } catch (Exception e) {
+            // Handle exception
         }
 
         if ((age >= 12 && age <= 120) && (gender.equals("male") || gender.equals("female")) && (height >= 80 && height <= 300) && (weight >= 20 && weight <= 200) && (activity.equals("sedentary") || activity.equals("lightly_active") || activity.equals("moderately_active") || activity.equals("very_active") || activity.equals("super_active")) && (plan.equals("maintain") || plan.equals("lose_weight") || plan.equals("build_muscle"))) {
@@ -620,8 +635,8 @@ public class InfosFragment extends Fragment {
 
             ageRecap.setText(String.valueOf(age));
             genderRecap.setText(gender);
-            heightRecap.setText(String.valueOf(height)+" cm");
-            weightRecap.setText(String.valueOf(weight)+" kg");
+            heightRecap.setText(String.valueOf(height) + " cm");
+            weightRecap.setText(String.valueOf(weight) + " kg");
             switch (activity) {
                 case "sedentary":
                     activityRecap.setText("Sedentary");

@@ -21,11 +21,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DashboardFragment extends Fragment {
-    private static final String TAG = "DashboardFragment";
 
     private FragmentDashboardBinding binding;
-
-    private Map<String, Double> nutrients;
 
     @SuppressLint("SetTextI18n")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -33,6 +30,7 @@ public class DashboardFragment extends Fragment {
         DashboardViewModel dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
 
+        // Inflate the layout for this fragment using ViewBinding
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
@@ -47,17 +45,19 @@ public class DashboardFragment extends Fragment {
 
         Bundle args = getArguments();
         if (args != null) {
-            nutrients = (Map<String, Double>) args.getSerializable("nutrients"); // Retrieve the Map from the arguments
-            calories.setText(Objects.requireNonNull(nutrients.get("kCalories"))+" kCal");
-            carbs.setText(Objects.requireNonNull(nutrients.get("carbs"))+" g");
-            proteins.setText(Objects.requireNonNull(nutrients.get("proteins"))+" g");
-            fats.setText(Objects.requireNonNull(nutrients.get("fats"))+" g");
-            sugar.setText(Objects.requireNonNull(nutrients.get("sugar"))+" g");
-            salt.setText(Objects.requireNonNull(nutrients.get("salt"))+" g");
-            fiber.setText(Objects.requireNonNull(nutrients.get("fiber"))+" g");
+            // Retrieve the nutrient values from the arguments and display them in the corresponding TextViews
+            Map<String, Double> nutrients = (Map<String, Double>) args.getSerializable("nutrients");
+            calories.setText(Objects.requireNonNull(nutrients.get("kCalories")) + " kCal");
+            carbs.setText(Objects.requireNonNull(nutrients.get("carbs")) + " g");
+            proteins.setText(Objects.requireNonNull(nutrients.get("proteins")) + " g");
+            fats.setText(Objects.requireNonNull(nutrients.get("fats")) + " g");
+            sugar.setText(Objects.requireNonNull(nutrients.get("sugar")) + " g");
+            salt.setText(Objects.requireNonNull(nutrients.get("salt")) + " g");
+            fiber.setText(Objects.requireNonNull(nutrients.get("fiber")) + " g");
         }
 
         resetButton.setOnClickListener(v -> {
+            // Navigate back to the HomeFragment when the reset button is clicked
             NavController navController = Navigation.findNavController(view);
             navController.navigate(R.id.navigation_home);
         });
@@ -68,6 +68,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        // Release the ViewBinding
         binding = null;
     }
 }
