@@ -59,7 +59,7 @@ public class DashboardFragment extends Fragment {
         resetButton.setOnClickListener(v -> {
             // Navigate back to the HomeFragment when the reset button is clicked
             NavController navController = Navigation.findNavController(view);
-            navController.navigate(R.id.navigation_home);
+            navController.navigate(R.id.navigation_infos);
         });
 
         return view;
